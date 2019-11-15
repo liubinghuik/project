@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>商品上传</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="editor/dist/css/wangEditor.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		a{
+			color: #5E5E5E;
+		}
+		li{
+			list-style-type: none;
+		}
+		#editor-trigger {
+            height: 440px;
+            max-height: 500px;
+        }
+		.fpsize li{
+			display: inline-block;
+			vertical-align: middle;
+			margin-top: 6px;
+			border: 1px solid #e2e1e3;
+			text-align: center;
+			width: 24.3%;
+			line-height: 32px;
+			border-radius: 2px;
+		}
+		.addProductPicBtn{
+			position: relative;
+			overflow: hidden;
+		}
+		.uploadImgFile {
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		    z-index: 4;
+		    display: block;
+		    width: 50px;
+		    height: 50px;
+		    cursor: pointer;
+		    opacity: 0.0;
+		}
+	</style>
+	<script src="js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.colorbox-min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/fangdajing.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：商品上传
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_yggl" class="tal_none2">
+					<div class="row" style="line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
+						<div style="padding-left: 0;">商品上传</div>
+					</div>
+					<div style="margin: 20px;overflow: hidden;">
+						<div class="col-md-4" style="padding-left:0;margin-right: 20px;">
+							<div class="con-FangDa" id="fangdajing" style="border: 1px solid gainsboro;">
+								<div class="con-fangDaIMg">
+								  	<!-- 正常显示的图片-->
+								  	<img src="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg">
+								    <!-- 滑块-->  
+								    <div class="magnifyingBegin"></div>
+								    <!-- 放大镜显示的图片 -->
+								    <div class="magnifyingShow"><img src="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg"></div>
+								</div>
+								<ul class="con-FangDa-ImgList">
+								    <!-- 图片显示列表 -->
+								    <li><img src="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" data-bigimg="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg"></li>
+								    <li><img src="images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg" data-bigimg="images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg"></li>
+								    <li><img src="images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg" data-bigimg="images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg"></li>
+								    <li class="addProductPicBtn">
+								    	<input type="file" class="file uploadImgFile"/>
+								    	<a style="display: block;">
+								    		<img src="images/index.png" style="width: 32px;height: 32px;margin-top: 5.5px;cursor: pointer;">
+								    	</a>
+								    </li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-md-7" style="margin-left:45px;overflow: hidden;">
+							<form class="form-horizontal" action="" method="post">
+								<div class="form-group" style="line-height: 34px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品货号</label>
+								    <div class="col-sm-4">
+								      <input type="text" class="form-control" id="inputEmail3">
+								    </div>
+								    
+								    <label for="inputEmail3" class="col-sm-2">商品品牌</label>
+								    <div class="col-sm-4">
+								      <input type="text" class="form-control" id="inputEmail3">
+								    </div>
+							    </div>
+								<div class="form-group" style="line-height: 34px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品名称</label>
+								    <div class="col-sm-10">
+								      <input type="text" class="form-control" id="inputEmail3">
+								    </div>
+								</div>
+								<div class="form-group" style="line-height: 34px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>吊牌价格</label>
+								    <div class="col-sm-4">
+								      <input type="text" class="form-control" id="inputEmail3">
+								    </div>
+								    
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>成本价格</label>
+								    <div class="col-sm-4">
+								      <input type="text" class="form-control" id="inputEmail3">
+								    </div>
+								</div>
+								<div class="form-group" style="line-height: 34px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品类别</label>
+								    <div class="col-sm-4">
+								      <select class="form-control">
+										<option>请选择类别</option>
+										<option>羽绒服</option>
+									  </select>
+								    </div>
+								</div>
+								<div class="form-group" style="line-height: 34px;margin-bottom: 0px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品颜色</label>
+								    <div class="col-sm-10">
+								      <table class="table table-bordered">
+										 <thead align="center">
+											 <tr class="active">
+											 	<td>黑色系</td>
+											 	<td>白色系</td>										 	
+											 	<td>红色系</td>
+												<td>蓝色系</td>
+											 </tr>
+										 </thead>
+										 <tbody>
+											 <tr>
+											 	<td>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #000000;">
+											 				
+											 			</span>
+											 			黑色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #666666;">
+											 				
+											 			</span>
+											 			深灰色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #E4E4E4;">
+											 				
+											 			</span>
+											 			浅灰色
+											 		</a>
+											 	</td>
+											 	<td>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFFFFF;border: 1px solid #F8F8F8;">
+											 				
+											 			</span>
+											 			白色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A47E3C;">
+											 				
+											 			</span>
+											 			透明
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A4DA89;">
+											 				
+											 			</span>
+											 			花色
+											 		</a>
+											 	</td>										 	
+											 	<td>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #990000;">
+											 				
+											 			</span>
+											 			酒红色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FF0000;">
+											 				
+											 			</span>
+											 			红色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFB6C1;">
+											 				
+											 			</span>
+											 			粉红色
+											 		</a>
+											 	</td>
+												<td>
+													<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #041690;">
+											 				
+											 			</span>
+											 			深蓝色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #0000FF;">
+											 				
+											 			</span>
+											 			蓝色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #1EDDFF;">
+											 				
+											 			</span>
+											 			天蓝色
+											 		</a>
+												</td>
+											 </tr>
+										 </tbody>
+									  </table>
+								    </div>
+								</div>
+								<div class="form-group" style="line-height: 34px;margin-bottom: 0;">
+								    <div class="col-sm-10 col-md-offset-2">
+								      <table class="table table-bordered">
+								      	<thead align="center">
+											 <tr class="active">
+											 	<td>黑色系</td>
+											 	<td>白色系</td>										 	
+											 	<td>红色系</td>
+												<td>蓝色系</td>
+											 </tr>
+										</thead>
+										<tbody>
+											<tr>
+											 	<td>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #000000;">
+											 				
+											 			</span>
+											 			黑色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #666666;">
+											 				
+											 			</span>
+											 			深灰色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #E4E4E4;">
+											 				
+											 			</span>
+											 			浅灰色
+											 		</a>
+											 	</td>
+											 	<td>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFFFFF;border: 1px solid #F8F8F8;">
+											 				
+											 			</span>
+											 			白色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A47E3C;">
+											 				
+											 			</span>
+											 			透明
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A4DA89;">
+											 				
+											 			</span>
+											 			花色
+											 		</a>
+											 	</td>										 	
+											 	<td>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #990000;">
+											 				
+											 			</span>
+											 			酒红色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FF0000;">
+											 				
+											 			</span>
+											 			红色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFB6C1;">
+											 				
+											 			</span>
+											 			粉红色
+											 		</a>
+											 	</td>
+												<td>
+													<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #041690;">
+											 				
+											 			</span>
+											 			深蓝色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #0000FF;">
+											 				
+											 			</span>
+											 			蓝色
+											 		</a><br/>
+											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
+											 		<a href="javascript:;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #1EDDFF;">
+											 				
+											 			</span>
+											 			天蓝色
+											 		</a>
+												</td>
+											 </tr>
+										</tbody>
+									  </table>
+								    </div>
+								</div>
+								
+								
+								
+								<div class="form-group" style="line-height: 34px;margin-bottom: 0;">
+								    <div id="tab_none" class="col-sm-10 col-md-offset-2">
+								      <table class="table table-bordered">
+								      	<thead align="center">
+											 <tr class="active">
+											 	<td width="50%">颜色名称</td>
+											 	<td width="50%">颜色图片</td>	
+											 </tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>
+													<span style="margin-left: 4px;">1</span>
+													<span>.</span>
+													<span style="margin-left: 4px;"><input type="checkbox" /></span>
+													<span style="display: inline-block;margin-left: 4px;width: 50%;"><input type="text" class="form-control" placeholder="请输入颜色"  /></span>
+													<span id="delColor" style="margin-left: 9px;" class="glyphicon glyphicon-remove"></span>
+												</td>
+												<td>
+													<span style="display: inline-block;width: 50%"><input type="text" class="form-control" disabled="disabled" /></span>
+													<span><button type="button" class="btn btn-primary active">上传图片</button></span>
+												</td>
+											</tr>
+										
+										</tbody>
+									  </table>
+								    </div>
+								
+								  	<div id="addColor" class="col-md-offset-10" style="cursor:pointer;color: #44b549;">
+								  		 <span>+ 添加颜色 </span>
+								  	</div>
+								</div>
+								
+								
+								<div class="form-group" style="line-height: 34px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品尺码</label>
+								    <div class="col-sm-10">
+								     	<ul class="fpsize">
+								     		<li><a href="javascript:;">均码</a></li>
+								     		<li><a href="javascript:;">26</a></li>
+								     		<li><a href="javascript:;">27</a></li>
+								     		<li><a href="javascript:;">28</a></li>
+								     		<li><a href="javascript:;">25</a></li>
+								     		<li><a href="javascript:;">L</a></li>
+								     		<li><a href="javascript:;">M</a></li>
+								     		<li><a href="javascript:;">S</a></li>
+								     		<li><a href="javascript:;">XL</a></li>
+								     		<li><a href="javascript:;">29</a></li>
+								     		<li><a href="javascript:;">30</a></li>
+								     		<li><a href="javascript:;">XXL</a></li>
+								     		<li><a href="javascript:;">XML</a></li>
+								     		<li><a href="javascript:;">-</a></li>
+								     	</ul>
+								    </div>
+								    <div class="col-md-offset-10" style="color: #44b549;">
+								  		<span>编辑尺码</span>
+								  	</div>
+								</div>
+								<div class="form-group" style="line-height: 34px;">
+								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>库存总数</label>
+								    <div class="col-sm-3">
+								      <input type="text" class="form-control" id="inputEmail3">
+								    </div>
+								    <div class="col-sm-7">
+								      <i style="color: red;">请勿随意修改库存，以免影响库存准确性。</i>
+								    </div>
+								</div>
+								<div class="form-group" style="line-height: 34px;margin-bottom: 0;">
+								    <div class="col-sm-10 col-md-offset-2">
+								      <table class="table table-bordered">
+										 <thead align="center">
+										 	<tr class="active">
+											 	<td>规格</td>
+											 	<td>数量</td>										 	
+											 	<td>条形码</td>
+											 </tr>
+										 </thead>
+										 <tbody>
+										 	
+										 </tbody>
+									  </table>
+								    </div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div style="margin-bottom: 20px;width: 100%;">
+		        <div id="editor-trigger">
+		            <p>请输入内容...</p>
+		        </div>
+		   </div>
+		   <div style="text-align: right;margin-bottom: 20px;">
+		   	<button type="button" class="btn btn-default" style="width: 8%;">取消发布</button>
+			<button type="button" class="btn btn-success" style="width: 8%;">发布商品</button>
+		   </div>
+		</div>
+		<script src="js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
+   	 	<script src="js/wangEditor.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			$("#tab_none").hide();
+			$("#addColor").click(function(){
+				$("#tab_none").show();
+			});
+			$("#delColor").click(function(){
+				$("#tab_none").hide();
+			});
+			
+	        // 阻止输出log
+	        var editor = new wangEditor('editor-trigger');
+	
+	        // 上传图片
+	        editor.config.uploadImgUrl = '/upload';
+	        
+	        editor.create();
+    	</script>
+	</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		body{
+			font-size: 16px;
+			font-family:"arial rounded mt bold";
+		}
+		a{
+			color: black;
+		}
+		a:hover,a:active{
+			text-decoration: none;
+		}
+		li{
+			list-style-type: none;
+		}
+		.color{
+			color: #44b549;
+		}
+		#nabArea{
+			overflow: hidden;
+		}
+		#nabArea ul li {
+		    float: left;
+		    width: 14.2%;
+		    padding-top: 10px;
+		    padding-bottom: 10px;
+		    margin-left: 15px;
+		}
+		#nabArea ul li.current a {
+		    color: #FFF !important;
+			background:#44b549 !important;
+			border: 1px solid #44b549 !important;
+			cursor: default;
+		}
+		#nabArea ul li :hover{
+		 	color: #44b549;
+			border: 1px solid #44b549 !important;
+		}
+		#nabArea ul li:first-child{
+			margin-left: 0px;
+		}
+		#nabArea ul li a {
+		    display: block;
+		    line-height: 40px;
+		    border: 1px solid #DDD;
+		    border-radius: 4px;
+		    text-align: center;
+		    vertical-align: middle;
+		}
+		.tab{
+			border: 1px solid #e7e7eb;
+			/*width: 1250px;*/
+			height: 600px;
+			overflow: hidden;
+			margin-right: 9.4%;
+		}
+		.nav li a{
+			padding: 0;
+		}
+		.nav-stacked li{
+			border-bottom: 1px solid #e7e7eb;
+			height: 52px;
+			line-height: 52px;
+			text-align: center;
+			background-color: #F8F8F8;
+		}
+		.nav-stacked li a:hover{
+			color: #44b549;
+		}
+		.nav-stacked li.current2 a{
+			background-color: #FFFFFF;
+			border-right: 1px solid #FFFFFF;
+			color: #44B549;
+		}
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<body>
+		<div class="container-fluid">
+			<div class="row" style="padding-left:8%;height: 55;line-height: 55px; border-bottom: 1px solid gainsboro;margin-bottom: 20px;">
+			  	<div class="col-md-3"><img src="images/logo.png"/></div>
+			    <div class="col-md-1"><a href="account.html">账户</a></div>
+			    <div class="col-md-4"><a href="index.html" class="color">实体店</a></div>
+			    <div class="col-md-3" style="text-align: right;">
+				  	<a href="account.html">
+				  		<span style="width: 38px; height: 38px;">
+				  			<img src="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" class="img-rounded" width="38" height="38px"/>
+				  		</span>
+				  		15678541254
+				  	</a>
+				  	<a href="#" style="padding-left: 10px; color: gray;">退出</a>
+			  	</div>
+			</div>
+			<!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：列表选项
+            -->
+			<div class="row" style="margin-left: 8%;">
+				<div id="nabArea">
+					<ul>
+						<li class="tab_type current" id="dp"><a href="#">店铺</a></li>
+						<li class="tab_type" id="sp"><a href="#">商品</button></a></li>
+						<li class="tab_type" id="sy"><a href="#">收银</button></a></li>
+						<li class="tab_type" id="wsdd"><a href="#">网上订单</button></a></li>
+						<li class="tab_type" id="bb"><a href="#">报表</button></a></li>
+						<li class="tab_type" id="hy"><a href="#">会员</button></a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：店铺
+            -->
+			<div class="row tal_none" id="tab_dp" style="margin-left: 8%;">
+				<div class="tab">
+					<ul class="nav nav-pills nav-stacked col-md-2" style="width: 16.7%;">
+					  <li class="shop_type current2" role="presentation"><a href="javascript:;" onclick="goToPage('storeList.html')">店铺管理</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage('scopePosition.html')">职位权限</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage('staffManage.html')">员工管理</a></li>
+					  <li class="shop_type" role="presentation"><a href="#">收银机支付宝收款</a></li>
+					  <li class="shop_type" role="presentation"><a href="#">收银机微信收款</a></li>
+					</ul>
+					<iframe id="store" src="storeList.html" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>
+				</div>
+			</div>
+			
+			<!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：商品
+            -->
+			<div class="row tal_none" id="tab_sp" style="margin-left: 8%;">
+				<div class="tab">
+					<ul class="col-md-2 nav nav-pills nav-stacked">
+					  <li class="shop_type current2" role="presentation"><a href="javascript:;" onclick="goToPage2('shopType.html')">商品类别</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage2('shopManage.html')">商品管理</a></li>
+					  <li class="shop_type" id="spsc" role="presentation"><a href="javascript:;"onclick="goToPage2('shopUpload.html')">商品上传</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage2('supplier.html')">供应商</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage2('purchase.html')">采购单</a></li>
+					</ul>					
+					<iframe id="shop" src="shopType.html" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>	
+				</div>
+				
+			</div>
+			<!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：网上订单
+            -->
+            <div class="row tal_none" id="tab_wsdd" style="margin-left: 8%;">
+				<div class="tab">
+					<h2 style="text-align: center;color: red;">暂无该功能</h2>
+				</div>
+			</div>
+			
+            <!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：报表
+            -->
+            <div class="row tal_none" id="tab_bb" style="margin-left: 8%;">
+				<div class="tab">
+					<h2 style="text-align: center; color: blue;">暂无该功能</h2>
+				</div>
+			</div>
+            
+			<!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：收银
+            -->
+			<div class="row tal_none" id="tab_sy" style="margin-left: 8%;">
+				<!--<div class="tab">
+					<ul class="col-md-2 nav nav-pills nav-stacked">
+					  <li role="presentation"><a href="#">商品添加</a></li>
+					  <li role="presentation"><a href="#">结账</a></li>
+					</ul>
+				</div>-->
+				<div class="tab">
+					<iframe id="shop" src="reception.html" frameborder="0" scrolling="yes" width="100%" height="600px"></iframe>	
+				</div>
+				
+			</div>
+	
+			<!--
+            	作者：offline
+            	时间：2019-11-11
+            	描述：会员
+            -->
+			<div class="row tal_none" id="tab_hy" style="margin-left: 8%;">
+				<div class="tab">
+					<ul class="col-md-2 nav nav-pills nav-stacked">
+					  <li class="shop_type current2" role="presentation"><a href="javascript:;" onclick="goToPage4('memberinformation.html')">会员信息</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('memberLevelset.html')">等级设置</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('memberIntegralset.html')">积分设置</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('membermatch.html')">充值抵扣</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('memberrecordoftransaction.html')">成交记录</a></li>
+					</ul>
+					<iframe id="member" src="memberinformation.html" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>
+				</div>
+			</div>
+			
+			<div class="row" style="background: #fafafa none repeat scroll 0 0;margin-top:20px;padding: 20px 0;text-align: center;border-top:1px solid #dfdfdf;">
+				<p style="color: #5E5E5E;">Copyright © 2010-2019 POSO2O. All Rights Reserved.</p>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			
+			//全局变量  
+			var src;
+			//带参数函数 --店铺管理
+			function goToPage(param){ 
+				document.getElementById("store").src=param;    
+				src=param;
+				$("#store").attr("src",src);
+			}
+			//带参数函数--商品管理 
+			function goToPage2(param){ 
+				document.getElementById("shop").src=param;    
+				src=param;
+				$("#shop").attr("src",src);
+			}
+			
+			//带参数函数--会员管理
+			function goToPage4(param){ 
+				document.getElementById("member").src=param;    
+				src=param;
+				$("#member").attr("src",src);
+			}
+			
+			$(function(){
+				$("#tab_sp").hide();
+				$("#tab_sy").hide();
+				$("#tab_wsdd").hide();
+				$("#tab_bb").hide();
+				$("#tab_hy").hide();
+				$('.tab_type').click(function(){
+					$(".tab_type").removeClass("current");
+					$(this).addClass("current");
+					var id = $(this).attr("id");
+					$(".tal_none").hide();
+					$("#tab_"+id).show();
+				});
+				
+				
+				$('.shop_type').click(function(){
+					$(".shop_type").removeClass("current2");
+					$(this).addClass("current2");
+				});
+			});
+		</script>
+	</body>
+</html>

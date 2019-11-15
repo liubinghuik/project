@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>商品管理</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：商品管理
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_spgl">					
+					<div class="row" style="line-height:32px;line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
+						<div style="padding-left: 0;float: left;">商品管理</div>
+						<div style="float: right;width: 80%;text-align: right;">
+							<form action="" method="post">
+								<select class="form-control" style="width: 15.66%; display: inline-block;">
+								  <option>莱米琪</option>
+								</select>
+								
+								<select class="form-control" style="width: 15.66%; display: inline-block;">
+								  <option>全部类别</option>
+								  <option>羽绒服</option>
+								  <option>衬衣</option>
+								  <option>毛衣</option>
+								</select>
+								
+								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 20.50%; display: inline-block;">
+								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;">导出商品</button>
+								<button type="button" class="btn btn-default" style="margin-left: 5; margin-top: -4px;" data-toggle="modal" data-target="#myModal">批量导入</button>
+								<button type="button" class="btn btn-success" style="margin-left: 5px; margin-top: -4px;" onclick="goToPage2('shopUpload.html')">商品上传</button>
+							</form>
+						</div>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="info">
+									<td width="6%">选择</td>
+									<td width="6%">序号</td>
+									<td width="10%">类别</td>
+									<td width="15%">品名</td>
+									<td width="10%">货号/条码</td>
+									<td width="8%">规格</td>
+									<td width="8%">库存</td>
+									<td width="8%">销售价</td>
+									<td width="8%">成本价</td>
+									<td width="10%">网店同步</td>
+									<td>操作</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									<td><input type="checkbox" name="" /></td>
+									<td>1</td>
+									<td>衬衣</td>
+									<td>格子衬衣</td>
+									<td>612660832</td>
+									<td>--</td>
+									<td>19</td>
+									<td>192.00</td>
+									<td>0.00</td>
+									<td>--</td>
+									<td>
+										<a href="JavaScript:;" onclick="goToPage2('shopUpload.html')">修改</a>
+										<a href="JavaScript:;" style="padding-left: 10px;">删除</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">批量导入</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<form class="form-horizontal">
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-3 control-label">选择店铺:</label>
+						    <div class="col-sm-9">
+						       <select style="width: 50%;display: inline-block;" name="check" class="form-control">
+						      	<option value="">莱米琪</option>
+						      </select>
+						    </div>
+						  </div>
+						</form>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">Excel导入</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;">下载范本</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+		<script type="text/javascript">
+			//带参数函数--商品管理 
+			function goToPage2(param){ 
+				window.parent.$(".shop_type").removeClass("current2")
+				window.parent.$("#spsc").addClass("current2")
+				window.parent.goToPage2(param);
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>充值抵扣</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：充值抵扣
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_yggl" class="tal_none2">
+					<div class="row" style="line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
+						<div style="padding-left: 0;float: left;">冲抵抵扣</div>
+						<div style="float: right;width: 80%;text-align: right;">
+							<form action="" method="post">
+								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">					
+								至
+								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">
+								
+								
+								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;">
+								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" data-toggle="modal" data-target="#myModal"> 充值 </button>
+							</form>
+						</div>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="info">
+									<td width="4%">序号</td>
+									<td width="5%">时间</td>
+									<td width="6%">微信号</td>
+									<td width="8%">姓名</td>
+									<td width="10%">手机</td>
+									<td width="6%">充值</td>
+									<td width="6%">赠送</td>
+									<td width="10%">消费</td>
+									<td width="8%">余额</td>
+									<td width="6%">备注</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									<td colspan="10">对不起没有找到响应信息。</td>
+									
+								</tr>
+							</tbody>
+							
+						</table>
+						<table class="table  table-hover table-striped"style="margin-top:-20px;">
+							<tfoot align="center"class="table-bordered">
+								<tr>
+									<td colspan="2"></td>
+									<td colspan="2">合计:0</td>
+									<td></td>
+									<td>0.00</td>
+									<td>0.00</td>
+									<td>0.00</td>
+									<td>-</td>
+									<td>-</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--modal-->
+		<!-- 会员充值 -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog"style="width:800px">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel"style="font-size:130%">会员充值</h4>
+		            </div>
+		            <div class="modal-body" style="text-align: center;">
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            		<div class="col-md-6"style="border:0px solid red">充值账户<input type="text"name=""style="margin-left:8px;height:36px;width:220px;"></div>
+		            		
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            	</div>
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            		<div class="col-md-6"style="border:0px solid red">充值金额<input type="text"name=""style="margin-left:8px;height:36px;width:220px;"></div>
+		            		
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            	</div>
+		            	
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            		<div class="col-md-6"style="border:0px solid red">
+		            			充值方式
+		            			<select name="" style="margin-left:4px ;height:36px;width:220px;">
+		            				<option value="">微信</option>
+		            			</select>	
+		            		</div>
+		            		
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            	</div>
+		            	
+		            </div>
+		            <div class="modal-footer"style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
+		                &nbsp;&nbsp;
+		                <button type="button" class="btn btn-primary"style="width:90px">确定</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+		<script type="text/javascript">
+			
+		</script>
+	</body>
+</html>

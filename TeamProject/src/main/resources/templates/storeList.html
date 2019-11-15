@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>门店列表</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		#myModal .modal-body .col-sm-2,#myModal2 .modal-body .col-sm-2{
+			margin-top: 7px;
+		}
+		#myModal .modal-body .col-sm-5,#myModal2 .modal-body .col-sm-5{
+			margin-left: -50px;
+		}
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+	    	作者：offline
+	    	时间：2019-11-12
+	    	描述：门店列表
+	    -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_dpgl" class="tal_none2">
+					<div class="row" style="line-height:32px;margin-left:5px;margin-right:15px;padding-bottom: 8px;padding-top:15px;">
+						<span style="border-left: 4px solid #44b549;height: 18px;line-height: 16px;padding-left: 3px;">门店列表</span>
+						<button type="button" class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal">添加门店</button>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover">
+							<thead align="center">
+								<tr class="active">
+									<td width="3%">序号</td>
+									<td width="6%">账号</td>
+									<td width="6%">店名</td>
+									<td width="3%">员工</td>
+									<td width="5%">联系人</td>
+									<td width="5%">手机</td>
+									<td width="5%">电话</td>
+									<td width="12%">地址</td>
+									<td width="4%">操作</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<td>1</td>
+								<td>18670802166</td>
+								<td>来米奇</td>
+								<td>2</td>
+								<td>欧思琪</td>
+								<td>18670802166</td>
+								<td></td>
+								<td></td>
+								<td data-toggle="modal" data-target="#myModal2">编辑</td>
+							</tbody>
+						</table>
+					</div>
+					<div style="text-align: right;">注:可添加多家门店，系统自动分配订单到附近门店。</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">添加门店</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group" style="margin-top: 30px;">
+				    <label class="col-sm-2 control-label">店名</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control">
+				    </div>
+				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">联系人</label>
+				    <div class="col-sm-5">
+				      <input type="password" class="form-control">
+				    </div>
+			  	</div>
+			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
+				    <label class="col-sm-2 control-label">手机</label>
+				    <div class="col-sm-5" style="margin-left: -51px;">
+				      <input type="text" class="form-control" style="width:206.66px">
+				    </div>
+				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">电&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
+				      <input type="password" class="form-control" style="width:206.66px">
+				    </div>
+			  	</div>
+			  	<div class="form-group">
+				    <label class="col-sm-2 control-label">地址</label>
+				    <div class="col-sm-4" style="margin-left: -50px;">
+				      <select class="form-control">
+						  <option>请选择省份</option>
+					  </select>
+				    </div>
+				    <div class="col-sm-4" style="margin-left: -25px;">
+				      <select class="form-control">
+						  <option>请选择城市</option>
+					  </select>
+				    </div>
+				    <div class="col-sm-4" style="margin-left: -25px;">
+				      <select class="form-control">
+						  <option>请选择地区</option>
+					  </select>
+				    </div>
+			  	</div>
+			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
+				    <label class="col-sm-2 control-label">街道</label>
+				    <div class="col-sm-10" style="margin-left: -45px;">
+				      <input type="text" class="form-control" style="width: 489px;">
+				    </div>
+			  	</div>
+		      </div>
+		      <div class="modal-footer" style="margin-top: 30px;">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn btn-success">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">编辑门店</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group" style="margin-top: 30px;">
+				    <label class="col-sm-2 control-label">店名</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control">
+				    </div>
+				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">联系人</label>
+				    <div class="col-sm-5">
+				      <input type="password" class="form-control">
+				    </div>
+			  	</div>
+			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
+				    <label class="col-sm-2 control-label">手机</label>
+				    <div class="col-sm-5" style="margin-left: -51px;">
+				      <input type="text" class="form-control" style="width:206.66px">
+				    </div>
+				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">电&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
+				      <input type="password" class="form-control" style="width:206.66px">
+				    </div>
+			  	</div>
+			  	<div class="form-group">
+				    <label class="col-sm-2 control-label">地址</label>
+				    <div class="col-sm-4" style="margin-left: -50px;">
+				      <select class="form-control">
+						  <option>请选择省份</option>
+					  </select>
+				    </div>
+				    <div class="col-sm-4" style="margin-left: -25px;">
+				      <select class="form-control">
+						  <option>请选择城市</option>
+					  </select>
+				    </div>
+				    <div class="col-sm-4" style="margin-left: -25px;">
+				      <select class="form-control">
+						  <option>请选择地区</option>
+					  </select>
+				    </div>
+			  	</div>
+			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
+				    <label class="col-sm-2 control-label">街道</label>
+				    <div class="col-sm-10" style="margin-left: -45px;">
+				      <input type="text" class="form-control" style="width: 489px;">
+				    </div>
+			  	</div>
+		      </div>
+		      <div class="modal-footer" style="margin-top: 30px;">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn btn-danger">删除</button>
+		        <button type="button" class="btn btn-success">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+	</script>
+</html>

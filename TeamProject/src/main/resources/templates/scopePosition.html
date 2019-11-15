@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>职位权限</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		#myModal .modal-body p{
+			margin-left: 50px;
+			margin-top: 10px;
+		}
+		#myModal2 .modal-body p{
+			margin-left: 50px;
+			margin-top: 10px;
+		}
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：职位权限
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_zwqx" class="tal_none2">
+					<div class="row" style="line-height:32px;margin-bottom:10px;margin-left:5px;margin-right:15px;padding-bottom: 8px;padding-top:8px; border-bottom: 1px solid #e7e7eb;">
+						<span>职位权限</span>
+						<button type="button" class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal">添加职位</button>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="warning">
+									<td width="32%">序号</td>
+									<td width="32%">名称</td>
+									<td width="32%">操作</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									<td>1</td>
+									<td>店长</td>
+									<td data-toggle="modal" data-target="#myModal2">编辑</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div style="width: 70%;" class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">添加职位</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="margin-top: 20px;">
+							<label class="col-sm-5 control-label" style="margin-top: 7px;">职位名称：</label>
+							<div class="col-sm-7 col-sm-pull-3" style="margin-left: -50px;">
+								<input type="text" class="form-control">
+							</div>
+						</div>
+						<div class="form-group" style="margin-top: 70px;">
+							<label class="col-sm-12 control-label" style="margin-top: 7px;">职位权限：</label>
+							<div class="col-sm-12">
+								<p>销售：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 收银开单
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 编辑订单
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 删除订单
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 操作发货
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 查看订单
+									</label>
+								</p>
+								<p>报表：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 营收概况
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 热销商品
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 业绩排名
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 月损益表
+									</label>
+								</p>
+								<p>会员：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 增加会员
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 编辑会员
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 删除会员
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 会员充值
+									</label>
+								</p>
+								<p>商品：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 增加商品
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 编辑商品
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 删除商品
+									</label>
+								</p>
+								<p>库存：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 入仓单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 出货单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 调拨单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 退货单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 报损单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 盘点单
+									</label>
+								</p>
+								<p>采购：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 供应商
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 订货会
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 采购单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 合同审核
+									</label>
+								</p>
+								<p>店铺：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 店铺信息
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 职位权限
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 员工管理
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer" style="margin-top: 270px;">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-success">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div style="width: 70%;" class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">编辑职位</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" style="margin-top: 20px;">
+							<label class="col-sm-5 control-label" style="margin-top: 7px;">职位名称：</label>
+							<div class="col-sm-7 col-sm-pull-3" style="margin-left: -50px;">
+								<input type="text" class="form-control">
+							</div>
+						</div>
+						<div class="form-group" style="margin-top: 70px;">
+							<label class="col-sm-12 control-label" style="margin-top: 7px;">职位权限：</label>
+							<div class="col-sm-12">
+								<p>销售：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 收银开单
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 编辑订单
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 删除订单
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 操作发货
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 查看订单
+									</label>
+								</p>
+								<p>报表：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 营收概况
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 热销商品
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 业绩排名
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 月损益表
+									</label>
+								</p>
+								<p>会员：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 增加会员
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 编辑会员
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 删除会员
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 会员充值
+									</label>
+								</p>
+								<p>商品：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 增加商品
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 编辑商品
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 删除商品
+									</label>
+								</p>
+								<p>库存：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 入仓单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 出货单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 调拨单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 退货单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 报损单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 盘点单
+									</label>
+								</p>
+								<p>采购：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 供应商
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 订货会
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 采购单
+									</label>
+									<label class="checkbox-inline" style="margin-left: 24px;">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 合同审核
+									</label>
+								</p>
+								<p>店铺：
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox1" value="option1"> 店铺信息
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox2" value="option2"> 职位权限
+									</label>
+									<label class="checkbox-inline">
+									  <input type="checkbox" checked id="inlineCheckbox3" value="option3"> 员工管理
+									</label>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer" style="margin-top: 270px;">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-danger">删除</button>
+						<button type="button" class="btn btn-success">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+	</script>
+
+</html>

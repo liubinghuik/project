@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>员工管理</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		#myModal .modal-body .col-sm-2,#myModal2 .modal-body .col-sm-2{
+			margin-top: 7px;
+		}
+		#myModal .modal-body .col-sm-5,#myModal2 .modal-body .col-sm-5{
+			margin-left: -50px;
+		}
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：员工管理
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_yggl" class="tal_none2">
+					<div class="row" style="line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
+						<div style="padding-left: 0;float: left;">员工管理</div>
+						<div style="float: right;width: 80%;text-align: right;">
+							<form action="" method="post">
+								<select class="form-control" style="width: 25.66%; display: inline-block;">
+								  <option>全部店铺</option>
+								  <option>莱米琪</option>
+								</select>
+								
+								<select class="form-control" style="width: 25.66%; display: inline-block;">
+								  <option>全部职位</option>
+								  <option>店长</option>
+								  <option>收银员</option>
+								</select>
+								
+								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 26.50%; display: inline-block;">
+								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" data-toggle="modal" data-target="#myModal">添加员工</button>
+							</form>
+						</div>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="info">
+									<td width="4%">序号</td>
+									<td width="10%">所属店铺</td>
+									<td width="10%">职位</td>
+									<td width="10%">工号</td>
+									<td width="8%">姓名</td>
+									<td width="8%">登录密码</td>
+									<td width="8%">操作</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									<td>1</td>
+									<td>莱米琪</td>
+									<td>-</td>
+									<td>18670802166</td>
+									<td>总账号</td>
+									<td>******</td>
+									<td data-toggle="modal" data-target="#myModal2">编辑</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header" style="background-color: gainsboro;">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">添加员工</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group" style="margin-top: 30px;">
+				    <label class="col-sm-2 control-label">店铺</label>
+				    <div class="col-sm-5">
+				      <select class="form-control">
+						  <option>请选择店铺</option>
+					  </select>
+				    </div>
+				    <label class="col-sm-2 control-label" >职位</label>
+				    <div class="col-sm-5">
+				      <select class="form-control">
+						  <option>请选择职位</option>
+					  </select>
+				    </div>
+			  	</div>
+			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
+				    <label class="col-sm-2 control-label">工号</label>
+				    <div class="col-sm-5" style="margin-left: -51px;">
+				      <input type="text" class="form-control" style="width:206.66px">
+				    </div>
+				    <label class="col-sm-2 control-label" >姓名</label>
+				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
+				      <input type="password" class="form-control" style="width:206.66px">
+				    </div>
+			  	</div>
+			  	<div class="form-group" >
+				    <label class="col-sm-2 control-label"style="width:94.66px;">密码</label>
+				    <div class="col-sm-5" style="margin-left: -51px;">
+				      <input type="password" class="form-control" style="width:206.66px">
+				    </div>
+			  	</div>
+		      </div>
+		      <div class="modal-footer" style="margin-top: 40px;">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn btn-success">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header" style="background-color: gainsboro;">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">编辑员工</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group" style="margin-top: 30px;">
+				    <label class="col-sm-2 control-label">店铺</label>
+				    <div class="col-sm-5">
+				      <select class="form-control">
+						  <option>请选择店铺</option>
+					  </select>
+				    </div>
+				    <label class="col-sm-2 control-label" >职位</label>
+				    <div class="col-sm-5">
+				      <select class="form-control">
+						  <option>请选择职位</option>
+					  </select>
+				    </div>
+			  	</div>
+			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
+				    <label class="col-sm-2 control-label">工号</label>
+				    <div class="col-sm-5" style="margin-left: -51px;">
+				      <input type="text" class="form-control" style="width:206.66px">
+				    </div>
+				    <label class="col-sm-2 control-label" >姓名</label>
+				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
+				      <input type="password" class="form-control" style="width:206.66px">
+				    </div>
+			  	</div>
+			  	<div class="form-group" >
+				    <label class="col-sm-2 control-label"style="width:94.66px;">密码</label>
+				    <div class="col-sm-5" style="margin-left: -51px;">
+				      <input type="password" class="form-control" style="width:206.66px">
+				    </div>
+			  	</div>
+		      </div>
+		      <div class="modal-footer" style="margin-top: 40px;">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+		        <button type="button" class="btn btn-danger">删除</button>
+		        <button type="button" class="btn btn-success">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</body>
+	<script type="text/javascript">
+			
+	</script>
+</html>

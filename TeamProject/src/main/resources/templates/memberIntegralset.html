@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>积分设置</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		.axx{
+			background: white;
+		}
+		.ahh{
+			background:#44B549;
+		}
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：积分设置
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_spgl">					
+					<div class="row" style="line-height:50px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
+						<div style="padding-left: 0;float: left;">积分设置</div>
+						<div style="float: right;width: 80%;text-align: right;">
+							<form action="" method="post">
+								<a href="javascript:void(0);" style="color:white;background:white;border:1px solid #44b549;padding-top:20px;padding-bottom:9px;font-size: 0px;"class="btnX openBtnX">
+									<em class="x ahh"style="padding:6px 10px;font-size: 15px;">开启</em>
+									<em class="xx axx"style="padding:6px 10px;font-size: 15px;">关闭</em>
+								</a>
+							</form>
+						</div>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;margin-top: 80px;">
+						<div style="width:60%;margin:auto;">
+							<div style="border:1px solid #ddd;font-size:110%;padding:40px 0px;">
+								<div style="margin-left: 120px;">积分抵扣</div>
+								
+								<div style="margin:20px 0px;">
+									<div style="margin-left: 120px;">
+										使用积分:<input type="tetx"placeholder="100"style="height:36px;margin:0px 5px;width:110px;">可抵扣<span style="color:red;margin:0px 5px;">1.00</span>元
+									</div>
+								</div>
+							</div>
+							<div class="col-md-offset-3"style="border:0px solid #ddd;font-size:110%;padding:15px 0px;text-align: right;">
+								<input type="button"name=""value="确认"style="color:white;background:#44B549;border:0px;padding:7px 40px;border-radius: 3px;">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				$(".x").click(function(){
+					$(this).removeClass('axx'); 
+					$(this).addClass('ahh');
+					$(".xx").removeClass('ahh'); 
+					$(".xx").addClass('axx');
+				})
+				$(".xx").click(function(){
+					$(this).removeClass('axx'); 
+					$(this).addClass('ahh');
+					$(".x").removeClass('ahh'); 
+					$(".x").addClass('axx');
+				})
+			})
+		</script>
+	</body>
+</html>

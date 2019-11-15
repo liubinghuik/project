@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>等级设置</title>
+	</head>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+		}
+		
+	</style>
+	<script src="js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/dialog.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+	<body>
+		<!--
+        	作者：offline
+        	时间：2019-11-12
+        	描述：等级设置
+        -->
+		<div class="col-md-10" style="width: 100%;">
+			<div class="row">
+				<div id="tab_zwqx" class="tal_none2">
+					<div class="row" style="line-height:32px;margin-bottom:10px;margin-left:5px;margin-right:15px;padding-bottom: 8px;padding-top:12px; border-bottom: 1px solid #e7e7eb;">
+						<span style="padding: 0;padding-top: 5px;">等级设置</span>
+						<button type="button" class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal">添加等级</button>
+					</div>
+					<div class="row" style="margin-right: 15px;margin-left:5px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead align="center">
+								<tr class="warning">
+									<td width="20%">序号</td>
+									<td width="20%">会员等级</td>
+									<td width="20%">折扣</td>
+									<td width="20%">升级规则</td>
+									<td width="20%">操作</td>
+								</tr>
+							</thead>
+							<tbody align="center">
+								<tr>
+									<td>1</td>
+									<td>会员等级</td>
+									<td>70.00</td>
+									<td>-</td>
+									<td>
+										<a href="javascript:;" data-toggle="modal" data-target="#myModal2">修改</a>
+										<a href="#" style="padding-left: 10px;">删除</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--modal 添加等级-->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog"style="width:800px">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel"style="font-size:130%">添加等级</h4>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="row"style="margin:20px 0px;text-align: center;">
+			            		<div class="col-md-5"style="display:inline-block;border:0px solid red">等级名称<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
+			            		<div class="col-md-5"style="display:inline-block;:0px solid red">折扣优惠<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"value="70.00"></div>
+			            	</div>
+		            	</div>
+		            	
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-1"style="border:0px solid red"></div>
+		            		<div class="col-md-10"style="border:1px solid #C7C7C7">
+		            			<div class="row" style="border-bottom:1px solid #C7C7C7;padding:10px 0px;">
+		            				<div class="col-md-12">
+		            					自动升级
+		            				</div>
+		            			</div>
+		            			<div class="row" style="padding:10px 0px;">
+		            				<div class="col-md-12">
+		            					1、当会员消费达到<input type="text"name=""style="height:32px;width:70px;margin:0px 4px;color:red">元时，自动升级到该等级
+		            				</div>
+		            			</div>
+		            			<div class="row" style="padding:10px 0px;">
+		            				<div class="col-md-12">
+		            					2、自动升级，升级将在消费要求达到当天生效
+		            				</div>
+		            			</div>
+		            		</div>
+		            		
+		            		<div class="col-md-1"style="border:0px solid red"></div>
+		            	</div>
+		            	
+		            </div>
+		            <div class="modal-footer"style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
+		                <button type="button" class="btn btn-primary"style="width:90px">确定</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+		
+		<!--modal-->
+		<!--modal 编辑等级-->
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog"style="width:800px">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel"style="font-size:130%">编辑等级</h4>
+		            </div>
+		            <div class="modal-body">
+		            	<div class="row"style="margin:20px 0px;text-align: center;">
+		            		<div class="col-md-5"style="display:inline-block;border:0px solid red">等级名称<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
+		            		<div class="col-md-5"style="display:inline-block;:0px solid red">折扣优惠<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"value="70.00"></div>
+		            	</div>
+		            </div>
+		            <div class="modal-footer"style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
+		                <button type="button" class="btn btn-primary"style="width:90px">确定</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+	</body>
+	<script type="text/javascript">
+		
+	</script>
+</html>
