@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accp.mapper.PurchasedetailsMapper">
+  <resultMap id="BaseResultMap" type="com.accp.domain.Purchasedetails">
+    <id column="pudid" jdbcType="INTEGER" property="pudid" />
+    <result column="puid" jdbcType="INTEGER" property="puid" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="cdid" jdbcType="INTEGER" property="cdid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pudid, puid, amount, cdid
+  </sql>
+  <select id="selectByExample" parameterType="com.accp.domain.PurchasedetailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from purchasedetails
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from purchasedetails
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from purchasedetails
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.PurchasedetailsExample">
+    delete from purchasedetails
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Purchasedetails">
+    insert into purchasedetails (pudid, puid, amount, 
+      cdid)
+    values (#{pudid,jdbcType=INTEGER}, #{puid,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, 
+      #{cdid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Purchasedetails">
+    insert into purchasedetails
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pudid != null">
+        pudid,
+      </if>
+      <if test="puid != null">
+        puid,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="cdid != null">
+        cdid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pudid != null">
+        #{pudid,jdbcType=INTEGER},
+      </if>
+      <if test="puid != null">
+        #{puid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="cdid != null">
+        #{cdid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.PurchasedetailsExample" resultType="java.lang.Integer">
+    select count(*) from purchasedetails
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update purchasedetails
+    <set>
+      <if test="record.pudid != null">
+        pudid = #{record.pudid,jdbcType=INTEGER},
+      </if>
+      <if test="record.puid != null">
+        puid = #{record.puid,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdid != null">
+        cdid = #{record.cdid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update purchasedetails
+    set pudid = #{record.pudid,jdbcType=INTEGER},
+      puid = #{record.puid,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=INTEGER},
+      cdid = #{record.cdid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchasedetails">
+    update purchasedetails
+    <set>
+      <if test="puid != null">
+        puid = #{puid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="cdid != null">
+        cdid = #{cdid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Purchasedetails">
+    update purchasedetails
+    set puid = #{puid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      cdid = #{cdid,jdbcType=INTEGER}
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.accp.domain.Purchasedetails">
+    <id column="pudid" jdbcType="INTEGER" property="pudid" />
+    <result column="puid" jdbcType="INTEGER" property="puid" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="cdid" jdbcType="INTEGER" property="cdid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    pudid, puid, amount, cdid
+  </sql>
+  <select id="selectByExample" parameterType="com.accp.domain.PurchasedetailsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from purchasedetails
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from purchasedetails
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from purchasedetails
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.PurchasedetailsExample">
+    delete from purchasedetails
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Purchasedetails">
+    insert into purchasedetails (pudid, puid, amount, 
+      cdid)
+    values (#{pudid,jdbcType=INTEGER}, #{puid,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, 
+      #{cdid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Purchasedetails">
+    insert into purchasedetails
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pudid != null">
+        pudid,
+      </if>
+      <if test="puid != null">
+        puid,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="cdid != null">
+        cdid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pudid != null">
+        #{pudid,jdbcType=INTEGER},
+      </if>
+      <if test="puid != null">
+        #{puid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="cdid != null">
+        #{cdid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.PurchasedetailsExample" resultType="java.lang.Integer">
+    select count(*) from purchasedetails
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update purchasedetails
+    <set>
+      <if test="record.pudid != null">
+        pudid = #{record.pudid,jdbcType=INTEGER},
+      </if>
+      <if test="record.puid != null">
+        puid = #{record.puid,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.cdid != null">
+        cdid = #{record.cdid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update purchasedetails
+    set pudid = #{record.pudid,jdbcType=INTEGER},
+      puid = #{record.puid,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=INTEGER},
+      cdid = #{record.cdid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchasedetails">
+    update purchasedetails
+    <set>
+      <if test="puid != null">
+        puid = #{puid,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="cdid != null">
+        cdid = #{cdid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Purchasedetails">
+    update purchasedetails
+    set puid = #{puid,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      cdid = #{cdid,jdbcType=INTEGER}
+    where pudid = #{pudid,jdbcType=INTEGER}
+  </update>
+</mapper>

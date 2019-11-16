@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accp.mapper.RechargeMapper">
+  <resultMap id="BaseResultMap" type="com.accp.domain.Recharge">
+    <id column="reid" jdbcType="INTEGER" property="reid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="remoney" jdbcType="REAL" property="remoney" />
+    <result column="reway" jdbcType="VARCHAR" property="reway" />
+    <result column="rejf" jdbcType="INTEGER" property="rejf" />
+    <result column="rebalance" jdbcType="REAL" property="rebalance" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    reid, mid, remoney, reway, rejf, rebalance, remark, createtime
+  </sql>
+  <select id="selectByExample" parameterType="com.accp.domain.RechargeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recharge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from recharge
+    where reid = #{reid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from recharge
+    where reid = #{reid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.RechargeExample">
+    delete from recharge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Recharge">
+    insert into recharge (reid, mid, remoney, 
+      reway, rejf, rebalance, 
+      remark, createtime)
+    values (#{reid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, #{remoney,jdbcType=REAL}, 
+      #{reway,jdbcType=VARCHAR}, #{rejf,jdbcType=INTEGER}, #{rebalance,jdbcType=REAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Recharge">
+    insert into recharge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reid != null">
+        reid,
+      </if>
+      <if test="mid != null">
+        mid,
+      </if>
+      <if test="remoney != null">
+        remoney,
+      </if>
+      <if test="reway != null">
+        reway,
+      </if>
+      <if test="rejf != null">
+        rejf,
+      </if>
+      <if test="rebalance != null">
+        rebalance,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reid != null">
+        #{reid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="remoney != null">
+        #{remoney,jdbcType=REAL},
+      </if>
+      <if test="reway != null">
+        #{reway,jdbcType=VARCHAR},
+      </if>
+      <if test="rejf != null">
+        #{rejf,jdbcType=INTEGER},
+      </if>
+      <if test="rebalance != null">
+        #{rebalance,jdbcType=REAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.RechargeExample" resultType="java.lang.Integer">
+    select count(*) from recharge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update recharge
+    <set>
+      <if test="record.reid != null">
+        reid = #{record.reid,jdbcType=INTEGER},
+      </if>
+      <if test="record.mid != null">
+        mid = #{record.mid,jdbcType=INTEGER},
+      </if>
+      <if test="record.remoney != null">
+        remoney = #{record.remoney,jdbcType=REAL},
+      </if>
+      <if test="record.reway != null">
+        reway = #{record.reway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rejf != null">
+        rejf = #{record.rejf,jdbcType=INTEGER},
+      </if>
+      <if test="record.rebalance != null">
+        rebalance = #{record.rebalance,jdbcType=REAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update recharge
+    set reid = #{record.reid,jdbcType=INTEGER},
+      mid = #{record.mid,jdbcType=INTEGER},
+      remoney = #{record.remoney,jdbcType=REAL},
+      reway = #{record.reway,jdbcType=VARCHAR},
+      rejf = #{record.rejf,jdbcType=INTEGER},
+      rebalance = #{record.rebalance,jdbcType=REAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Recharge">
+    update recharge
+    <set>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="remoney != null">
+        remoney = #{remoney,jdbcType=REAL},
+      </if>
+      <if test="reway != null">
+        reway = #{reway,jdbcType=VARCHAR},
+      </if>
+      <if test="rejf != null">
+        rejf = #{rejf,jdbcType=INTEGER},
+      </if>
+      <if test="rebalance != null">
+        rebalance = #{rebalance,jdbcType=REAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where reid = #{reid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Recharge">
+    update recharge
+    set mid = #{mid,jdbcType=INTEGER},
+      remoney = #{remoney,jdbcType=REAL},
+      reway = #{reway,jdbcType=VARCHAR},
+      rejf = #{rejf,jdbcType=INTEGER},
+      rebalance = #{rebalance,jdbcType=REAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where reid = #{reid,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.accp.domain.Recharge">
+    <id column="reid" jdbcType="INTEGER" property="reid" />
+    <result column="mid" jdbcType="INTEGER" property="mid" />
+    <result column="remoney" jdbcType="REAL" property="remoney" />
+    <result column="reway" jdbcType="VARCHAR" property="reway" />
+    <result column="rejf" jdbcType="INTEGER" property="rejf" />
+    <result column="rebalance" jdbcType="REAL" property="rebalance" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    reid, mid, remoney, reway, rejf, rebalance, remark, createtime
+  </sql>
+  <select id="selectByExample" parameterType="com.accp.domain.RechargeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recharge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from recharge
+    where reid = #{reid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from recharge
+    where reid = #{reid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.RechargeExample">
+    delete from recharge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Recharge">
+    insert into recharge (reid, mid, remoney, 
+      reway, rejf, rebalance, 
+      remark, createtime)
+    values (#{reid,jdbcType=INTEGER}, #{mid,jdbcType=INTEGER}, #{remoney,jdbcType=REAL}, 
+      #{reway,jdbcType=VARCHAR}, #{rejf,jdbcType=INTEGER}, #{rebalance,jdbcType=REAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Recharge">
+    insert into recharge
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reid != null">
+        reid,
+      </if>
+      <if test="mid != null">
+        mid,
+      </if>
+      <if test="remoney != null">
+        remoney,
+      </if>
+      <if test="reway != null">
+        reway,
+      </if>
+      <if test="rejf != null">
+        rejf,
+      </if>
+      <if test="rebalance != null">
+        rebalance,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reid != null">
+        #{reid,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null">
+        #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="remoney != null">
+        #{remoney,jdbcType=REAL},
+      </if>
+      <if test="reway != null">
+        #{reway,jdbcType=VARCHAR},
+      </if>
+      <if test="rejf != null">
+        #{rejf,jdbcType=INTEGER},
+      </if>
+      <if test="rebalance != null">
+        #{rebalance,jdbcType=REAL},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.RechargeExample" resultType="java.lang.Integer">
+    select count(*) from recharge
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update recharge
+    <set>
+      <if test="record.reid != null">
+        reid = #{record.reid,jdbcType=INTEGER},
+      </if>
+      <if test="record.mid != null">
+        mid = #{record.mid,jdbcType=INTEGER},
+      </if>
+      <if test="record.remoney != null">
+        remoney = #{record.remoney,jdbcType=REAL},
+      </if>
+      <if test="record.reway != null">
+        reway = #{record.reway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rejf != null">
+        rejf = #{record.rejf,jdbcType=INTEGER},
+      </if>
+      <if test="record.rebalance != null">
+        rebalance = #{record.rebalance,jdbcType=REAL},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update recharge
+    set reid = #{record.reid,jdbcType=INTEGER},
+      mid = #{record.mid,jdbcType=INTEGER},
+      remoney = #{record.remoney,jdbcType=REAL},
+      reway = #{record.reway,jdbcType=VARCHAR},
+      rejf = #{record.rejf,jdbcType=INTEGER},
+      rebalance = #{record.rebalance,jdbcType=REAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Recharge">
+    update recharge
+    <set>
+      <if test="mid != null">
+        mid = #{mid,jdbcType=INTEGER},
+      </if>
+      <if test="remoney != null">
+        remoney = #{remoney,jdbcType=REAL},
+      </if>
+      <if test="reway != null">
+        reway = #{reway,jdbcType=VARCHAR},
+      </if>
+      <if test="rejf != null">
+        rejf = #{rejf,jdbcType=INTEGER},
+      </if>
+      <if test="rebalance != null">
+        rebalance = #{rebalance,jdbcType=REAL},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where reid = #{reid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Recharge">
+    update recharge
+    set mid = #{mid,jdbcType=INTEGER},
+      remoney = #{remoney,jdbcType=REAL},
+      reway = #{reway,jdbcType=VARCHAR},
+      rejf = #{rejf,jdbcType=INTEGER},
+      rebalance = #{rebalance,jdbcType=REAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where reid = #{reid,jdbcType=INTEGER}
+  </update>
+</mapper>

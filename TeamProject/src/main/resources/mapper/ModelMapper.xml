@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.ModelMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Model" >
+    <id column="moid" property="moid" jdbcType="INTEGER" />
+    <result column="moname" property="moname" jdbcType="VARCHAR" />
+    <result column="fatherid" property="fatherid" jdbcType="INTEGER" />
+    <result column="menuid" property="menuid" jdbcType="INTEGER" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="column1" property="column1" jdbcType="VARCHAR" />
+    <result column="column2" property="column2" jdbcType="VARCHAR" />
+    <result column="column3" property="column3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    moid, moname, fatherid, menuid, path, column1, column2, column3
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.ModelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from model
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from model
+    where moid = #{moid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from model
+    where moid = #{moid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.ModelExample" >
+    delete from model
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Model" >
+    insert into model (moid, moname, fatherid, 
+      menuid, path, column1, 
+      column2, column3)
+    values (#{moid,jdbcType=INTEGER}, #{moname,jdbcType=VARCHAR}, #{fatherid,jdbcType=INTEGER}, 
+      #{menuid,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{column1,jdbcType=VARCHAR}, 
+      #{column2,jdbcType=VARCHAR}, #{column3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Model" >
+    insert into model
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="moid != null" >
+        moid,
+      </if>
+      <if test="moname != null" >
+        moname,
+      </if>
+      <if test="fatherid != null" >
+        fatherid,
+      </if>
+      <if test="menuid != null" >
+        menuid,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="column1 != null" >
+        column1,
+      </if>
+      <if test="column2 != null" >
+        column2,
+      </if>
+      <if test="column3 != null" >
+        column3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="moid != null" >
+        #{moid,jdbcType=INTEGER},
+      </if>
+      <if test="moname != null" >
+        #{moname,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherid != null" >
+        #{fatherid,jdbcType=INTEGER},
+      </if>
+      <if test="menuid != null" >
+        #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="column1 != null" >
+        #{column1,jdbcType=VARCHAR},
+      </if>
+      <if test="column2 != null" >
+        #{column2,jdbcType=VARCHAR},
+      </if>
+      <if test="column3 != null" >
+        #{column3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.ModelExample" resultType="java.lang.Integer" >
+    select count(*) from model
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update model
+    <set >
+      <if test="record.moid != null" >
+        moid = #{record.moid,jdbcType=INTEGER},
+      </if>
+      <if test="record.moname != null" >
+        moname = #{record.moname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fatherid != null" >
+        fatherid = #{record.fatherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.menuid != null" >
+        menuid = #{record.menuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.path != null" >
+        path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.column1 != null" >
+        column1 = #{record.column1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.column2 != null" >
+        column2 = #{record.column2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.column3 != null" >
+        column3 = #{record.column3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update model
+    set moid = #{record.moid,jdbcType=INTEGER},
+      moname = #{record.moname,jdbcType=VARCHAR},
+      fatherid = #{record.fatherid,jdbcType=INTEGER},
+      menuid = #{record.menuid,jdbcType=INTEGER},
+      path = #{record.path,jdbcType=VARCHAR},
+      column1 = #{record.column1,jdbcType=VARCHAR},
+      column2 = #{record.column2,jdbcType=VARCHAR},
+      column3 = #{record.column3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Model" >
+    update model
+    <set >
+      <if test="moname != null" >
+        moname = #{moname,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherid != null" >
+        fatherid = #{fatherid,jdbcType=INTEGER},
+      </if>
+      <if test="menuid != null" >
+        menuid = #{menuid,jdbcType=INTEGER},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="column1 != null" >
+        column1 = #{column1,jdbcType=VARCHAR},
+      </if>
+      <if test="column2 != null" >
+        column2 = #{column2,jdbcType=VARCHAR},
+      </if>
+      <if test="column3 != null" >
+        column3 = #{column3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where moid = #{moid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Model" >
+    update model
+    set moname = #{moname,jdbcType=VARCHAR},
+      fatherid = #{fatherid,jdbcType=INTEGER},
+      menuid = #{menuid,jdbcType=INTEGER},
+      path = #{path,jdbcType=VARCHAR},
+      column1 = #{column1,jdbcType=VARCHAR},
+      column2 = #{column2,jdbcType=VARCHAR},
+      column3 = #{column3,jdbcType=VARCHAR}
+    where moid = #{moid,jdbcType=INTEGER}
+  </update>
+</mapper>
