@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.accp.mapper.RecordMapper">
+  <resultMap id="BaseResultMap" type="com.accp.domain.Record">
+    <id column="rdid" jdbcType="INTEGER" property="rdid" />
+    <result column="rdorder" jdbcType="VARCHAR" property="rdorder" />
+    <result column="client" jdbcType="INTEGER" property="client" />
+    <result column="total" jdbcType="REAL" property="total" />
+    <result column="discount" jdbcType="REAL" property="discount" />
+    <result column="actualincome" jdbcType="REAL" property="actualincome" />
+    <result column="notincome" jdbcType="REAL" property="notincome" />
+    <result column="rdpay" jdbcType="VARCHAR" property="rdpay" />
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="cashier" jdbcType="VARCHAR" property="cashier" />
+    <result column="shopassistant" jdbcType="VARCHAR" property="shopassistant" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rdid, rdorder, client, total, discount, actualincome, notincome, rdpay, sid, cashier, 
+    shopassistant, state, createtime
+  </sql>
+  <select id="selectByExample" parameterType="com.accp.domain.RecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from record
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.RecordExample">
+    delete from record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Record">
+    insert into record (rdid, rdorder, client, 
+      total, discount, actualincome, 
+      notincome, rdpay, sid, 
+      cashier, shopassistant, state, 
+      createtime)
+    values (#{rdid,jdbcType=INTEGER}, #{rdorder,jdbcType=VARCHAR}, #{client,jdbcType=INTEGER}, 
+      #{total,jdbcType=REAL}, #{discount,jdbcType=REAL}, #{actualincome,jdbcType=REAL}, 
+      #{notincome,jdbcType=REAL}, #{rdpay,jdbcType=VARCHAR}, #{sid,jdbcType=INTEGER}, 
+      #{cashier,jdbcType=VARCHAR}, #{shopassistant,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Record">
+    insert into record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rdid != null">
+        rdid,
+      </if>
+      <if test="rdorder != null">
+        rdorder,
+      </if>
+      <if test="client != null">
+        client,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="actualincome != null">
+        actualincome,
+      </if>
+      <if test="notincome != null">
+        notincome,
+      </if>
+      <if test="rdpay != null">
+        rdpay,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="cashier != null">
+        cashier,
+      </if>
+      <if test="shopassistant != null">
+        shopassistant,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rdid != null">
+        #{rdid,jdbcType=INTEGER},
+      </if>
+      <if test="rdorder != null">
+        #{rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null">
+        #{client,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=REAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="actualincome != null">
+        #{actualincome,jdbcType=REAL},
+      </if>
+      <if test="notincome != null">
+        #{notincome,jdbcType=REAL},
+      </if>
+      <if test="rdpay != null">
+        #{rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cashier != null">
+        #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="shopassistant != null">
+        #{shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.RecordExample" resultType="java.lang.Integer">
+    select count(*) from record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update record
+    <set>
+      <if test="record.rdid != null">
+        rdid = #{record.rdid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rdorder != null">
+        rdorder = #{record.rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.client != null">
+        client = #{record.client,jdbcType=INTEGER},
+      </if>
+      <if test="record.total != null">
+        total = #{record.total,jdbcType=REAL},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=REAL},
+      </if>
+      <if test="record.actualincome != null">
+        actualincome = #{record.actualincome,jdbcType=REAL},
+      </if>
+      <if test="record.notincome != null">
+        notincome = #{record.notincome,jdbcType=REAL},
+      </if>
+      <if test="record.rdpay != null">
+        rdpay = #{record.rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null">
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cashier != null">
+        cashier = #{record.cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopassistant != null">
+        shopassistant = #{record.shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update record
+    set rdid = #{record.rdid,jdbcType=INTEGER},
+      rdorder = #{record.rdorder,jdbcType=VARCHAR},
+      client = #{record.client,jdbcType=INTEGER},
+      total = #{record.total,jdbcType=REAL},
+      discount = #{record.discount,jdbcType=REAL},
+      actualincome = #{record.actualincome,jdbcType=REAL},
+      notincome = #{record.notincome,jdbcType=REAL},
+      rdpay = #{record.rdpay,jdbcType=VARCHAR},
+      sid = #{record.sid,jdbcType=INTEGER},
+      cashier = #{record.cashier,jdbcType=VARCHAR},
+      shopassistant = #{record.shopassistant,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Record">
+    update record
+    <set>
+      <if test="rdorder != null">
+        rdorder = #{rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null">
+        client = #{client,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=REAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="actualincome != null">
+        actualincome = #{actualincome,jdbcType=REAL},
+      </if>
+      <if test="notincome != null">
+        notincome = #{notincome,jdbcType=REAL},
+      </if>
+      <if test="rdpay != null">
+        rdpay = #{rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cashier != null">
+        cashier = #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="shopassistant != null">
+        shopassistant = #{shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Record">
+    update record
+    set rdorder = #{rdorder,jdbcType=VARCHAR},
+      client = #{client,jdbcType=INTEGER},
+      total = #{total,jdbcType=REAL},
+      discount = #{discount,jdbcType=REAL},
+      actualincome = #{actualincome,jdbcType=REAL},
+      notincome = #{notincome,jdbcType=REAL},
+      rdpay = #{rdpay,jdbcType=VARCHAR},
+      sid = #{sid,jdbcType=INTEGER},
+      cashier = #{cashier,jdbcType=VARCHAR},
+      shopassistant = #{shopassistant,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.accp.domain.Record">
+    <id column="rdid" jdbcType="INTEGER" property="rdid" />
+    <result column="rdorder" jdbcType="VARCHAR" property="rdorder" />
+    <result column="client" jdbcType="INTEGER" property="client" />
+    <result column="total" jdbcType="REAL" property="total" />
+    <result column="discount" jdbcType="REAL" property="discount" />
+    <result column="actualincome" jdbcType="REAL" property="actualincome" />
+    <result column="notincome" jdbcType="REAL" property="notincome" />
+    <result column="rdpay" jdbcType="VARCHAR" property="rdpay" />
+    <result column="sid" jdbcType="INTEGER" property="sid" />
+    <result column="cashier" jdbcType="VARCHAR" property="cashier" />
+    <result column="shopassistant" jdbcType="VARCHAR" property="shopassistant" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    rdid, rdorder, client, total, discount, actualincome, notincome, rdpay, sid, cashier, 
+    shopassistant, state, createtime
+  </sql>
+  <select id="selectByExample" parameterType="com.accp.domain.RecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from record
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from record
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.accp.domain.RecordExample">
+    delete from record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.accp.domain.Record">
+    insert into record (rdid, rdorder, client, 
+      total, discount, actualincome, 
+      notincome, rdpay, sid, 
+      cashier, shopassistant, state, 
+      createtime)
+    values (#{rdid,jdbcType=INTEGER}, #{rdorder,jdbcType=VARCHAR}, #{client,jdbcType=INTEGER}, 
+      #{total,jdbcType=REAL}, #{discount,jdbcType=REAL}, #{actualincome,jdbcType=REAL}, 
+      #{notincome,jdbcType=REAL}, #{rdpay,jdbcType=VARCHAR}, #{sid,jdbcType=INTEGER}, 
+      #{cashier,jdbcType=VARCHAR}, #{shopassistant,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.accp.domain.Record">
+    insert into record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rdid != null">
+        rdid,
+      </if>
+      <if test="rdorder != null">
+        rdorder,
+      </if>
+      <if test="client != null">
+        client,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="actualincome != null">
+        actualincome,
+      </if>
+      <if test="notincome != null">
+        notincome,
+      </if>
+      <if test="rdpay != null">
+        rdpay,
+      </if>
+      <if test="sid != null">
+        sid,
+      </if>
+      <if test="cashier != null">
+        cashier,
+      </if>
+      <if test="shopassistant != null">
+        shopassistant,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rdid != null">
+        #{rdid,jdbcType=INTEGER},
+      </if>
+      <if test="rdorder != null">
+        #{rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null">
+        #{client,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=REAL},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="actualincome != null">
+        #{actualincome,jdbcType=REAL},
+      </if>
+      <if test="notincome != null">
+        #{notincome,jdbcType=REAL},
+      </if>
+      <if test="rdpay != null">
+        #{rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null">
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cashier != null">
+        #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="shopassistant != null">
+        #{shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.accp.domain.RecordExample" resultType="java.lang.Integer">
+    select count(*) from record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update record
+    <set>
+      <if test="record.rdid != null">
+        rdid = #{record.rdid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rdorder != null">
+        rdorder = #{record.rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.client != null">
+        client = #{record.client,jdbcType=INTEGER},
+      </if>
+      <if test="record.total != null">
+        total = #{record.total,jdbcType=REAL},
+      </if>
+      <if test="record.discount != null">
+        discount = #{record.discount,jdbcType=REAL},
+      </if>
+      <if test="record.actualincome != null">
+        actualincome = #{record.actualincome,jdbcType=REAL},
+      </if>
+      <if test="record.notincome != null">
+        notincome = #{record.notincome,jdbcType=REAL},
+      </if>
+      <if test="record.rdpay != null">
+        rdpay = #{record.rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sid != null">
+        sid = #{record.sid,jdbcType=INTEGER},
+      </if>
+      <if test="record.cashier != null">
+        cashier = #{record.cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopassistant != null">
+        shopassistant = #{record.shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update record
+    set rdid = #{record.rdid,jdbcType=INTEGER},
+      rdorder = #{record.rdorder,jdbcType=VARCHAR},
+      client = #{record.client,jdbcType=INTEGER},
+      total = #{record.total,jdbcType=REAL},
+      discount = #{record.discount,jdbcType=REAL},
+      actualincome = #{record.actualincome,jdbcType=REAL},
+      notincome = #{record.notincome,jdbcType=REAL},
+      rdpay = #{record.rdpay,jdbcType=VARCHAR},
+      sid = #{record.sid,jdbcType=INTEGER},
+      cashier = #{record.cashier,jdbcType=VARCHAR},
+      shopassistant = #{record.shopassistant,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Record">
+    update record
+    <set>
+      <if test="rdorder != null">
+        rdorder = #{rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null">
+        client = #{client,jdbcType=INTEGER},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=REAL},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=REAL},
+      </if>
+      <if test="actualincome != null">
+        actualincome = #{actualincome,jdbcType=REAL},
+      </if>
+      <if test="notincome != null">
+        notincome = #{notincome,jdbcType=REAL},
+      </if>
+      <if test="rdpay != null">
+        rdpay = #{rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null">
+        sid = #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cashier != null">
+        cashier = #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="shopassistant != null">
+        shopassistant = #{shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Record">
+    update record
+    set rdorder = #{rdorder,jdbcType=VARCHAR},
+      client = #{client,jdbcType=INTEGER},
+      total = #{total,jdbcType=REAL},
+      discount = #{discount,jdbcType=REAL},
+      actualincome = #{actualincome,jdbcType=REAL},
+      notincome = #{notincome,jdbcType=REAL},
+      rdpay = #{rdpay,jdbcType=VARCHAR},
+      sid = #{sid,jdbcType=INTEGER},
+      cashier = #{cashier,jdbcType=VARCHAR},
+      shopassistant = #{shopassistant,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where rdid = #{rdid,jdbcType=INTEGER}
+  </update>
+</mapper>
