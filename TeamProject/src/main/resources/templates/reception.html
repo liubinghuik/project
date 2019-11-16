@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>收银管理</title>
   
-  <link rel="stylesheet" href="fonts/iconfont.css">
+  <link rel="stylesheet" href="/fonts/iconfont.css">
   
-  <link rel="stylesheet" href="css/element-ui.css">
-  <link rel="stylesheet" href="css/pos.css">
+  <link rel="stylesheet" href="/css/element-ui.css">
+  <link rel="stylesheet" href="/css/pos.css">
   
 </head>
 <body>
@@ -64,7 +64,7 @@
               <el-tab-pane label="蛋糕">
                 <ul class='cookList'>
                   <li v-for="goods in type0Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg" width="100%"></span>
+                    <span class="foodImg"><img src="/images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg" width="100%"></span>
                     <div class="food-content">
                       <span class="foodName">{{goods.goodsName}}</span>
                       <span class="foodPrice">￥{{goods.price}}元</span>
@@ -75,7 +75,7 @@
               <el-tab-pane label="小食">
                 <ul class='cookList'>
                   <li v-for="goods in type1Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg" width="100%"></span>
+                    <span class="foodImg"><img src="/images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg" width="100%"></span>
                     <div class="food-content">
                       <span class="foodName">{{goods.goodsName}}</span>
                       <span class="foodPrice">￥{{goods.price}}元</span>
@@ -86,7 +86,7 @@
               <el-tab-pane label="饮料">
                 <ul class='cookList'>
                   <li v-for="goods in type2Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" width="100%"></span>
+                    <span class="foodImg"><img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" width="100%"></span>
                     <div class="food-content">
                       <span class="foodName">{{goods.goodsName}}</span>
                       <span class="foodPrice">￥{{goods.price}}元</span>
@@ -97,7 +97,7 @@
               <el-tab-pane label="套餐">
                 <ul class='cookList'>
                   <li v-for="goods in type3Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="images/9001737541544ee9ad7b9eb3ef6a651c!400x400.jpg" width="100%"></span>
+                    <span class="foodImg"><img src="/images/9001737541544ee9ad7b9eb3ef6a651c!400x400.jpg" width="100%"></span>
                     <div class="food-content">
                       <span class="foodName">{{goods.goodsName}}</span>
                       <span class="foodPrice">￥{{goods.price}}元</span>
@@ -113,11 +113,11 @@
   </div>
 </body>
   <!-- 先引入 Vue -->
-  <script src="js/vue.js"></script>
+  <script src="/js/vue.js"></script>
   <!-- 引入组件库 -->
-  <script src="js/index.js"></script>
+  <script src="/js/index.js"></script>
   <!-- 引入axios -->
-  <script src="js/axios.min.js"></script>
+  <script src="/js/axios.min.js"></script>
   <script>
     new Vue({
       el: '#app',
@@ -194,7 +194,7 @@
             this.tableData = [];
             this.totalCount = 0;
             this.totalMoney = 0;
-            this.$alert('<div class="qr-code"><img src="images/code.png"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,觉得OK就打赏一下', {
+            this.$alert('<div class="qr-code"><img src="/images/code.png"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,觉得OK就打赏一下', {
               dangerouslyUseHTMLString: true
             });
           } else {

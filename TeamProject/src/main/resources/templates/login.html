@@ -1,81 +1,133 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<title></title>
-	</head>
-	
-	<link rel="stylesheet" href="css/bootstrap.css" />
-	<script type="text/javascript" src="js/jquery-1.12.4.js" ></script>
-	<script type="text/javascript" src="js/bootstrap.js" ></script>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<script type="text/javascript" src="js/vue.js"></script>
-	<script type="text/javascript" src="js/axios.min.js"></script>
-	<style>
-		*{
-			margin:0px;
-			padding:0px;
-			
-		}
-	</style>
-	<body>
-		<div class="container-fluid"style="border-bottom: solid 1px #d9d8da;">
-  			<div class="row" style="height:55px;line-height:55px;">
-  				<div class="col-md-1"></div>
-  				<div class="col-md-2"><img src="images/logo.png"></div>
-  				<div class="col-md-1"></div>
-  				<div class="col-md-1"style="text-align: center;font-size: 16px;color: #4ac149;">账户</div>
-  				<div class="col-md-1"style="text-align: center;font-size: 16px;">实体店</div>
-  				<div class="col-md-6"></div>
-  			</div>
-		</div>
-		<div class="container-fluid">
-			<div class="row"style="padding:10px 0px;background:#f6f6f8;"></div>
-			<div class="row"style="background:#f6f6f8;padding-top: 25px;">
-				<div class="col-md-12">
-  				<div class="row"style=";background:#f6f6f8;">
-  					<div class="col-md-2"style="padding:10px 0px;background:#f6f6f8;"></div>
-  					<div class="col-md-8"style="background:#fff;border: solid 1px #d9d8da;">
-  						<div class="row"style="padding:15px 0px;border-bottom:1px solid #d9d8da;">
-  							 <div class="col-md-2">用户登录</div>
-  							 <div class="col-md-7"></div>
-  							 <div class="col-md-3"style="text-align: right;">如需注册，请联系客服<img src="images/taobao_wan.gif"></div>
-  						</div>
-  						<div class="row" style="height:80px">
-  						</div>
-  						<div class="row"style="margin:17px 0px;">
-  							<div class="col-md-4"style=""></div>
-  							<div class="col-md-4"style="border:0px solid blue"><input type="text"class="form-control"name=""style="height:35px;width:300px"placeholder="账号"></div>
-  							<div class="col-md-4"style=""></div>
-  						</div>
-  						<div class="row"style="margin:17px 0px;">
-  							<div class="col-md-4"style=""></div>
-  							<div class="col-md-4"style="border:0px solid blue"><input type="text"class="form-control"name=""style="height:35px;width:300px"placeholder="密码"></div>
-  							<div class="col-md-4"style=""></div>
-  						</div>
-  						<div class="row"style="margin:17px 0px;">
-  							<div class="col-md-4"style=""></div>
-  							<div class="col-md-4"style="border:0px solid blue"><input type="text"class="form-control"name=""style="height:35px;width:150px"placeholder="验证码"></div>
-  							<div class="col-md-4"style=""></div>
-  						</div>
-  						<div class="row"style="margin:17px 0px;">
-  							<div class="col-md-4"style=""></div>
-  							<div class="col-md-2"style="font-size:110%;text-align: left;"><input type="checkbox"name="">记住密码:</div>
-  							<div class="col-md-2"style="font-size:110%;text-align: right;">忘记密码？</div>
-  							<div class="col-md-4"style=""></div>
-  						</div>
-  						<div class="row"style="margin:17px 0px;">
-  							<div class="col-md-4"style=""></div>
-  							<div class="col-md-4"style="border:0px solid blue"><input type="button"name=""style="height:35px;width:300px;border:0px;background: #44b549;color:white;border-radius: 3px;"value="登录"/></div>
-  							<div class="col-md-4"style=""></div>
-  						</div>
-  						<div class="row" style="height:80px">
-  					</div>
-  				</div> 				
-  			</div>
-  			<div style="background: #fafafa none repeat scroll 0 0;margin-top:95px;padding: 20px 0;text-align: center;border-top:1px solid #dfdfdf;">
-				<p style="color: #5E5E5E;">Copyright © 2010-2019 POSO2O. All Rights Reserved.</p>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title></title>
+</head>
+
+<link rel="stylesheet" href="/css/bootstrap.css" />
+<script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/vue.js"></script>
+<script type="text/javascript" src="/js/axios.min.js"></script>
+<style>
+* {
+	margin: 0px;
+	padding: 0px;
+}
+</style>
+<body>
+	<div class="container-fluid" style="border-bottom: solid 1px #d9d8da;">
+		<div class="row" style="height: 55px; line-height: 55px;">
+			<div class="col-md-1"></div>
+			<div class="col-md-2">
+				<img src="/images/logo.png">
 			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-1"
+				style="text-align: center; font-size: 16px; color: #4ac149;">账户</div>
+			<div class="col-md-1" style="text-align: center; font-size: 16px;">实体店</div>
+			<div class="col-md-6"></div>
 		</div>
-	</body>
+	</div>
+	<div class="container-fluid">
+		<div class="row" style="padding: 10px 0px; background: #f6f6f8;"></div>
+		<div class="row" style="background: #f6f6f8; padding-top: 25px;">
+			<div class="col-md-12">
+				<div class="row" style="background: #f6f6f8;">
+					<div class="col-md-2"
+						style="padding: 10px 0px; background: #f6f6f8;"></div>
+					<div class="col-md-8"
+						style="background: #fff; border: solid 1px #d9d8da;">
+						<div class="row"
+							style="padding: 15px 0px; border-bottom: 1px solid #d9d8da;">
+							<div class="col-md-2">用户登录</div>
+							<div class="col-md-7"></div>
+							<div class="col-md-3" style="text-align: right;">
+								如需注册，请联系客服<img src="/images/taobao_wan.gif">
+							</div>
+						</div>
+						<div class="row" style="height: 80px"></div>
+						<div class="row" style="margin: 17px 0px;">
+							<div class="col-md-4" style=""></div>
+							<div class="col-md-4" style="border: 0px solid blue">
+								<input type="text" class="form-control" name="uaccount"
+									style="height: 35px; width: 300px" placeholder="账号">
+							</div>
+							<div class="col-md-4" style=""></div>
+						</div>
+						<div class="row" style="margin: 17px 0px;">
+							<div class="col-md-4" style=""></div>
+							<div class="col-md-4" style="border: 0px solid blue">
+								<input type="password" class="form-control" name="upwd"
+									style="height: 35px; width: 300px" placeholder="密码">
+							</div>
+							<div class="col-md-4" style=""></div>
+						</div>
+						<div class="row" style="margin: 17px 0px;">
+							<div class="col-md-4" style=""></div>
+							<div class="col-md-4" style="border: 0px solid blue">
+								<input type="text" class="form-control" name="yzm"
+									style="height: 35px; width: 150px" placeholder="验证码">
+								<div style="width: 100%; height: 30px; display: inline; float: right; margin:-30px -170px 0 100px; cursor: pointer;">
+									<img id="vimg" style="width: 50%; height: 25px;" alt="验证码"
+										title="点击切换" src="/User/GetImage">
+								</div>
+							</div>
+							<div class="col-md-4" style=""></div>
+						</div>
+						<div class="row" style="margin: 17px 0px;">
+							<div class="col-md-4" style=""></div>
+							<div class="col-md-2" style="font-size: 110%; text-align: left;">
+								<input type="checkbox" name="">记住密码:
+							</div>
+							<div class="col-md-2" style="font-size: 110%; text-align: right;">忘记密码？</div>
+							<div class="col-md-4" style=""></div>
+						</div>
+						<div class="row" style="margin: 17px 0px;">
+							<div class="col-md-4" style=""></div>
+							<div class="col-md-4" style="border: 0px solid blue">
+								<input type="button" name=""
+									style="height: 35px; width: 300px; border: 0px; background: #44b549; color: white; border-radius: 3px;"
+									value="登录" />
+							</div>
+							<div class="col-md-4" style=""></div>
+						</div>
+						<div class="row" style="height: 80px"></div>
+					</div>
+				</div>
+				<div
+					style="background: #fafafa none repeat scroll 0 0; margin-top: 95px; padding: 20px 0; text-align: center; border-top: 1px solid #dfdfdf;">
+					<p style="color: #5E5E5E;">Copyright © 2010-2019 POSO2O. All
+						Rights Reserved.</p>
+				</div>
+			</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		//点击切换验证码
+		$("#vimg").on("click",function() {
+					var timestamp = (new Date()).valueOf();
+					$(this).attr("src","/User/GetImage?timestamp="+ timestamp);
+		});
+		$("[type=button]").click(function(){
+			var uaccount=$("[name=uaccount]").val();
+			var upwd=$("[name=upwd]").val();
+			var yzm=$("[name=yzm]").val();
+			$.ajax({
+				url:"[[@{/User/logins}]]",
+				type:"get",
+				data:{
+					uaccount:uaccount,
+					upwd:upwd,
+					yzm:yzm
+				},
+				dataType:"json",
+				success:function(res){
+					
+				}
+			});
+		});
+	});
+</script>
 </html>
