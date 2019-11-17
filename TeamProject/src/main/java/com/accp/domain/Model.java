@@ -17,11 +17,7 @@ public class Model {
 
     private String column3;
 
-    public Model() {
-		super();
-	}
-
-	public Integer getMoid() {
+    public Integer getMoid() {
         return moid;
     }
 

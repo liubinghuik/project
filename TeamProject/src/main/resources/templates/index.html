@@ -93,8 +93,8 @@
 		<div class="container-fluid">
 			<div class="row" style="padding-left:8%;height: 55;line-height: 55px; border-bottom: 1px solid gainsboro;margin-bottom: 20px;">
 			  	<div class="col-md-3"><img src="/images/logo.png"/></div>
-			    <div class="col-md-1"><a href="account.html">账户</a></div>
-			    <div class="col-md-4"><a href="index.html" class="color">实体店</a></div>
+			    <div class="col-md-1"><a th:href="@{/page/account}">账户</a></div>
+			    <div class="col-md-4"><a th:href="@{/page/index}" class="color">实体店</a></div>
 			    <div class="col-md-3" style="text-align: right;">
 				  	<a href="account.html">
 				  		<span style="width: 38px; height: 38px;">
@@ -131,13 +131,13 @@
 			<div class="row tal_none" id="tab_dp" style="margin-left: 8%;">
 				<div class="tab">
 					<ul class="nav nav-pills nav-stacked col-md-2" style="width: 16.7%;">
-					  <li class="shop_type current2" role="presentation"><a href="javascript:;" onclick="goToPage('storeList.html')">店铺管理</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage('scopePosition.html')">职位权限</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage('staffManage.html')">员工管理</a></li>
-					  <li class="shop_type" role="presentation"><a href="#">收银机支付宝收款</a></li>
-					  <li class="shop_type" role="presentation"><a href="#">收银机微信收款</a></li>
+					  <li class="shop_type current2" role="presentation"><a href="javascript:;" th:onclick="goToPage('/page/storeList')">店铺管理</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage('/page/scopePosition')">职位权限</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage('/page/staffManage')">员工管理</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;">收银机支付宝收款</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;">收银机微信收款</a></li>
 					</ul>
-					<iframe id="store" src="storeList.html" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>
+					<iframe id="store" th:src="@{/page/storeList}" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>
 				</div>
 			</div>
 			
@@ -149,13 +149,13 @@
 			<div class="row tal_none" id="tab_sp" style="margin-left: 8%;">
 				<div class="tab">
 					<ul class="col-md-2 nav nav-pills nav-stacked">
-					  <li class="shop_type current2" role="presentation"><a href="javascript:;" onclick="goToPage2('shopType.html')">商品类别</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage2('shopManage.html')">商品管理</a></li>
-					  <li class="shop_type" id="spsc" role="presentation"><a href="javascript:;"onclick="goToPage2('shopUpload.html')">商品上传</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage2('supplier.html')">供应商</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage2('purchase.html')">采购单</a></li>
+					  <li class="shop_type current2" role="presentation"><a href="javascript:;" th:onclick="goToPage2('/page/shopType')">商品类别</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage2('/page/shopManage')">商品管理</a></li>
+					  <li class="shop_type" id="spsc" role="presentation"><a href="javascript:;"th:onclick="goToPage2('/page/shopUpload')">商品上传</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage2('/page/supplier')">供应商</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage2('/page/purchase')">采购单</a></li>
 					</ul>					
-					<iframe id="shop" src="shopType.html" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>	
+					<iframe id="shop" th:src="@{/page/shopType}" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>	
 				</div>
 				
 			</div>
@@ -194,7 +194,7 @@
 					</ul>
 				</div>-->
 				<div class="tab">
-					<iframe id="shop" src="reception.html" frameborder="0" scrolling="yes" width="100%" height="600px"></iframe>	
+					<iframe id="shop" th:src="@{/page/reception}" frameborder="0" scrolling="yes" width="100%" height="600px"></iframe>	
 				</div>
 				
 			</div>
@@ -207,13 +207,13 @@
 			<div class="row tal_none" id="tab_hy" style="margin-left: 8%;">
 				<div class="tab">
 					<ul class="col-md-2 nav nav-pills nav-stacked">
-					  <li class="shop_type current2" role="presentation"><a href="javascript:;" onclick="goToPage4('memberinformation.html')">会员信息</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('memberLevelset.html')">等级设置</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('memberIntegralset.html')">积分设置</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('membermatch.html')">充值抵扣</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;" onclick="goToPage4('memberrecordoftransaction.html')">成交记录</a></li>
+					  <li class="shop_type current2" role="presentation"><a href="javascript:;" th:onclick="goToPage4('/page/memberinformation')">会员信息</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage4('/page/memberLevelset')">等级设置</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage4('/page/memberIntegralset')">积分设置</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage4('/page/membermatch')">充值抵扣</a></li>
+					  <li class="shop_type" role="presentation"><a href="javascript:;" th:onclick="goToPage4('/page/memberrecordoftransaction')">成交记录</a></li>
 					</ul>
-					<iframe id="member" src="memberinformation.html" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>
+					<iframe id="member" th:src="@{/page/memberinformation}" frameborder="0" scrolling="yes" width="82.5%" height="600px"></iframe>
 				</div>
 			</div>
 			

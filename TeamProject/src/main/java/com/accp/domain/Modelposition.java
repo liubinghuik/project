@@ -7,11 +7,7 @@ public class Modelposition {
 
     private Integer pid;
 
-    public Modelposition() {
-		super();
-	}
-
-	public Integer getMpid() {
+    public Integer getMpid() {
         return mpid;
     }
 

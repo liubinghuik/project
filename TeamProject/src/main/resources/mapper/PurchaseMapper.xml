@@ -1,36 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.accp.mapper.PurchaseMapper">
-  <resultMap id="BaseResultMap" type="com.accp.domain.Purchase">
-    <id column="puid" jdbcType="INTEGER" property="puid" />
-    <result column="odd" jdbcType="VARCHAR" property="odd" />
-    <result column="auditstate" jdbcType="VARCHAR" property="auditstate" />
-    <result column="deliverydate" jdbcType="TIMESTAMP" property="deliverydate" />
-    <result column="suid" jdbcType="INTEGER" property="suid" />
-    <result column="sid" jdbcType="INTEGER" property="sid" />
-    <result column="uaccount" jdbcType="VARCHAR" property="uaccount" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.PurchaseMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.Purchase" >
+    <id column="puid" property="puid" jdbcType="INTEGER" />
+    <result column="odd" property="odd" jdbcType="VARCHAR" />
+    <result column="auditstate" property="auditstate" jdbcType="VARCHAR" />
+    <result column="deliverydate" property="deliverydate" jdbcType="TIMESTAMP" />
+    <result column="suid" property="suid" jdbcType="INTEGER" />
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="uaccount" property="uaccount" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -41,25 +41,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -70,40 +70,40 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     puid, odd, auditstate, deliverydate, suid, sid, uaccount, remark, createtime
   </sql>
-  <select id="selectByExample" parameterType="com.accp.domain.PurchaseExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.PurchaseExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
     from purchase
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from purchase
     where puid = #{puid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from purchase
     where puid = #{puid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.accp.domain.PurchaseExample">
+  <delete id="deleteByExample" parameterType="com.accp.domain.PurchaseExample" >
     delete from purchase
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.accp.domain.Purchase">
+  <insert id="insert" parameterType="com.accp.domain.Purchase" >
     insert into purchase (puid, odd, auditstate, 
       deliverydate, suid, sid, 
       uaccount, remark, createtime
@@ -113,109 +113,109 @@
       #{uaccount,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Purchase">
+  <insert id="insertSelective" parameterType="com.accp.domain.Purchase" >
     insert into purchase
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="puid != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="puid != null" >
         puid,
       </if>
-      <if test="odd != null">
+      <if test="odd != null" >
         odd,
       </if>
-      <if test="auditstate != null">
+      <if test="auditstate != null" >
         auditstate,
       </if>
-      <if test="deliverydate != null">
+      <if test="deliverydate != null" >
         deliverydate,
       </if>
-      <if test="suid != null">
+      <if test="suid != null" >
         suid,
       </if>
-      <if test="sid != null">
+      <if test="sid != null" >
         sid,
       </if>
-      <if test="uaccount != null">
+      <if test="uaccount != null" >
         uaccount,
       </if>
-      <if test="remark != null">
+      <if test="remark != null" >
         remark,
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null" >
         createtime,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="puid != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="puid != null" >
         #{puid,jdbcType=INTEGER},
       </if>
-      <if test="odd != null">
+      <if test="odd != null" >
         #{odd,jdbcType=VARCHAR},
       </if>
-      <if test="auditstate != null">
+      <if test="auditstate != null" >
         #{auditstate,jdbcType=VARCHAR},
       </if>
-      <if test="deliverydate != null">
+      <if test="deliverydate != null" >
         #{deliverydate,jdbcType=TIMESTAMP},
       </if>
-      <if test="suid != null">
+      <if test="suid != null" >
         #{suid,jdbcType=INTEGER},
       </if>
-      <if test="sid != null">
+      <if test="sid != null" >
         #{sid,jdbcType=INTEGER},
       </if>
-      <if test="uaccount != null">
+      <if test="uaccount != null" >
         #{uaccount,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
+      <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.accp.domain.PurchaseExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.accp.domain.PurchaseExample" resultType="java.lang.Integer" >
     select count(*) from purchase
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map" >
     update purchase
-    <set>
-      <if test="record.puid != null">
+    <set >
+      <if test="record.puid != null" >
         puid = #{record.puid,jdbcType=INTEGER},
       </if>
-      <if test="record.odd != null">
+      <if test="record.odd != null" >
         odd = #{record.odd,jdbcType=VARCHAR},
       </if>
-      <if test="record.auditstate != null">
+      <if test="record.auditstate != null" >
         auditstate = #{record.auditstate,jdbcType=VARCHAR},
       </if>
-      <if test="record.deliverydate != null">
+      <if test="record.deliverydate != null" >
         deliverydate = #{record.deliverydate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.suid != null">
+      <if test="record.suid != null" >
         suid = #{record.suid,jdbcType=INTEGER},
       </if>
-      <if test="record.sid != null">
+      <if test="record.sid != null" >
         sid = #{record.sid,jdbcType=INTEGER},
       </if>
-      <if test="record.uaccount != null">
+      <if test="record.uaccount != null" >
         uaccount = #{record.uaccount,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null">
+      <if test="record.remark != null" >
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.createtime != null">
+      <if test="record.createtime != null" >
         createtime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExample" parameterType="map" >
     update purchase
     set puid = #{record.puid,jdbcType=INTEGER},
       odd = #{record.odd,jdbcType=VARCHAR},
@@ -226,312 +226,41 @@
       uaccount = #{record.uaccount,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       createtime = #{record.createtime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchase">
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchase" >
     update purchase
-    <set>
-      <if test="odd != null">
+    <set >
+      <if test="odd != null" >
         odd = #{odd,jdbcType=VARCHAR},
       </if>
-      <if test="auditstate != null">
+      <if test="auditstate != null" >
         auditstate = #{auditstate,jdbcType=VARCHAR},
       </if>
-      <if test="deliverydate != null">
+      <if test="deliverydate != null" >
         deliverydate = #{deliverydate,jdbcType=TIMESTAMP},
       </if>
-      <if test="suid != null">
+      <if test="suid != null" >
         suid = #{suid,jdbcType=INTEGER},
       </if>
-      <if test="sid != null">
+      <if test="sid != null" >
         sid = #{sid,jdbcType=INTEGER},
       </if>
-      <if test="uaccount != null">
+      <if test="uaccount != null" >
         uaccount = #{uaccount,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
+      <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="createtime != null">
+      <if test="createtime != null" >
         createtime = #{createtime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where puid = #{puid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Purchase">
-    update purchase
-    set odd = #{odd,jdbcType=VARCHAR},
-      auditstate = #{auditstate,jdbcType=VARCHAR},
-      deliverydate = #{deliverydate,jdbcType=TIMESTAMP},
-      suid = #{suid,jdbcType=INTEGER},
-      sid = #{sid,jdbcType=INTEGER},
-      uaccount = #{uaccount,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      createtime = #{createtime,jdbcType=TIMESTAMP}
-    where puid = #{puid,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="com.accp.domain.Purchase">
-    <id column="puid" jdbcType="INTEGER" property="puid" />
-    <result column="odd" jdbcType="VARCHAR" property="odd" />
-    <result column="auditstate" jdbcType="VARCHAR" property="auditstate" />
-    <result column="deliverydate" jdbcType="TIMESTAMP" property="deliverydate" />
-    <result column="suid" jdbcType="INTEGER" property="suid" />
-    <result column="sid" jdbcType="INTEGER" property="sid" />
-    <result column="uaccount" jdbcType="VARCHAR" property="uaccount" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    puid, odd, auditstate, deliverydate, suid, sid, uaccount, remark, createtime
-  </sql>
-  <select id="selectByExample" parameterType="com.accp.domain.PurchaseExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from purchase
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from purchase
-    where puid = #{puid,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from purchase
-    where puid = #{puid,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.accp.domain.PurchaseExample">
-    delete from purchase
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.accp.domain.Purchase">
-    insert into purchase (puid, odd, auditstate, 
-      deliverydate, suid, sid, 
-      uaccount, remark, createtime
-      )
-    values (#{puid,jdbcType=INTEGER}, #{odd,jdbcType=VARCHAR}, #{auditstate,jdbcType=VARCHAR}, 
-      #{deliverydate,jdbcType=TIMESTAMP}, #{suid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
-      #{uaccount,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Purchase">
-    insert into purchase
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="puid != null">
-        puid,
-      </if>
-      <if test="odd != null">
-        odd,
-      </if>
-      <if test="auditstate != null">
-        auditstate,
-      </if>
-      <if test="deliverydate != null">
-        deliverydate,
-      </if>
-      <if test="suid != null">
-        suid,
-      </if>
-      <if test="sid != null">
-        sid,
-      </if>
-      <if test="uaccount != null">
-        uaccount,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="createtime != null">
-        createtime,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="puid != null">
-        #{puid,jdbcType=INTEGER},
-      </if>
-      <if test="odd != null">
-        #{odd,jdbcType=VARCHAR},
-      </if>
-      <if test="auditstate != null">
-        #{auditstate,jdbcType=VARCHAR},
-      </if>
-      <if test="deliverydate != null">
-        #{deliverydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="suid != null">
-        #{suid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="uaccount != null">
-        #{uaccount,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        #{createtime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.accp.domain.PurchaseExample" resultType="java.lang.Integer">
-    select count(*) from purchase
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update purchase
-    <set>
-      <if test="record.puid != null">
-        puid = #{record.puid,jdbcType=INTEGER},
-      </if>
-      <if test="record.odd != null">
-        odd = #{record.odd,jdbcType=VARCHAR},
-      </if>
-      <if test="record.auditstate != null">
-        auditstate = #{record.auditstate,jdbcType=VARCHAR},
-      </if>
-      <if test="record.deliverydate != null">
-        deliverydate = #{record.deliverydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.suid != null">
-        suid = #{record.suid,jdbcType=INTEGER},
-      </if>
-      <if test="record.sid != null">
-        sid = #{record.sid,jdbcType=INTEGER},
-      </if>
-      <if test="record.uaccount != null">
-        uaccount = #{record.uaccount,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createtime != null">
-        createtime = #{record.createtime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update purchase
-    set puid = #{record.puid,jdbcType=INTEGER},
-      odd = #{record.odd,jdbcType=VARCHAR},
-      auditstate = #{record.auditstate,jdbcType=VARCHAR},
-      deliverydate = #{record.deliverydate,jdbcType=TIMESTAMP},
-      suid = #{record.suid,jdbcType=INTEGER},
-      sid = #{record.sid,jdbcType=INTEGER},
-      uaccount = #{record.uaccount,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=VARCHAR},
-      createtime = #{record.createtime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchase">
-    update purchase
-    <set>
-      <if test="odd != null">
-        odd = #{odd,jdbcType=VARCHAR},
-      </if>
-      <if test="auditstate != null">
-        auditstate = #{auditstate,jdbcType=VARCHAR},
-      </if>
-      <if test="deliverydate != null">
-        deliverydate = #{deliverydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="suid != null">
-        suid = #{suid,jdbcType=INTEGER},
-      </if>
-      <if test="sid != null">
-        sid = #{sid,jdbcType=INTEGER},
-      </if>
-      <if test="uaccount != null">
-        uaccount = #{uaccount,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        createtime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where puid = #{puid,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Purchase">
+  <update id="updateByPrimaryKey" parameterType="com.accp.domain.Purchase" >
     update purchase
     set odd = #{odd,jdbcType=VARCHAR},
       auditstate = #{auditstate,jdbcType=VARCHAR},

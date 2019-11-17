@@ -14,7 +14,7 @@ import com.accp.service.UserService;
 import com.accp.util.ImageUtil;
 
 @Controller
-@RequestMapping("/User")
+@RequestMapping("/user")
 public class UserController {
 	@Autowired
 	UserService userservice;
@@ -32,14 +32,7 @@ public class UserController {
         session.setAttribute("code", imageUtil.getCode());
         imageUtil.write(response.getOutputStream());
 	}
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
-	}
-	@RequestMapping("/index")
-	public String index() {
-		return "index";
-	}
+
 	@RequestMapping("/logins")
 	public void logins() {
 		
