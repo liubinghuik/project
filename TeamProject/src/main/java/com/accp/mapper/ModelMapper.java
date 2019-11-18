@@ -1,11 +1,13 @@
 package com.accp.mapper;
 
+import com.accp.domain.Memberclass;
 import com.accp.domain.Model;
 import com.accp.domain.ModelExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface ModelMapper {
+	
     int countByExample(ModelExample example);
 
     int deleteByExample(ModelExample example);

@@ -37,11 +37,11 @@
 									<td width="20%">序号</td>
 									<td width="20%">会员等级</td>
 									<td width="20%">折扣</td>
-									<td width="20%">升级规则</td>
+									<td width="20%">升级规则（消费金额）</td>
 									<td width="20%">操作</td>
 								</tr>
 							</thead>
-							<tbody align="center">
+							<tbody align="center"name="levelset">
 								<tr>
 									<td>1</td>
 									<td>会员等级</td>
@@ -131,6 +131,29 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-		
+	 $(function(){
+		 function2();
+	 })
+	  function function2(){
+				$.ajax({
+					url:"[[@{/member/selectMemberClass}]]",
+					data:"",
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						$("[name=levelset]").html("");
+						$.each(result,function(i,obj){
+							var tr=$("<tr></tr>");
+							tr.append("<td>"+obj.mcid+"</td>");
+							tr.append("<td>"+obj.mcname+"</td>");
+							tr.append("<td>"+obj.discount+"</td>");
+							tr.append("<td>"+obj.require+"</td>");
+							tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal2'>修改</a><a href='#' style='padding-left: 10px;'>删除</a></td>");
+							$("[name=levelset]").append(tr);
+						})
+						
+					}
+				})
+			 }
 	</script>
 </html>

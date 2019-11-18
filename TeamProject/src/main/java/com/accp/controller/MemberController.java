@@ -1,0 +1,40 @@
+package com.accp.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.accp.domain.Member;
+import com.accp.domain.Memberclass;
+import com.accp.service.MemberService;
+
+@Controller
+@RequestMapping("/member")
+public class MemberController {
+	@Autowired
+	MemberService ms;
+	
+	
+	//会员信息页面
+	//1.会员查询
+	@RequestMapping("/SelectMemberInfo")
+	@ResponseBody
+	public List<Member> SelectMemberInfo(/* Model model */) {
+		List<Member> list =ms.SelectMemberInfo(); 
+		return list;
+		/*
+		 * model.addAttribute("list", list); return "index";
+		 */
+	}
+	//2.会员等级查询
+		@RequestMapping("/selectMemberClass")
+		@ResponseBody
+		public List<Memberclass> SelectMemberclass() {
+			List<Memberclass> list =ms.selectMemberClass(); 
+			return list;
+		}
+}

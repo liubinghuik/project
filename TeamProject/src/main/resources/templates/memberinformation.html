@@ -17,7 +17,7 @@
 	<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
-	<body>
+	<body onload="function1(),function2()">
 		<!--
         	作者：offline
         	时间：2019-11-12
@@ -30,7 +30,7 @@
 						<div style="padding-left: 0;float: left;">会员信息</div>
 						<div style="float: right;width: 80%;text-align: right;">
 							<form action="" method="post">
-								<select class="form-control" style="width: 15.66%; display: inline-block;">
+								<select name="class" class="form-control" style="width: 15.66%; display: inline-block;">
 								  <option>全部等级</option>
 								  <option>vip</option>
 								  <option>会员</option>
@@ -188,7 +188,36 @@
 		    </div><!-- /.modal -->
 		</div>
 		<script type="text/javascript">
-		
+		 $(function(){
+			 
+		 })
+		 function function1(){
+			$.ajax({
+				url:"[[@{/member/SelectMemberInfo}]]",
+				data:"",
+				dataType:"json",
+				type:"get",
+				success:function(result){
+					console.info(result);
+				}
+			})
+		 }
+		 function function2(){
+				$.ajax({
+					url:"[[@{/member/selectMemberClass}]]",
+					data:"",
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						$("[name=class]").html("");
+						$.each(result,function(i,obj){
+							var option=$("<option value="+obj.mcid+">"+obj.mcname+"</option>");
+							$("[name=class]").append(option);
+						})
+						
+					}
+				})
+			 }
 		</script>
 	</body>
 </html>

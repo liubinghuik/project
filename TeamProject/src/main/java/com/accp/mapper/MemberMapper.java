@@ -2,10 +2,16 @@ package com.accp.mapper;
 
 import com.accp.domain.Member;
 import com.accp.domain.MemberExample;
+import com.accp.domain.Memberclass;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface MemberMapper {
+	//查询等级
+	List<Memberclass> selectMemberClass();
+	
+	
     int countByExample(MemberExample example);
 
     int deleteByExample(MemberExample example);
