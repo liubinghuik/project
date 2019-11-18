@@ -30,8 +30,18 @@ public class Member {
     private Date createtime;
 
     private Integer mcid;
+    
+    private Memberclass mb;
+    
+    public Memberclass getMb() {
+		return mb;
+	}
 
-    public Integer getMid() {
+	public void setMb(Memberclass mb) {
+		this.mb = mb;
+	}
+
+	public Integer getMid() {
         return mid;
     }
 
