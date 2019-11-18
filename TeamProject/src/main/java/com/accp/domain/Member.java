@@ -29,6 +29,8 @@ public class Member {
 
     private Date createtime;
 
+    private Integer mcid;
+
     public Integer getMid() {
         return mid;
     }
@@ -131,5 +133,13 @@ public class Member {
 
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
+    }
+
+    public Integer getMcid() {
+        return mcid;
+    }
+
+    public void setMcid(Integer mcid) {
+        this.mcid = mcid;
     }
 }

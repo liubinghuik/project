@@ -964,6 +964,66 @@ public class MemberExample {
             addCriterion("createtime not between", value1, value2, "createtime");
             return (Criteria) this;
         }
+
+        public Criteria andMcidIsNull() {
+            addCriterion("mcid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidIsNotNull() {
+            addCriterion("mcid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidEqualTo(Integer value) {
+            addCriterion("mcid =", value, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidNotEqualTo(Integer value) {
+            addCriterion("mcid <>", value, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidGreaterThan(Integer value) {
+            addCriterion("mcid >", value, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("mcid >=", value, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidLessThan(Integer value) {
+            addCriterion("mcid <", value, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidLessThanOrEqualTo(Integer value) {
+            addCriterion("mcid <=", value, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidIn(List<Integer> values) {
+            addCriterion("mcid in", values, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidNotIn(List<Integer> values) {
+            addCriterion("mcid not in", values, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidBetween(Integer value1, Integer value2) {
+            addCriterion("mcid between", value1, value2, "mcid");
+            return (Criteria) this;
+        }
+
+        public Criteria andMcidNotBetween(Integer value1, Integer value2) {
+            addCriterion("mcid not between", value1, value2, "mcid");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
