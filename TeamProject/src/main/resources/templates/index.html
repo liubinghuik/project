@@ -98,11 +98,11 @@
 			    <div class="col-md-3" style="text-align: right;">
 				  	<a href="account.html">
 				  		<span style="width: 38px; height: 38px;">
-				  			<img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" class="img-rounded" width="38" height="38px"/>
+				  			<img th:src="'/'+${session.user.userpic}" class="img-rounded" width="38" height="38px"/>
 				  		</span>
-				  		15678541254
+				  		<span th:text=" ${session.user.uaccount}" id="uaccount">15678541254</span>
 				  	</a>
-				  	<a href="#" style="padding-left: 10px; color: gray;">退出</a>
+				  	<a href="#" th:href="@{/user/tologout}" style="padding-left: 10px; color: gray;">退出</a>
 			  	</div>
 			</div>
 			<!--
@@ -223,7 +223,6 @@
 		</div>
 		
 		<script type="text/javascript">
-			
 			//全局变量  
 			var src;
 			//带参数函数 --店铺管理
