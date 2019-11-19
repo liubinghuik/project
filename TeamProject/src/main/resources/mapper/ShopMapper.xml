@@ -303,4 +303,9 @@
       state = #{state,jdbcType=INTEGER}
     where sid = #{sid,jdbcType=INTEGER}
   </update>
+  
+  <!-- 根据登录的账号查询对应的店铺 -->
+  <select id="selectshopByuaccount" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM shop WHERE uaccount=#{0}
+  </select>
 </mapper>

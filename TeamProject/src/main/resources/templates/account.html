@@ -1,153 +1,298 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>账户</title>
-	</head>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
-	<style type="text/css">
-		*{
-			padding: 0;
-			margin: 0;
-		}
-		body{
-			font-size: 16px;
-			font-family:"arial rounded mt bold";
-		}
-		a{
-			color: black;
-		}
-		a:hover,a:active{
-			text-decoration: none;
-		}
-		li{
-			list-style-type: none;
-		}
-		.tab{
-			border: 1px solid #e7e7eb;
-			/*width: 1250px;*/
-			height: 600px;
-			overflow: hidden;
-			margin-right: 9.4%;
-		}
-		.nav li a{
-			padding: 0;
-		}
-		.nav-stacked li{
-			border-bottom: 1px solid #e7e7eb;
-			height: 52px;
-			line-height: 52px;
-			text-align: center;
-			background-color: #F8F8F8;
-		}
-		.nav-stacked li a:hover{
-			color: #44b549;
-		}
-		.nav-stacked li.current2 a{
-			background-color: #FFFFFF;
-			border-right: 1px solid #FFFFFF;
-			color: #44B549;
-		}
-		.color{
-			color: #44b549;
-		}
-	</style>
-	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
-	
-	<body>
-		<div class="container-fluid">
-			<div class="row" style="padding-left:8%;height: 55;line-height: 55px; border-bottom: 1px solid gainsboro;margin-bottom: 20px;">
-			  	<div class="col-md-3"><img src="/images/logo.png"/></div>
-			    <div class="col-md-1"><a th:href="@{/page/account}" class="color">账户</a></div>
-			    <div class="col-md-4"><a th:href="@{/page/index}">实体店</a></div>
-			    <div class="col-md-3" style="text-align: right;">
-				  	<a href="#">
-				  		<span style="width: 38px; height: 38px;">
-				  			<img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" class="img-rounded" width="38" height="38px"/>
-				  		</span>
-				  		15678541254
-				  	</a>
-				  	<a href="#" style="padding-left: 10px; color: gray;">退出</a>
-			  	</div>
+<head>
+<meta charset="UTF-8">
+<title>账户</title>
+<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+</head>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+<style type="text/css">
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-size: 16px;
+	font-family: "arial rounded mt bold";
+}
+
+a {
+	color: black;
+}
+
+a:hover, a:active {
+	text-decoration: none;
+}
+
+li {
+	list-style-type: none;
+}
+
+.tab {
+	border: 1px solid #e7e7eb;
+	/*width: 1250px;*/
+	height: 600px;
+	overflow: hidden;
+	margin-right: 9.4%;
+}
+
+.nav li a {
+	padding: 0;
+}
+
+.nav-stacked li {
+	border-bottom: 1px solid #e7e7eb;
+	height: 52px;
+	line-height: 52px;
+	text-align: center;
+	background-color: #F8F8F8;
+}
+
+.nav-stacked li a:hover {
+	color: #44b549;
+}
+
+.nav-stacked li.current2 a {
+	background-color: #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	color: #44B549;
+}
+
+.color {
+	color: #44b549;
+}
+
+#myModal .modal-body .col-sm-2 {
+	margin-top: 7px;
+}
+
+#myModal .modal-body .col-sm-5 {
+	margin-left: -50px;
+}
+</style>
+<script src="/js/jquery-1.12.4.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+
+<body>
+	<div class="container-fluid">
+		<div class="row"
+			style="padding-left: 8%; height: 55; line-height: 55px; border-bottom: 1px solid gainsboro; margin-bottom: 20px;">
+			<div class="col-md-3">
+				<img src="/images/logo.png" />
 			</div>
-			
-			<!--
+			<div class="col-md-1">
+				<a th:href="@{/page/account}" class="color">账户</a>
+			</div>
+			<div class="col-md-4">
+				<a th:href="@{/page/index}">实体店</a>
+			</div>
+			<div class="col-md-3" style="text-align: right;">
+				<a href="#"> <span style="width: 38px; height: 38px;"> <img
+						th:src="'/'+${session.user.userpic}"
+						class="img-rounded tpxgh" width="38" height="38px"  />
+				</span> <span th:text=" ${session.user.uaccount}">15678541254</span>
+				</a> <a href="#" th:href="@{/user/tologout}"
+					style="padding-left: 10px; color: gray;">退出</a>
+			</div>
+		</div>
+
+		<!--
             	作者：offline
             	时间：2019-11-11
             	描述：账户信息
             -->
-			<div class="row tal_none" id="tab_dp" style="margin-left: 8%;">
-				<div class="tab">
-					<ul class="nav nav-pills nav-stacked" style="float:left;width: 16.7%;">
-					  <li class="shop_type current2" role="presentation"><a href="javascript:;">账户信息</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;">小票二维码</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;">帮助中心</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;">微商城收款设置</a></li>
-					  <li class="shop_type" role="presentation"><a href="javascript:;">小程序设置</a></li>
-					</ul>
-					<div style="float: left;margin-left:15px;width: 81.66%;">
-						<div class="row" style="line-height:32px;margin-bottom:10px;margin-left:5px;margin-right:15px;padding-bottom: 8px;padding-top:10px; border-bottom: 1px solid #e7e7eb;">
+		<div class="row tal_none" id="tab_dp" style="margin-left: 8%;">
+			<div class="tab">
+				<ul class="nav nav-pills nav-stacked"
+					style="float: left; width: 16.7%;">
+					<li class="shop_type current2" role="presentation"><a
+						href="javascript:;">账户信息</a></li>
+					<li class="shop_type" role="presentation"><a
+						href="javascript:;">小票二维码</a></li>
+					<li class="shop_type" role="presentation"><a
+						href="javascript:;">帮助中心</a></li>
+					<li class="shop_type" role="presentation"><a
+						href="javascript:;">微商城收款设置</a></li>
+					<li class="shop_type" role="presentation"><a
+						href="javascript:;">小程序设置</a></li>
+				</ul>
+				<div style="float: left; margin-left: 15px; width: 81.66%;">
+					<div class="row"
+						style="line-height: 32px; margin-bottom: 10px; margin-left: 5px; margin-right: 15px; padding-bottom: 8px; padding-top: 10px; border-bottom: 1px solid #e7e7eb;">
 						<span style="padding-top: 15px;">账户信息</span>
-						</div>
-						<div style="padding-top: 100px;">
-							<div style="float:left;padding-left: 180px;overflow: hidden;">
+					</div>
+					<div style="padding-top: 100px;">
+						<form class="form-horizontal" name="form" th:action="@{/user/upload}" method="post" enctype="multipart/form-data">
+							<div style="float: left; padding-left: 180px; overflow: hidden;">
 								<div style="position: relative; border: 1px solid #DDD;">
-									<div style="width: 220px;height: 220px;">
-										<img class="img img-rounded" src="/images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg" width="220px"/>
+									<div style="width: 220px; height: 220px;">
+										<img class="img img-rounded tpxgh"
+											th:src="'/'+${session.user.userpic}"
+											width="220px" />
 									</div>
-									<a href="#" style="background: none repeat scroll 0 0 #FFFFFF;bottom: 0;color:#9e9e9e;display: block;height: 32px;left: 0;line-height: 32px;position: absolute;text-align: center;width: 220px;opacity: 0.8;">
-										上传头像
-									</a>
-									<input type="file" style="display: block;width: 220px;height: 220px;opacity: 0;position: absolute;top: 0;left: 0;cursor: pointer;" />
+									<a href="#"
+										style="background: none repeat scroll 0 0 #FFFFFF; bottom: 0; color: #9e9e9e; display: block; height: 32px; left: 0; line-height: 32px; position: absolute; text-align: center; width: 220px; opacity: 0.8;">
+										上传头像 </a> <input type="file" name="file"
+										style="display: block; width: 220px; height: 220px; opacity: 0; position: absolute; top: 0; left: 0; cursor: pointer;"  id="ajaxfile"/>
 								</div>
 							</div>
-							<div style="float:left;padding-left: 70px;">
-								<p style="margin-left:18px;font-size: 18px;line-height: 42px;font-weight: 700;margin-top: -10px;">账户信息</p>
-								<form class="form-horizontal">
-								  <div class="form-group">
-								    <label for="inputEmail3" class="col-sm-3 control-label">行业:</label>
-								    <div class="col-sm-7">
-								      <input type="text" class="form-control" id="inputEmail3">
-								    </div>
-								  </div>
-								  <div class="form-group">
-								    <label for="inputPassword3" class="col-sm-3 control-label">账户:</label>
-								    <div class="col-sm-7">
-								      <input type="text" class="form-control" id="inputPassword3">
-								    </div>
-								  </div>
-								   <div class="form-group">
-								    <label for="inputPassword3" class="col-sm-3 control-label">手机:</label>
-								    <div class="col-sm-7">
-								      <input type="text" class="form-control" id="inputPassword3">
-								    </div>
-								  </div>
-								   <div class="form-group">
-								    <label for="inputPassword3" class="col-sm-3 control-label">密码:</label>
-								    <div class="col-sm-7">
-								      <input type="password" class="form-control" id="inputPassword3">
-								    </div>
-								     <button class="btn btn-success">修改</button>
-								  </div>
-								</form>
-							</div>
+						</form>
+						<div style="float: left; padding-left: 70px;">
+							<p
+								style="margin-left: 18px; font-size: 18px; line-height: 42px; font-weight: 700; margin-top: -10px;">账户信息</p>
+							<form class="form-horizontal">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-3 control-label">行业:</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="industry"
+											th:value=" ${session.user.industry}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-3 control-label">账户:</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="uaccount"
+											th:value=" ${session.user.uaccount}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-3 control-label">手机:</label>
+									<div class="col-sm-7">
+										<input type="text" class="form-control" id="phone"
+											th:value=" ${session.user.phone}">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="inputPassword3" class="col-sm-3 control-label">密码:</label>
+									<div class="col-sm-7">
+										<input type="password" class="form-control" id="upwd"
+											th:value=" ${session.user.upwd}">
+									</div>
+									<input type="button" class="btn btn-success" 
+										data-toggle="modal" data-target="#myModal" value="  修改  ">
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			
-			<div class="row" style="background: #fafafa none repeat scroll 0 0;margin-top:20px;padding: 20px 0;text-align: center;border-top:1px solid #dfdfdf;">
-				<p style="color: #5E5E5E;">Copyright © 2010-2019 POSO2O. All Rights Reserved.</p>
+
+		<div class="row"
+			style="background: #fafafa none repeat scroll 0 0; margin-top: 20px; padding: 20px 0; text-align: center; border-top: 1px solid #dfdfdf;">
+			<p style="color: #5E5E5E;">Copyright © 2010-2019 POSO2O. All
+				Rights Reserved.</p>
+		</div>
+	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">修改账户</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" style="margin-top: 30px;">
+						<label class="col-sm-2 control-label">行业</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="modalindustry"
+								th:value=" ${session.user.industry}">
+						</div>
+						<label class="col-sm-2 control-label"
+							style="margin: 7px 5px 0 -5px;">账户</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" name="modaluaccount"
+								th:value=" ${session.user.uaccount}">
+						</div>
+					</div>
+					<div class="form-group"
+						style="margin-top: 20px; display: inline-block;">
+						<label class="col-sm-2 control-label">手机</label>
+						<div class="col-sm-5" style="margin-left: -51px;">
+							<input type="text" class="form-control" style="width: 206.66px"
+								th:value=" ${session.user.phone}" name="modalphone">
+						</div>
+						<label class="col-sm-2 control-label"
+							style="margin: 7px 5px 0 -5px;">密码</label>
+						<div class="col-sm-5" style="margin: -33px 0px 0 325px;">
+							<input type="password" class="form-control" name="modalupwd"
+								style="width: 206.66px" th:value=" ${session.user.upwd}">
+							<input type="hidden" class="form-control" name="modaluid"
+								style="width: 206.66px" th:value=" ${session.user.uid}">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="margin-top: 30px;">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-success" name="qd">确定</button>
+				</div>
 			</div>
 		</div>
-		
-		<script type="text/javascript">
-			
-		</script>
-	</body>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function() {
+		//图片上传
+		$("#ajaxfile").change(function(){
+			//alert("??");
+			var formData = new FormData($("[name=form]")[0]);
+			var id = $("[name=modaluid]").val();
+			//alert(id);
+			formData.append("id",id);
+			$.ajax({
+				url:"[[@{/user/upload}]]",
+				type:"post",
+				data:formData,
+				mimeType:"multipart/form-data",
+				processData:false,
+				contentType:false,
+				success:function(res){
+					if (res != "0") {
+						alert("修改成功！");
+						$(".tpxgh").attr("src","/"+res);
+					} else if (res == "1") {
+						alert("修改失败，请重试！");
+					}
+				}
+			});
+		});
+		//修改
+		$("[name=qd]").click(function() {
+			var uu={
+					uid : $("[name=modaluid]").val(),
+					uaccount : $("[name=modaluaccount]").val(),
+					upwd : $("[name=modalupwd]").val(),
+					phone : $("[name=modalphone]").val(),
+					industry : $("[name=modalindustry]").val()
+			};
+			$.ajax({
+				url : "[[@{/user/toupdate}]]",
+				type : "put",
+				data : JSON.stringify(uu),
+				contentType : "application/json;charset=utf-8",
+				dataType : "json",
+				success : function(res) {
+					if (res == "0") {
+						$("#myModal").modal('hide');
+						location.reload();
+					} else if (res == "1") {
+						alert("修改失败，请重试！");
+						$("#myModal").modal('hide');
+						location.reload();
+					}
+				}
+			})
+		});
+	});
+</script>
 </html>
