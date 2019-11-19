@@ -25,11 +25,14 @@ public class MemberController {
 	@ResponseBody
 	public List<Member> SelectMemberInfo(/* Model model */) {
 		List<Member> list =ms.SelectMemberInfo(); 
+		for(int i=0;i<list.size();i++) {
+			list.get(i).setMb(ms.selectMemberLevel(list.get(i).getMcid()));
+		}
+		
 		return list;
-		/*
-		 * model.addAttribute("list", list); return "index";
-		 */
+		
 	}
+	
 	//2.会员等级查询
 		@RequestMapping("/selectMemberClass")
 		@ResponseBody
@@ -37,4 +40,25 @@ public class MemberController {
 			List<Memberclass> list =ms.selectMemberClass(); 
 			return list;
 		}
+	//3.会员查询，模糊查询
+	@RequestMapping("/selectAllMember")
+	@ResponseBody
+	public List<Member> selectAllMember(int vid,String mname){
+		
+		List<Member> list =ms.selectAllMember(mname);
+		
+		for(int i=0;i<list.size();i++) {
+			
+			list.get(i).setMb(ms.selectMemberLevel(list.get(i).getMcid()));
+			if(vid!=0) {
+				if(list.get(i).getMcid()!=vid) {
+					
+					list.remove(i);
+					i--;
+				}
+			}
+		}
+		 
+		return list;
+	}
 }

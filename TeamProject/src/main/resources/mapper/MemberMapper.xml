@@ -11,8 +11,17 @@
 	<select id="selectMemberClass" resultType="com.accp.domain.Memberclass">
 		SELECT * FROM memberclass
 	</select>
-
-
+	<select id="selectMemberLevel" resultType="com.accp.domain.Memberclass" parameterType="Int">
+		SELECT * FROM memberclass
+		WHERE mcid=#{mcid}
+	</select>
+	<!-- 模糊查询 -->
+	<select id="selectAllMember" resultType="com.accp.domain.Member" parameterType="String">
+		select * from member
+		where mname like '%${mname}%'
+		
+	</select>
+	
 
 
 

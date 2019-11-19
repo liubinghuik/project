@@ -3,6 +3,7 @@ package com.accp.mapper;
 import com.accp.domain.Member;
 import com.accp.domain.MemberExample;
 import com.accp.domain.Memberclass;
+import com.accp.service.MemberService;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +11,8 @@ import org.apache.ibatis.annotations.Param;
 public interface MemberMapper {
 	//查询等级
 	List<Memberclass> selectMemberClass();
-	
+	Memberclass selectMemberLevel(int id);
+	List<Member> selectAllMember(String mname);
 	
     int countByExample(MemberExample example);
 

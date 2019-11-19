@@ -21,4 +21,10 @@ public class MemberService {
 	public List<Memberclass> selectMemberClass(){
 		return mp.selectMemberClass();
 	}
+	public Memberclass selectMemberLevel(int id) {
+		return mp.selectMemberLevel(id);
+	}
+	public List<Member> selectAllMember(String mname){
+		return mp.selectAllMember(mname);
+	}
 }
