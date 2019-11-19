@@ -27,4 +27,16 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    /* 根据账号和密码查询用户表 */
+    User selectUserByaccountAndPwd(User user);
+    
+    /* 根据id查询用户表 */
+    User selectUserByuid(int id);
+
+	/* 修改账户信息 */
+    int updateUserByuidxx(User user);
+
+	/* 修改账户图片路径 */
+    int updateUserByuserpic(User user);
 }

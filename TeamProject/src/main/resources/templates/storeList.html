@@ -50,16 +50,18 @@
 									<td width="4%">操作</td>
 								</tr>
 							</thead>
-							<tbody align="center">
-								<td>1</td>
-								<td>18670802166</td>
-								<td>来米奇</td>
-								<td>2</td>
-								<td>欧思琪</td>
-								<td>18670802166</td>
-								<td></td>
-								<td></td>
-								<td data-toggle="modal" data-target="#myModal2">编辑</td>
+							<tbody align="center" id="tab">
+								<!-- <tr>
+									<td>1</td>
+									<td>18670802166</td>
+									<td>来米奇</td>
+									<td>2</td>
+									<td>欧思琪</td>
+									<td>18670802166</td>
+									<td></td>
+									<td></td>
+									<td data-toggle="modal" data-target="#myModal2">编辑</td>
+								</tr> -->
 							</tbody>
 						</table>
 					</div>
@@ -190,6 +192,30 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-		
-	</script>
+			$(function(){
+				/* page(); */
+			});
+			function page(){
+				var uaccount=$("#uaccount").val();
+				alert(uaccount);
+				$.ajax({
+					url:"[[@{/shop/toselect}]]",
+					type:"get",
+					data:{
+						uaccount:uaccount
+					},
+					dataType:"json",
+					success:function(res){
+						$("#tab").html("");
+						$.each(res,function(i,obj){
+							var $tr="<tr><td>"+(i+1)+"</td><td>"+obj.uaccount+"</td><td>"+obj.sname+
+							"</td><td>"++"</td><td>"+obj.linkman+"</td><td>"+obj.phone+"</td><td>"+obj.telephone+
+							"</td><td>"+obj.street+"</td><td data-toggle='modal' data-target='.myModal2'>编辑</td></tr>";
+							$("#tab").append($tr);
+						})
+					}
+					
+				});
+			}
+		</script>
 </html>

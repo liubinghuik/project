@@ -6,7 +6,8 @@
 </head>
 
 <link rel="stylesheet" href="/css/bootstrap.css" />
-<script type="text/javascript" src="/js/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/vue.js"></script>
 <script type="text/javascript" src="/js/axios.min.js"></script>
@@ -71,7 +72,7 @@
 									style="height: 35px; width: 150px" placeholder="验证码">
 								<div style="width: 100%; height: 30px; display: inline; float: right; margin:-30px -170px 0 100px; cursor: pointer;">
 									<img id="vimg" style="width: 50%; height: 25px;" alt="验证码"
-										title="点击切换" src="/User/GetImage">
+										title="点击切换" src="/user/GetImage">
 								</div>
 							</div>
 							<div class="col-md-4" style=""></div>
@@ -79,9 +80,9 @@
 						<div class="row" style="margin: 17px 0px;">
 							<div class="col-md-4" style=""></div>
 							<div class="col-md-2" style="font-size: 110%; text-align: left;">
-								<input type="checkbox" name="">记住密码:
+								<input type="checkbox" name="rememenber">记住密码:
 							</div>
-							<div class="col-md-2" style="font-size: 110%; text-align: right;">忘记密码？</div>
+							<!-- <div class="col-md-2" style="font-size: 110%; text-align: right;">忘记密码？</div> -->
 							<div class="col-md-4" style=""></div>
 						</div>
 						<div class="row" style="margin: 17px 0px;">
@@ -104,6 +105,81 @@
 			</div>
 </body>
 <script type="text/javascript">
+	$(function() {
+		getCookie();
+		//点击切换验证码
+		$("#vimg").on("click",function() {
+					var timestamp = (new Date()).valueOf();
+					$(this).attr("src","/user/GetImage?timestamp="+ timestamp);
+		});
+		//登录
+		$("[type=button]").click(function(){
+			var aa = $("input[type='checkbox']").is(":checked");
+			 if(aa==true){
+					setCookie();   //调用设置Cookie的方法 
+				}else if(aa==false){
+					setCookie();  //调用设置Cookie的方法    
+				}
+			var uaccount=$("[name=uaccount]").val();
+			var upwd=$("[name=upwd]").val();
+			var yzm=$("[name=yzm]").val();
+			yzm=yzm.toUpperCase();
+			$.ajax({
+				url:"[[@{/user/logins}]]",
+				type:"get",
+				data:{
+					uaccount:uaccount,
+					upwd:upwd,
+					yzm:yzm
+				},
+				dataType:"json",
+				success:function(res){
+					if(res=="0"){
+						alert("登录成功！");
+						location.href="[[@{/page/account}]]";
+					}else if(res=="1"){
+						alert("验证码不正确，请重试！");
+					}else if(res==""){
+						alert("没有此用户，请重试！");
+					}
+				}
+			});
+		}); 
+		
+	});
+	
+	function setCookie(){
+		var userName = $("[name=uaccount]").val();
+		var passWord = $("[name=upwd]").val();
+		var aa = $("input[type='checkbox']").is(":checked");//获取是否选中
+		if(aa==true){//如果选中-->记住密码登录
+			$.cookie("userName",userName.trim(),7);  //有效时间7天，也可以设置为永久，把时间去掉就好
+			$.cookie("passWord",passWord.trim(),7); 
+		}else{//如果没选中-->不记住密码登录
+			 $.cookie("passWord", "");
+			 $.cookie("userName", "");
+			alert("没有记住密码")
+		}  
+	};
+	function getCookie(){ //获取cookie    
+        var userName = $.cookie("userName"); //获取cookie中的用户名   
+        var pwd =  $.cookie("passWord"); //获取cookie中的登陆密码    
+        if(pwd && userName){//密码存在的话把“记住用户名和密码”复选框勾选住    
+           $("[name='rememenber']").attr("checked","true"); 
+           if(userName!=""){//用户名存在的话把用户名填充到用户名文本框    
+               $("[name=uaccount]").val(userName);    
+            }else{
+           	 $("[name=uaccount]").val("");
+            }
+            if(pwd!=""){//密码存在的话把密码填充到密码文本框    
+           	  $("[name=upwd]").val(pwd); 
+            }else{
+           	 $("[name=upwd]").val(""); 
+            }
+        }
+   };
+</script>
+<!-- <script type="text/javascript">
 	$(function() {
 		//点击切换验证码
 		$("#vimg").on("click",function() {
@@ -129,5 +205,5 @@
 			});
 		});
 	});
-</script>
+</script> -->
 </html>

@@ -44,8 +44,8 @@
 									<td>{{item.csid}}</td>
 									<td>{{item.csname}}</td>
 									<td>
-										<a href="javascript:;" @click="update" data-toggle="modal" data-target="#myModal">修改</a>
-										<a href="javascript:;" style="padding-left: 10px;">删除</a>
+										<a href="javascript:;" @click="update(item.csid)" data-toggle="modal" data-target="#myModal2">修改</a>
+										<a href="javascript:;" @click="del(item.csid)" style="padding-left: 10px;">删除</a>
 									</td>
 								</tr>
 							</tbody>
@@ -54,7 +54,8 @@
 				</div>
 			</div>
 			
-			<!-- 模态框（Modal） -->
+			
+			<!-- 模态框（Modal）新增 -->
 			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			    <div class="modal-dialog">
 			        <div class="modal-content">
@@ -67,18 +68,45 @@
 							  <div class="form-group">
 							    <label for="inputEmail3" class="col-sm-2 control-label">名&nbsp;称</label>
 							    <div class="col-sm-10">
-							      <input type="text" class="form-control" v-model="info.csname">
+							      <input type="text" v-model="shopType.csname" class="form-control" name="typeName">
 							    </div>
 							  </div>
 							</form>
 			            </div>
 			            <div class="modal-footer" style="text-align: center;">
 			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-			                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
+			                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="btn">确认</button>
 			            </div>
 			        </div><!-- /.modal-content -->
 			    </div><!-- /.modal -->
 			</div>
+			
+			<!-- 模态框（Modal）修改 -->
+			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
+			            </div>
+			            <div class="modal-body" style="padding:50px">
+			            	<form class="form-horizontal">
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">名&nbsp;称</label>
+							    <div class="col-sm-10">
+							      <input type="text" name="typeName" class="form-control" v-model="info.csname">
+							    </div>
+							  </div>
+							</form>
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">
+			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+			                <button type="button" class="btn btn-success" style="width: 16.66%;" @click="btn2">确认</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal -->
+			</div>
+			
 		</div>
 
 		
@@ -89,7 +117,11 @@
 				data(){
 					return{
 						list:{},
-						info:[]
+						info:[],
+						shopType:{
+							csid:"",
+							csname:""
+						}
 					};
 				},methods:{
 					//查询所有商品类别
@@ -106,19 +138,64 @@
 						});
 					},
 					//根据id查询商品
-					update:function(){
+					update:function(csid){
 						var that = this;
 						$.ajax({
 							url:"[[@{/rest/findCommoditysortById}]]",
 	 						type:"get",
-	 						data:{},
+	 						data:{csid:csid},
 	 						dataType:"json",
 	 						success:function(data){
-	 							console.info(data)
 	 							that.info = data;
 	 						}
 						});
-					}
+					},
+					//修改
+					btn2:function(){
+						var that = this;
+						var record = that.info;
+						$.ajax({
+							url:"[[@{/rest/updateByPrimaryKeySelective}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							$('#myModal2').modal('hide');
+	 							that.getAll();
+	 						}
+						});
+					},
+					//新增
+					btn:function(){
+						var that = this;
+						var record = that.shopType;
+						console.info(JSON.stringify(record))
+						$.ajax({
+							url:"[[@{/rest/insertSelective}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							$('#myModal').modal('hide');
+	 							that.getAll();
+	 						}
+						});
+					},
+					//根据id删除商品
+					del:function(csid){
+						var that = this;
+						$.ajax({
+							url:"[[@{/rest/deleteByPrimaryKey}]]",
+	 						type:"post",
+	 						data:{csid:csid},
+	 						dataType:"json",
+	 						success:function(data){
+	 							that.getAll();
+	 						}
+						});
+					},
 				},created:function(){
 	 				this.getAll();
 	 			}

@@ -106,23 +106,23 @@
 			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
 				    <label class="col-sm-2 control-label">工号</label>
 				    <div class="col-sm-5" style="margin-left: -51px;">
-				      <input type="text" class="form-control" style="width:206.66px">
+				      <input type="text" class="form-control" style="width:206.66px" id="xzgh">
 				    </div>
 				    <label class="col-sm-2 control-label" >姓名</label>
 				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
-				      <input type="password" class="form-control" style="width:206.66px">
+				      <input type="password" class="form-control" style="width:206.66px" id="xzxm">
 				    </div>
 			  	</div>
 			  	<div class="form-group" >
 				    <label class="col-sm-2 control-label"style="width:94.66px;">密码</label>
 				    <div class="col-sm-5" style="margin-left: -51px;">
-				      <input type="password" class="form-control" style="width:206.66px">
+				      <input type="password" class="form-control" style="width:206.66px" id="xzmm">
 				    </div>
 			  	</div>
 		      </div>
 		      <div class="modal-footer" style="margin-top: 40px;">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button type="button" class="btn btn-success">确定</button>
+		        <button type="button" class="btn btn-success" name="xzstaff">确定</button>
 		      </div>
 		    </div>
 		  </div>
@@ -176,6 +176,24 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+			$(function(){
+				$("[name=xzstaff]").click(function(){
+					var gh=$("#xzgh").val();
+					var xm=$("#xzxm").val();
+					var mm=#("xzmm").val();
+					$.ajax({
+						url:"[[@{/}]]",
+						type:"",
+						data:"",
+						dataType:"",
+						success:function(res){
+							
+						}
+					})
+				});
+				
+				
+			});
 			
 	</script>
 </html>

@@ -60,4 +60,46 @@ public class User {
     public void setIndustry(String industry) {
         this.industry = industry;
     }
+
+	public User() {
+		super();
+	}
+
+	public User(Integer uid, String userpic) {
+		super();
+		this.uid = uid;
+		this.userpic = userpic;
+	}
+
+	public User(Integer uid, String uaccount, String upwd, String phone, String industry) {
+		super();
+		this.uid = uid;
+		this.uaccount = uaccount;
+		this.upwd = upwd;
+		this.phone = phone;
+		this.industry = industry;
+	}
+
+	public User(Integer uid, String uaccount, String upwd, String phone, String userpic, String industry) {
+		super();
+		this.uid = uid;
+		this.uaccount = uaccount;
+		this.upwd = upwd;
+		this.phone = phone;
+		this.userpic = userpic;
+		this.industry = industry;
+	}
+
+	public User(String uaccount, String upwd) {
+		super();
+		this.uaccount = uaccount;
+		this.upwd = upwd;
+	}
+
+	@Override
+	public String toString() {
+		return "User [uid=" + uid + ", uaccount=" + uaccount + ", upwd=" + upwd + ", phone=" + phone + ", userpic="
+				+ userpic + ", industry=" + industry + "]";
+	}
+	
 }

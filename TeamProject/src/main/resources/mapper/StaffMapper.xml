@@ -11,7 +11,7 @@
     <result column="ststate" property="ststate" jdbcType="INTEGER" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
+  <!-- <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -254,5 +254,20 @@
       ststate = #{ststate,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where stid = #{stid,jdbcType=INTEGER}
+  </update> -->
+  <!-- 新增员工 -->
+  <insert id="insertstaff" parameterType="com.accp.domain.Staff">
+  	INSERT INTO staff(`sid`,`pid`,`jobnumber`,`stname`,`stpwd`,`ststate`)
+	VALUES(#{sid},#{pid},#{jobnumber},#{stname},#{stpwd},0);
+  </insert>
+ <!--  修改员工信息 -->
+  <update id="updatestaff" parameterType="com.accp.domain.Staff">
+  	update staff set sid=#{sid},pid=#{pid},jobnumber=#{jobnumber},stname=#{stname},stpwd=#{stpwd}
+	where stid=#{stid}
   </update>
+ <!--  修改员工状态，即删除员工 -->
+  <!-- <update id="updatestaff" parameterType="com.accp.domain.Staff">
+  	update staff set sid=#{sid},pid=#{pid},jobnumber=#{jobnumber},stname=#{stname},stpwd=#{stpwd}
+	where stid=#{stid}
+  </update> -->
 </mapper>
