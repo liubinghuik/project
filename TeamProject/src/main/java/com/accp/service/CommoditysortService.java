@@ -34,4 +34,31 @@ public class CommoditysortService {
 	public Commoditysort findCommoditysortById(Integer csid) {
 		return this.commoditysortMapper.selectByPrimaryKey(csid);
 	}
+	
+	/**
+	 * 根据id修改商品类别
+	 * @param csid
+	 * @return
+	 */
+	public int updateByPrimaryKeySelective(Commoditysort record) {
+		return this.commoditysortMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	/**
+	 * 新增商品类别
+	 * @param record
+	 * @return
+	 */
+	public int insertSelective(Commoditysort record) {
+		return this.commoditysortMapper.insertSelective(record);
+	}
+	
+	/**
+	 * 根据id删除商品类别
+	 * @param csid
+	 * @return
+	 */
+	public int deleteByPrimaryKey(Integer csid) {
+		return this.commoditysortMapper.deleteByPrimaryKey(csid);
+	}
 }
