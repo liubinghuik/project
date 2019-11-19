@@ -17,7 +17,7 @@
 	<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
-	<body onload="function1(),function2()">
+	<body>
 		<!--
         	作者：offline
         	时间：2019-11-12
@@ -37,7 +37,7 @@
 								</select>
 								
 								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 20.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"name="chaxun"></a>
 								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;">导出会员</button>
 								<button type="button" class="btn btn-default" style="margin-left: 5; margin-top: -4px;" data-toggle="modal" data-target="#myModal2">批量导入</button>
 								<button type="button" class="btn btn-success" style="margin-left: 5px; margin-top: -4px;" data-toggle="modal" data-target="#myModal">添加会员</button>
@@ -48,15 +48,15 @@
 						<table class="table table-bordered table-hover table-striped">
 							<thead align="center">
 								<tr class="info">
-									<td width="6%">序号</td>
-									<td width="8%">姓名</td>
-									<td width="10%">手机</td>
-									<td width="10%">等级</td>
-									<td width="9%">成交次数</td>
-									<td width="9%">成交金额</td>
-									<td width="9%">余额</td>
-									<td width="9%">积分</td>
-									<td width="9%">最近成交</td>
+									<td width="7%">序号</td>
+									<td width="9%">姓名</td>
+									<td width="11%">手机</td>
+									<td width="11%">等级</td>
+									<td width="10%">成交次数</td>
+									<td width="10%">成交金额</td>
+									<td width="10%">余额</td>
+									<td width="10%">积分</td>
+									<td width="10%">最近成交</td>
 									
 									<td>操作</td>
 								</tr>
@@ -74,7 +74,7 @@
 									<td>0</td>
 									<td>-</td>
 									<td>
-										<a href="javascript:;" data-toggle="modal" data-target="#myModal">修改</a>
+										<a href="javascript:;" data-toggle="modal" data-target="#myModal">编辑</a>
 										<a href="#" style="padding-left: 10px;">删除</a>
 									</td>
 								</tr>
@@ -189,7 +189,47 @@
 		</div>
 		<script type="text/javascript">
 		 $(function(){
-			 
+			 function1();
+			 function2();
+			 $("[name=chaxun]").click(function(){
+				 var vid=$("[name=class]").val();
+				 var name=$("[id=inputEmail3]").val();
+				 if(name==null){
+					 name="";
+				 }
+				 $.ajax({
+						url:"[[@{/member/selectAllMember}]]",
+						data:{"vid":vid,"mname":name},
+						dataType:"json",
+						type:"get",
+						success:function(result){
+							
+							$("tbody").html("");
+							$.each(result,function(i,obj){
+								var tr =$("<tr></tr>")
+								
+								tr.append("<td>"+(i+1)+"</td>");
+								
+								tr.append("<td>"+obj.mname+"</td>");
+								tr.append("<td>"+obj.mphone+"</td>");
+								
+								tr.append("<td>"+obj.mb.mcname+"</td>");
+								
+								tr.append("<td>-</td>");
+								
+								tr.append("<td>"+obj.mmoney+"</td>");
+								tr.append("<td>"+obj.mbalance+"</td>");
+								tr.append("<td>"+obj.mintegral+"</td>");
+								
+								tr.append("<td>-</td>");
+								tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal'>编辑</a></td>");
+								
+								$("tbody").append(tr);
+								
+							})
+						}
+					})
+			 })
 		 })
 		 function function1(){
 			$.ajax({
@@ -198,7 +238,24 @@
 				dataType:"json",
 				type:"get",
 				success:function(result){
-					console.info(result);
+					
+					
+					$("tbody").html("");
+					$.each(result,function(i,obj){
+						
+						var tr=$("<tr></tr>");
+						tr.append("<td>"+(i+1)+"</td>");
+						tr.append("<td>"+obj.mname+"</td>");
+						tr.append("<td>"+obj.mphone+"</td>");
+						tr.append("<td>"+obj.mb.mcname+"</td>");
+						tr.append("<td>-</td>");
+						tr.append("<td>"+obj.mmoney+"</td>");
+						tr.append("<td>"+obj.mbalance+"</td>");
+						tr.append("<td>"+obj.mintegral+"</td>");
+						tr.append("<td>-</td>");
+						tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal'>编辑</a></td>");
+						$("tbody").append(tr);
+					})
 				}
 			})
 		 }
@@ -210,6 +267,8 @@
 					type:"get",
 					success:function(result){
 						$("[name=class]").html("");
+						
+						$("[name=class]").append("<option value='0'>请选择</option>");
 						$.each(result,function(i,obj){
 							var option=$("<option value="+obj.mcid+">"+obj.mcname+"</option>");
 							$("[name=class]").append(option);
