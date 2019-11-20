@@ -21,9 +21,31 @@
 		where mname like '%${mname}%'
 		
 	</select>
-	
-
-
+	<!-- 添加等级 -->
+	<insert id="insertClass" parameterType="com.accp.domain.Memberclass">
+		INSERT INTO memberclass(`mcname`,`require`,`discount`,`mstate`)
+		VALUES(#{mcname},#{require},#{discount},0)
+	</insert>
+	<!-- 修改等级 -->
+	<update id="updateClass" parameterType="com.accp.domain.Memberclass">
+		UPDATE memberclass
+		SET mcname=#{mcname},discount=#{discount}
+		WHERE mcid=#{mcid}
+	</update>
+	<!-- 软删除等级 -->
+	<update id="deleteClass1" parameterType="Integer">
+		UPDATE memberclass
+		SET mstate=1
+		WHERE mcid=#{mcid}
+	</update>
+	<update id="updateHuiFu" parameterType="Integer">
+		UPDATE memberclass
+		SET mstate=0
+		WHERE mcid=#{mcid}
+	</update>
+	<delete id="deleteClass2" parameterType="Integer">
+		delete from memberclass where mcid=#{mcid}
+	</delete>
 
   <resultMap id="BaseResultMap" type="com.accp.domain.Member" >
     <id column="mid" property="mid" jdbcType="INTEGER" />

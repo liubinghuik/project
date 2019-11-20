@@ -3,6 +3,7 @@ package com.accp.mapper;
 import com.accp.domain.Member;
 import com.accp.domain.MemberExample;
 import com.accp.domain.Memberclass;
+
 import com.accp.service.MemberService;
 
 import java.util.List;
@@ -13,6 +14,16 @@ public interface MemberMapper {
 	List<Memberclass> selectMemberClass();
 	Memberclass selectMemberLevel(int id);
 	List<Member> selectAllMember(String mname);
+	//添加等级
+	int insertClass(Memberclass mb);
+	//修改等级
+	int updateClass(Memberclass mb);
+	//软删除等级
+	int deleteClass1(Integer id);
+	//硬删除等级
+	int deleteClass2(Integer id);
+	//恢复删除的会员等级
+	int updateHuiFu(Integer id);
 	
     int countByExample(MemberExample example);
 

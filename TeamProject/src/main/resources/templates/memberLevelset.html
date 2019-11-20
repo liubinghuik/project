@@ -70,8 +70,8 @@
 		            <div class="modal-body">
 		            	<div class="row"style="margin:20px 0px;">
 		            		<div class="row"style="margin:20px 0px;text-align: center;">
-			            		<div class="col-md-5"style="display:inline-block;border:0px solid red">等级名称<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
-			            		<div class="col-md-5"style="display:inline-block;:0px solid red">折扣优惠<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"value="70.00"></div>
+			            		<div class="col-md-5"style="display:inline-block;border:0px solid red">等级名称<input class="form-control" type="text"name="levelname"style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
+			            		<div class="col-md-5"style="display:inline-block;:0px solid red">折扣优惠<input class="form-control" type="text" name="levelzk"style="display:inline-block;margin-left:8px;height:36px;width:210px;" placeholder="0.7"></div>
 			            	</div>
 		            	</div>
 		            	
@@ -85,7 +85,7 @@
 		            			</div>
 		            			<div class="row" style="padding:10px 0px;">
 		            				<div class="col-md-12">
-		            					1、当会员消费达到<input type="text"name=""style="height:32px;width:70px;margin:0px 4px;color:red">元时，自动升级到该等级
+		            					1、当会员消费达到<input type="text"name="levelmoney"style="height:32px;width:70px;margin:0px 4px;color:red" placeholder="1000">元时，自动升级到该等级
 		            				</div>
 		            			</div>
 		            			<div class="row" style="padding:10px 0px;">
@@ -101,7 +101,7 @@
 		            </div>
 		            <div class="modal-footer"style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
-		                <button type="button" class="btn btn-primary"style="width:90px">确定</button>
+		                <button type="button" class="btn btn-primary"style="width:90px"onclick="zeng()">确定</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
@@ -118,13 +118,14 @@
 		            </div>
 		            <div class="modal-body">
 		            	<div class="row"style="margin:20px 0px;text-align: center;">
-		            		<div class="col-md-5"style="display:inline-block;border:0px solid red">等级名称<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
-		            		<div class="col-md-5"style="display:inline-block;:0px solid red">折扣优惠<input class="form-control" type="text"name=""style="display:inline-block;margin-left:8px;height:36px;width:210px;"value="70.00"></div>
+		            		<input type="hidden"name="djid"/>
+		            		<div class="col-md-5"style="display:inline-block;border:0px solid red">等级名称<input class="form-control" type="text"name="djname"style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
+		            		<div class="col-md-5"style="display:inline-block;:0px solid red">折扣优惠<input class="form-control" type="text"name="djzk"style="display:inline-block;margin-left:8px;height:36px;width:210px;"></div>
 		            	</div>
 		            </div>
 		            <div class="modal-footer"style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
-		                <button type="button" class="btn btn-primary"style="width:90px">确定</button>
+		                <button type="button" class="btn btn-primary"style="width:90px"onclick="xiu()">确定</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
@@ -135,25 +136,145 @@
 		 function2();
 	 })
 	  function function2(){
-				$.ajax({
-					url:"[[@{/member/selectMemberClass}]]",
-					data:"",
-					dataType:"json",
-					type:"get",
-					success:function(result){
-						$("[name=levelset]").html("");
-						$.each(result,function(i,obj){
-							var tr=$("<tr></tr>");
-							tr.append("<td>"+obj.mcid+"</td>");
-							tr.append("<td>"+obj.mcname+"</td>");
-							tr.append("<td>"+obj.discount+"</td>");
-							tr.append("<td>"+obj.require+"</td>");
-							tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal2'>修改</a><a href='#' style='padding-left: 10px;'>删除</a></td>");
-							$("[name=levelset]").append(tr);
-						})
-						
+		$.ajax({
+			url:"[[@{/member/selectMemberClass}]]",
+			data:"",
+			dataType:"json",
+			type:"get",
+			success:function(result){
+				$("[name=levelset]").html("");
+				$.each(result,function(i,obj){
+					if(obj.mstate==1){
+						var tr=$("<tr style='background:rgba(255,0,0,0.2)'></tr>");
+						tr.append("<td>"+obj.mcid+"</td>");
+						tr.append("<td>"+obj.mcname+"</td>");
+						tr.append("<td>"+obj.discount+"</td>");
+						tr.append("<td>"+obj.require+"</td>");
+						tr.append("<td><a href='#' style='padding-left: 10px;' onclick='huifu("+obj.mcid+")'>恢复</a><a href='#' style='padding-left: 10px;' onclick='shan2("+obj.mcid+")'>彻底移除</a></td>");
+						$("[name=levelset]").append(tr);
+					}else{
+						var tr=$("<tr></tr>");
+						tr.append("<td>"+obj.mcid+"</td>");
+						tr.append("<td>"+obj.mcname+"</td>");
+						tr.append("<td>"+obj.discount+"</td>");
+						tr.append("<td>"+obj.require+"</td>");
+						tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal2'onclick='bz("+obj.mcid+",\""+obj.mcname+"\","+obj.discount+")'>修改</a><a href='#' style='padding-left: 10px;' onclick='shan("+obj.mcid+")'>删除</a></td>");
+						$("[name=levelset]").append(tr);
 					}
+					
 				})
+				
+			}
+		})
+	}
+	 function bz(a,b,c){
+		$("[name=djid]").val(a);
+		$("[name=djname]").val(b);
+		$("[name=djzk]").val(c);
+	 }
+	  function zeng(){
+		 var mb={
+				 mcid:1,
+				 mcname:$("[name=levelname]").val(),
+				 discount:$("[name=levelzk]").val(),
+				 require:$("[name=levelmoney]").val(),
+				 mstate:0
+		 }
+		 
+		 
+		 $.ajax({
+				url:"[[@{/member/insertClass}]]",
+				data:JSON.stringify(mb),
+				dataType:"json",
+				type:"post",
+				contentType : 'application/json;charset=UTF-8',
+				success:function(result){
+					if(result>=1){
+						alert("新增会员等级"+$("[name=levelname]").val()+"成功!");
+					}else{
+						alert("新增会员等级失败!")
+					}
+					function2();
+				}
+			}) 
+	 } 
+	  function xiu(){
+			 var mb={
+					 mcid:$("[name=djid]").val(),
+					 mcname:$("[name=djname]").val(),
+					 discount:$("[name=djzk]").val(),
+					 require:"",
+					 mstate:0
 			 }
+			 
+			 
+			 $.ajax({
+					url:"[[@{/member/updateClass}]]",
+					data:JSON.stringify(mb),
+					dataType:"json",
+					type:"post",
+					contentType : 'application/json;charset=UTF-8',
+					success:function(result){
+						if(result>=1){
+							alert("修改会员等级"+$("[name=levelname]").val()+"成功!");
+						}else{
+							alert("修改会员等级失败!")
+						}
+						function2();
+					}
+				}) 
+		 } 
+	  function shan(id){
+			
+			 $.ajax({
+					url:"[[@{/member/deleteClass1}]]",
+					data:{"id":id},
+					dataType:"json",
+					type:"post",
+					
+					success:function(result){
+						if(result>=1){
+							alert("删除会员等级成功!");
+						}else{
+							alert("删除会员等级失败!")
+						}
+						function2();
+					}
+				}) 
+		 } 
+	  function shan2(id){
+			
+			 $.ajax({
+					url:"[[@{/member/deleteClass2}]]",
+					data:{"id":id},
+					dataType:"json",
+					type:"post",
+					success:function(result){
+						if(result>=1){
+							alert("彻底移除会员等级成功!");
+						}else{
+							alert("彻底移除会员等级失败!")
+						}
+						function2();
+					}
+				}) 
+	 } 
+	  function huifu(id){
+			
+			 $.ajax({
+					url:"[[@{/member/updateHuiFu}]]",
+					data:{"id":id},
+					dataType:"json",
+					type:"post",
+					success:function(result){
+						if(result>=1){
+							alert("恢复成功!");
+						}else{
+							alert("恢复失败!")
+						}
+						function2();
+					}
+				}) 
+	 } 
 	</script>
 </html>
