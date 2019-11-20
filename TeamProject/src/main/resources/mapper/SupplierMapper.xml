@@ -78,16 +78,16 @@
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.SupplierExample" >
     select
-    <if test="distinct" >
-      distinct
-    </if>
     <include refid="Base_Column_List" />
-    from supplier
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
+    from supplier where 1 = 1
+    <if test="company!='' and company != null">
+    	and company like '%${company}%'
     </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
+    <if test="provincename!='' and provincename != null">
+    	and provincename = #{provincename}
+    </if>
+     <if test="cityname!='' and cityname != null">
+    	and cityname = #{cityname}
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

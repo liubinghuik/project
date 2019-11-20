@@ -103,6 +103,8 @@
 						Rights Reserved.</p>
 				</div>
 			</div>
+		</div>
+	</div>
 </body>
 <script type="text/javascript">
 	$(function() {
@@ -115,14 +117,14 @@
 		//登录
 		$("[type=button]").click(function(){
 			var aa = $("input[type='checkbox']").is(":checked");
-			 if(aa==true){
-					setCookie();   //调用设置Cookie的方法 
-				}else if(aa==false){
-					setCookie();  //调用设置Cookie的方法    
-				}
+			if(aa==true){
+				setCookie();   //调用设置Cookie的方法 
+			}else if(aa==false){
+				setCookie();  //调用设置Cookie的方法    
+			}
 			var uaccount=$("[name=uaccount]").val();
 			var upwd=$("[name=upwd]").val();
-			var yzm=$("[name=yzm]").val();
+			var yzm=$("[name=yzm]").val();			
 			yzm=yzm.toUpperCase();
 			$.ajax({
 				url:"[[@{/user/logins}]]",
@@ -134,6 +136,7 @@
 				},
 				dataType:"json",
 				success:function(res){
+					console.info(res)
 					if(res=="0"){
 						alert("登录成功！");
 						location.href="[[@{/page/account}]]";

@@ -16,7 +16,7 @@ public interface SupplierMapper {
 
     int insertSelective(Supplier record);
 
-    List<Supplier> selectByExample(SupplierExample example);
+    List<Supplier> selectByExample(String company,String provincename,String cityname,SupplierExample example);
 
     Supplier selectByPrimaryKey(Integer suid);
 

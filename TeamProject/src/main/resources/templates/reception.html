@@ -206,7 +206,7 @@
         // 抓取常用商品
         axios.get('/json/hotGoods.json')
         .then(response=>{
-          console.log(response);
+         /*  console.log(response); */
           this.oftenGoods=response.data;
 
         })
@@ -218,7 +218,7 @@
         // 抓取商品分类
         axios.get('/json/inGoods.json')
         .then(response=>{
-          console.log(response);
+         /*  console.log(response); */
           // this.oftenGoods=response.data;
           this.type0Goods=response.data[0];
           this.type1Goods=response.data[1];

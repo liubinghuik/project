@@ -40,7 +40,7 @@
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr v-for="item in list">
+								<tr v-for="item in page.list">
 									<td>{{item.csid}}</td>
 									<td>{{item.csname}}</td>
 									<td>
@@ -50,6 +50,25 @@
 								</tr>
 							</tbody>
 						</table>
+						<nav style="text-align: center;">
+						  <ul class="pagination">
+						    <li>
+						      <a href="javascript:;" aria-label="Previous" @click="prePage">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li>
+						    	<a href="javascript:;" id="pageNum">1</a>
+						    	<span>/</span>
+						    	<a href="javascript:;" id="pages">5</a>
+						    	</li>
+						    <li>
+						      <a href="javascript:;" aria-label="Next" @click="nextPage">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</nav>
 					</div>
 				</div>
 			</div>
@@ -116,7 +135,9 @@
 				el:"#shopType",
 				data(){
 					return{
-						list:{},
+						page:{
+							list:[]
+						},
 						info:[],
 						shopType:{
 							csid:"",
@@ -124,16 +145,34 @@
 						}
 					};
 				},methods:{
+					//上一页
+					prePage:function(){
+						if(this.page.prePage == 1){
+							this.goPage(this.page.prePage);
+						}
+						
+					},
+					//下一页
+					nextPage:function(){
+						if(this.page.nextPage != this.page.pages){
+							return;
+						}else{
+							this.goPage(this.page.nextPage);
+						}
+					},
 					//查询所有商品类别
-					getAll:function(){
+					goPage:function(currentPage){
 						var that = this;
 						$.ajax({
-							url:"[[@{/rest/getAll}]]",
+							url:"[[@{/rest/commoditysort/getAll}]]",
 	 						type:"get",
-	 						data:{},
+	 						data:{currentPage:currentPage,pageSize:10},
 	 						dataType:"json",
 	 						success:function(data){
-	 							that.list = data;
+	 							console.info(data)
+	 							$("#pageNum").html(data.pageNum)
+	 							$("#pages").html(data.pages);
+	 							that.page = data;
 	 						}
 						});
 					},
@@ -141,7 +180,7 @@
 					update:function(csid){
 						var that = this;
 						$.ajax({
-							url:"[[@{/rest/findCommoditysortById}]]",
+							url:"[[@{/rest/commoditysort/findCommoditysortById}]]",
 	 						type:"get",
 	 						data:{csid:csid},
 	 						dataType:"json",
@@ -155,14 +194,14 @@
 						var that = this;
 						var record = that.info;
 						$.ajax({
-							url:"[[@{/rest/updateByPrimaryKeySelective}]]",
+							url:"[[@{/rest/commoditysort/updateByPrimaryKeySelective}]]",
 	 						type:"post",
 	 						data:JSON.stringify(record),
 	 						dataType:"json",
 	 						contentType:"application/json;charset=utf-8",
 	 						success:function(data){
 	 							$('#myModal2').modal('hide');
-	 							that.getAll();
+	 							that.goPage(1);
 	 						}
 						});
 					},
@@ -172,14 +211,14 @@
 						var record = that.shopType;
 						console.info(JSON.stringify(record))
 						$.ajax({
-							url:"[[@{/rest/insertSelective}]]",
+							url:"[[@{/rest/commoditysort/insertSelective}]]",
 	 						type:"post",
 	 						data:JSON.stringify(record),
 	 						dataType:"json",
 	 						contentType:"application/json;charset=utf-8",
 	 						success:function(data){
 	 							$('#myModal').modal('hide');
-	 							that.getAll();
+	 							that.goPage(1);
 	 						}
 						});
 					},
@@ -187,17 +226,17 @@
 					del:function(csid){
 						var that = this;
 						$.ajax({
-							url:"[[@{/rest/deleteByPrimaryKey}]]",
+							url:"[[@{/rest/commoditysort/deleteByPrimaryKey}]]",
 	 						type:"post",
 	 						data:{csid:csid},
 	 						dataType:"json",
 	 						success:function(data){
-	 							that.getAll();
+	 							that.goPage(1);
 	 						}
 						});
 					},
 				},created:function(){
-	 				this.getAll();
+	 				this.goPage(1);
 	 			}
 			});
 		</script>

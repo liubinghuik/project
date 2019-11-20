@@ -1,7 +1,5 @@
 package com.accp.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +12,10 @@ import com.accp.domain.Commoditysort;
 import com.accp.domain.CommoditysortExample;
 import com.accp.service.CommoditysortService;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 @Controller
-@RequestMapping("/rest")
+@RequestMapping("/rest/commoditysort")
 public class CommoditysortController {
 
 	@Autowired
@@ -29,8 +28,8 @@ public class CommoditysortController {
 	 */
 	@GetMapping("getAll")
 	@ResponseBody
-	public List<Commoditysort> getAll(CommoditysortExample example){
-		return this.commoditysortService.getAll(null);
+	public PageInfo<Commoditysort> getAll(Integer currentPage,Integer pageSize,CommoditysortExample example){
+		return this.commoditysortService.getAll(currentPage,pageSize,null);
 	}
 	
 	/**

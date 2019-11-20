@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.accp.domain.Commoditysort;
 import com.accp.domain.CommoditysortExample;
 import com.accp.mapper.CommoditysortMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 @Transactional
@@ -22,8 +24,11 @@ public class CommoditysortService {
 	 * @param example
 	 * @return
 	 */
-	public List<Commoditysort> getAll(CommoditysortExample example){
-		return this.commoditysortMapper.selectByExample(null);
+	public PageInfo<Commoditysort> getAll(Integer currentPage,Integer pageSize,CommoditysortExample example){
+		PageHelper.startPage(currentPage, pageSize);
+		List<Commoditysort> list = this.commoditysortMapper.selectByExample(null);
+		PageInfo<Commoditysort> page = new PageInfo<Commoditysort>(list);
+		return page;
 	}
 	
 	/**

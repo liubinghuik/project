@@ -23,7 +23,7 @@
         	时间：2019-11-12
         	描述：供应商
         -->
-		<div class="col-md-10" style="width: 100%;">
+		<div class="col-md-10" style="width: 100%;" id="supplier">
 			<div class="row">
 				<div id="tab_yggl" class="tal_none2">
 					<div class="row" style="line-height:38px;margin-bottom:10px;margin-left: 5px;margin-right:15px;padding-top:8px;border-bottom: 1px solid #e7e7eb;">
@@ -31,17 +31,13 @@
 						<div style="float: right;width: 80%;text-align: right;">
 							<form action="" method="post">
 								<label style="font-weight: normal;padding-right: 10px;">地&nbsp;&nbsp;&nbsp;区</label>
-								<select class="form-control" style="width: 20.66%; display: inline-block;">
-								  <option>请选择省份</option>
-								  <option>北京</option>
-								</select>
-								-
-								<select class="form-control" style="width: 20.66%; display: inline-block;">
-								  <option>请选择城市</option>
-								</select>
-								
-								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<div data-toggle="distpicker" style="display: inline-block;">
+									<select name="provincename" v-model="supplier.provincename" class="form-control" style="width: 48%; display: inline-block;" id="province3" data-province="浙江省"></select>
+									-
+									<select name="cityname" v-model="supplier.cityname" class="form-control" style="width: 48%; display: inline-block;" id="city3" data-city="杭州市"></select>
+								</div>
+								<input type="text" name="company" v-model="supplier.company" class="form-control" placeholder="查找" style="width: 24.50%; display: inline-block;">
+								<a href="javascript:;" id="find" @click="find" class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
 								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" data-toggle="modal" data-target="#myModal">添加供应商</button>
 							</form>
 						</div>
@@ -57,111 +53,322 @@
 									<td width="8%">数据</td>
 									<td width="8%">电话</td>
 									<td width="10%">邮箱</td>
-									<td width="10%">地区</td>
+									<td width="15%">地区</td>
 									<td width="8%">操作</td>
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr>
-									<td>1</td>
-									<td>阿里</td>
-									<td>阿里巴巴</td>
-									<td>莱米琪</td>
-									<td>-</td>
-									<td>18670802166</td>
-									<td>-</td>
-									<td>-</td>
+								<tr v-for="item in page.list">
+									<td>{{item.suid}}</td>
+									<td>{{item.suname}}</td>
+									<td>{{item.company}}</td>
+									<td>{{item.linkman}}</td>
+									<td>{{item.phone}}</td>
+									<td>{{item.telephone}}</td>
+									<td>{{item.email}}</td>
+									<td>{{item.provincename}}-{{item.cityname}}-{{item.regionname}}</td>
 									<td>
-										<a href="javascript:;" data-toggle="modal" data-target="#myModal">修改</a>
+										<a href="javascript:;" @click="update(item.suid)" data-toggle="modal" data-target="#myModal2">修改</a>
 										<a href="#" style="padding-left: 10px;">删除</a>
 									</td>
 								</tr>		
 							</tbody>
 						</table>
+						<nav style="text-align: center;">
+						  <ul class="pagination">
+						    <li>
+						      <a href="javascript:;" aria-label="Previous" @click="prePage">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li>
+						    	<a href="javascript:;" id="pageNum">1</a>
+						    	<span>/</span>
+						    	<a href="javascript:;" id="pages">5</a>
+						    	</li>
+						    <li>
+						      <a href="javascript:;" aria-label="Next" @click="nextPage">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</nav>
 					</div>
 				</div>
 			</div>
-		</div>
-		
-		<!-- 模态框（Modal） -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    <div style="width: 76.66%;"  class="modal-dialog">
-		        <div class="modal-content">
-		            <div class="modal-header">
-		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		                <h4 class="modal-title" id="myModalLabel">添加供应商</h4>
-		            </div>
-		            <div class="modal-body" style="padding:50px">
-		            	<form class="form-horizontal">
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
-						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
-						    </div>
-						    
-						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>公司简称</label>
-						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
-						    </div>
-						  </div>
-						  
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;&nbsp;系  人</label>
-						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
-						    </div>
-						    
-						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
-						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
-						    </div>
-						  </div>
-						  
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
-						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
-						    </div>
-						    
-						     <label for="inputEmail3" class="col-sm-2 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
-						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
-						    </div>
-						  </div>
-						  
-						   <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
-						    <div class="col-sm-10">
-						      <select style="width: 25%;display: inline-block;" name="check" class="form-control">
-						      	<option value="">请选择省份</option>
-						      </select>
-						      -
-						      <select style="width: 25%;display: inline-block;"  name="check" class="form-control">
-						      	<option value="">请选择城市</option>
-						      </select>
-						      -
-						      <select style="width: 25%;display: inline-block;"  name="check" class="form-control">
-						      	<option value="">请选择地区</option>
-						      </select>
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
-						    <div class="col-sm-8">
-						      <input type="text" class="form-control">
-						    </div>
-						  </div>
-						</form>
-		            </div>
-		            <div class="modal-footer" style="text-align: center;">
-		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-		                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
-		            </div>
-		        </div><!-- /.modal-content -->
-		    </div><!-- /.modal -->
-		</div>
-		<script type="text/javascript">
 			
+			<!-- 模态框（Modal）添加 -->
+			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div style="width: 76.66%;" class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                <h4 class="modal-title" id="myModalLabel">添加供应商</h4>
+			            </div>
+			            <div class="modal-body" style="padding:50px">
+			            	<form class="form-horizontal">
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control">
+							    </div>
+							    
+							     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>公司简称</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control">
+							    </div>
+							  </div>
+							  
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;&nbsp;系  人</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control">
+							    </div>
+							    
+							     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control">
+							    </div>
+							  </div>
+							  
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control">
+							    </div>
+							    
+							     <label for="inputEmail3" class="col-sm-2 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control">
+							    </div>
+							  </div>
+							  
+							   <div class="form-group">
+							   <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+							    <div class="col-sm-10">
+							      	<div data-toggle="distpicker">
+							          	<select style="display:inline-block;width: 25.90%;" class="form-control" id="province3" data-province="浙江省"></select>						        
+								         
+								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="city3" data-city="杭州市"></select>
+								      						        
+								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="district3" data-district="西湖区"></select>
+							    	</div>
+							    </div>
+							  </div>
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
+							    <div class="col-sm-8">
+							      <input type="text" class="form-control">
+							    </div>
+							  </div>
+							</form>
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">
+			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+			                <button type="button" class="btn btn-success" style="width: 16.66%;" id="btn2">确认</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal -->
+			</div>
+		
+		
+			<!-- 模态框（Modal）修改 -->
+			<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			    <div style="width: 76.66%;" class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			                <h4 class="modal-title" id="myModalLabel">编辑供应商</h4>
+			            </div>
+			            <div class="modal-body" style="padding:50px">
+			            	<form class="form-horizontal">
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">公司名称</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control" v-model="info.company">
+							    </div>
+							    
+							     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>公司简称</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control" v-model="info.suname">
+							    </div>
+							  </div>
+							  
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">联&nbsp;&nbsp;系  人</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control" v-model="info.linkman">
+							    </div>
+							    
+							     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control" v-model="info.phone">
+							    </div>
+							  </div>
+							  
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control" v-model="info.email">
+							    </div>
+							    
+							     <label for="inputEmail3" class="col-sm-2 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+							    <div class="col-sm-4">
+							      <input type="text" class="form-control" v-model="info.telephone">
+							    </div>
+							  </div>
+							  
+							   <div class="form-group">
+							   <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+							    <div class="col-sm-10">
+							      	<div data-toggle="distpicker">
+							          	<select style="display:inline-block;width: 25.90%;" class="form-control" id="province3" data-province="浙江省"></select>						        
+								         
+								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="city3" data-city="杭州市"></select>
+								      						        
+								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="district3" data-district="西湖区"></select>
+							    	</div>
+							    </div>
+							  </div>
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
+							    <div class="col-sm-8">
+							      <input type="text" class="form-control" v-model="info.street" >
+							    </div>
+							  </div>
+							</form>
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">
+			                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+			                <button type="button" class="btn btn-success" style="width: 16.66%;" id="btn2">确认</button>
+			            </div>
+			        </div><!-- /.modal-content -->
+			    </div><!-- /.modal -->
+			</div>
+		</div>
+		<script src="/js/distpicker.data.js"></script>
+		<script src="/js/distpicker.js"></script>
+		<script src="/js/main.js"></script>
+
+		<script type="text/javascript">
+			axios.default.withCredentials = true;
+			var vue = new Vue({
+				el:"#supplier",
+				data(){
+					return{
+						page:{
+							list:[]
+						},
+						info:[],
+						supplier:{
+							company:"",
+							provincename:"",
+							cityname:""
+						}
+					};
+				},methods:{
+					//上一页
+					prePage:function(){
+						if(this.page.prePage == 1){
+							this.goPage(this.page.prePage);
+						}
+					},
+					//下一页
+					nextPage:function(){
+						if(this.page.nextPage != this.page.pages){
+							return;
+						}else{
+							this.goPage(this.page.nextPage);
+						}
+					},
+					//查询所有供应商
+					goPage:function(currentPage){
+						var that = this;
+						var company = that.supplier.company;
+						var provincename = that.supplier.provincename;
+						var cityname = that.supplier.cityname;
+						//alert(provincename + "==" + cityname)
+						$.ajax({
+							url:"[[@{/rest/supplier/getAll}]]",
+	 						type:"get",
+	 						data:{currentPage:currentPage,pageSize:10,company,provincename,cityname},
+	 						dataType:"json",
+	 						success:function(data){
+	 							console.info(data)
+	 							$("#pageNum").html(data.pageNum)
+	 							$("#pages").html(data.pages);
+	 							that.page = data;
+	 						}
+						});
+					},
+					//根据id查询商品
+					update:function(suid){
+						var that = this;
+						$.ajax({
+							url:"[[@{/rest/supplier/findSupplierById}]]",
+	 						type:"get",
+	 						data:{suid:suid},
+	 						dataType:"json",
+	 						success:function(data){
+	 							console.info(data)
+	 							that.info = data;
+	 						}
+						});
+					},
+					//根据省份/城市/公司名称模糊查询
+					find:function(){
+						this.goPage(1)
+					},
+					//根据id修改供应商信息
+					btn2:function(){
+						var that = this;
+						var record = that.info;
+						$.ajax({
+							url:"[[@{/rest/updateByPrimaryKeySelective}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							$('#myModal2').modal('hide');
+	 							that.getAll();
+	 						}
+						});
+					},
+					//新增
+					btn:function(){
+						var that = this;
+						var record = that.shopType;
+						console.info(JSON.stringify(record))
+						$.ajax({
+							url:"[[@{/rest/insertSelective}]]",
+	 						type:"post",
+	 						data:JSON.stringify(record),
+	 						dataType:"json",
+	 						contentType:"application/json;charset=utf-8",
+	 						success:function(data){
+	 							$('#myModal').modal('hide');
+	 							that.getAll();
+	 						}
+						});
+					},
+					//根据id删除商品
+					del:function(csid){
+						var that = this;
+						$.ajax({
+							url:"[[@{/rest/deleteByPrimaryKey}]]",
+	 						type:"post",
+	 						data:{csid:csid},
+	 						dataType:"json",
+	 						success:function(data){
+	 							that.getAll();
+	 						}
+						});
+					},
+				},created:function(){
+	 				this.goPage(1);
+	 			}
+			});
 		</script>
 	</body>
 </html>
