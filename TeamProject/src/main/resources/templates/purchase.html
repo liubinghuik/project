@@ -5,15 +5,30 @@
 		<title>采购单</title>
 	</head>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/all.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" >
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-table.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reset.css">
 	<style type="text/css">
 		*{
 			padding: 0;
 			margin: 0;
 		}
-		
+		a:hover{
+			text-decoration: none;
+		}
+		.examineTd {
+		    padding-left: 20px;
+		    background: url(http://www.poso2o.com/EntityStore/style/img/edit_16_16.gif) no-repeat 0 1.5px;
+		    color:#000; 
+		}
 	</style>
+	<script src="/js/jQuery-2.2.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/bootstrap-table.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/bootstrap-table-zh-CN.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
@@ -30,22 +45,22 @@
 						<div style="padding-left: 0;float: left;">采购单</div>
 						<div style="float: right;text-align: right;">
 							<form action="" method="post">
-								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">					
+								<input type="date" name="startDate" class="form-control" id="inputEmail3" style="width: 20.55%; display: inline-block;">					
 								至
-								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">
-								<select class="form-control" style="width: 20.66%; display: inline-block;">
+								<input type="date" name="endDate" class="form-control" id="inputEmail3" style="width: 20.55%; display: inline-block;">
+								<select class="form-control" style="width: 18.66%; display: inline-block;">
 								  <option>全部店铺</option>
 								</select>
 								
-								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<input type="text" class="form-control" id="inputEmail3" name="suname" placeholder="查找" style="width: 22.50%; display: inline-block;">
+								<a href="javascript:;" id="find" class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
 								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" th:onclick="goToPage2('/page/addPuchase')">新建采购单</button>
 							</form>
 						</div>
 					</div>
 					<div class="row" style="margin-right: 15px;margin-left:5px;">
-						<table class="table table-bordered table-hover table-striped">
-							<thead align="center">
+						<table id="table" class="table table-bordered table-hover table-striped">
+							<!-- <thead align="center">
 								<tr class="info">
 									<td width="4%">序号</td>
 									<td width="5%">审核</td>
@@ -59,21 +74,8 @@
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr>
-									<td>1</td>
-									<td>阿里</td>
-									<td>阿里巴巴</td>
-									<td>莱米琪</td>
-									<td>-</td>
-									<td>2</td>
-									<td>-</td>
-									<td>-</td>
-									<td>
-										<a href="#">修改</a>
-										<a href="#" style="padding-left: 10px;">删除</a>
-									</td>
-								</tr>
-							</tbody>
+								
+							</tbody> -->
 						</table>
 					</div>
 				</div>
@@ -83,6 +85,124 @@
 			//带参数函数--商品管理 
 			function goToPage2(param){ 
 				window.parent.goToPage2(param);
+			}
+			
+			$(function(){
+				load();
+				
+				$("#find").on("click",function(){
+					$("#table").bootstrapTable('destroy');
+					load();
+				})
+			});
+			
+			function load(){
+				 $('#table').bootstrapTable({
+			        method: "get",
+			        striped: true,
+			        singleSelect: false,			/* $("#startDate").val()   $("#endDate").val()    $("#endDate").val()==""?null:$("#startDate").val()     $("#startDate").val()==""?null:$("#startDate").val()*/
+			        url: `/rest/purchase/getAll/${$("[name='startDate']").val()==""?null:$("[name='startDate']").val()}/${$("[name='endDate']").val()==""?null:$("[name='endDate']").val()}/${$("[name='suname']").val()==""?null:$("[name='suname']").val()}`,
+			        dataType: "json",				//josn格式 
+			        pagination: true,				//是否启用分页
+			        sidePagination : 'client',		//service:服务器分页|client:前端分页
+			        sortable: false, 				//是否启用排序 
+			        sortOrder: "asc",				//排序方式 
+			        pageNumber: 1,					//初始化加载第一页，默认第一页
+			        pageSize: 10,					//每页的记录行数  
+			        pageList: [2, 4, 6, 8],			//可供选择的每页的行数
+			        search: false, 					//显示搜索框
+			        showRefresh: false,				//刷新按钮
+			        contentType: "application/x-www-form-urlencoded",	//必须要有!
+			        queryParams: null,
+			        columns: [
+			            {
+			                title: "序号",
+			                field: 'puid',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '审核人',
+			                field: 'auditstate',
+			                align: 'center',
+			                valign: 'middle',
+			                formatter: function (value, row) {
+			                	if(row.auditstate == "0"){
+			                		return "<a href='javascript:;' class='examineTd'>待审核</a>"
+			                	}
+			                	else if(row.auditstate == "1"){
+			                		return "通过"
+			                	}
+			                	else{
+			                		return "未通过"
+			                	}
+			                }
+			            },
+			            {
+			                title: '采购单号',
+			                field: 'odd',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '交货期',
+			                field: 'deliverydate',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '供应商',
+			                field: 'suname',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '数量',
+			                field: 'amount',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '金额',
+			                field: 'moeny',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '备注',
+			                field: 'remark',
+			                align: 'center',
+			                valign: 'middle'
+			            },
+			            {
+			                title: '操作',
+			                field: 'auditstate',
+			                align: 'center',
+			                valign: 'middle',
+			                formatter: function (value, row) {
+			                	if(row.auditstate == "0"){
+			                		var e ='<a href=\"javascript:void(0)\" title="修改" onclick="ReimburseDetail('+value+')"><img src="/images/edit.gif" width=\"16\" height=\"16\"></a>'+
+			                				'<a href=\"javascript:void(0)\" title="查看详情" onclick="ReimburseDetail('+value+')"><img src="/images/search.gif" width=\"16\" height=\"16\"></a>'+
+		                					'<a href=\"javascript:void(0)\" title="删除" onclick="remove('+value+')"><img src="/images/delete.gif" width=\"16\" height=\"16\"></a>';
+	                    			return e ;
+			                	} else if(row.auditstate == "1"){
+			                		var e ='<a href=\"javascript:void(0)\" title="查看详情" onclick="ReimburseDetail('+value+')"><img src="/images/search.gif" width=\"16\" height=\"16\"></a>'+
+                							'<a href=\"javascript:void(0)\" title="删除" onclick="remove('+value+')"><img src="/images/delete.gif" width=\"16\" height=\"16\"></a>';
+		                			return e ;
+			                	} else {
+			                		var e ='<a href=\"javascript:void(0)\" title="查看详情" onclick="ReimburseDetail('+value+')"><img src="/images/search.gif" width=\"16\" height=\"16\"></a>'
+		                			return e ;
+			                	} 	                		
+			                }
+			            }
+			        ],
+			        onLoadSuccess: function(){ 	 //加载成功时执行
+		        		console.info("加载成功");
+		        	},
+	        		onLoadError: function(){	 //加载失败时执行
+		        		console.info("加载数据失败");
+		        	}
+			    });
 			}
 		</script>
 	</body>

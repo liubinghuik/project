@@ -39,4 +39,31 @@ public class SupplierService {
 	public Supplier selectByPrimaryKey(Integer suid) {
 		return this.supplierMapper.selectByPrimaryKey(suid);
 	}
+	
+	/**
+	 * 根据id修改供应商信息
+	 * @param record
+	 * @return
+	 */
+	public int updateByPrimaryKeySelective(Supplier record) {
+		return this.supplierMapper.updateByPrimaryKeySelective(record);
+	}
+	
+	/**
+	 *新增供应商
+	 * @param record
+	 * @return
+	 */
+	public int insertSelective(Supplier record) {
+		return this.supplierMapper.insertSelective(record);
+	}
+	
+	/**
+	 * 根据id删除供应商
+	 * @param suid
+	 * @return
+	 */
+	public int deleteByPrimaryKey(Integer suid) {
+		return this.supplierMapper.deleteByPrimaryKey(suid);
+	}
 }

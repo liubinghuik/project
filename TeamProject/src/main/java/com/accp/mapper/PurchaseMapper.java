@@ -2,6 +2,8 @@ package com.accp.mapper;
 
 import com.accp.domain.Purchase;
 import com.accp.domain.PurchaseExample;
+import com.accp.vo.PurchaseVO;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,19 @@ public interface PurchaseMapper {
     int updateByPrimaryKeySelective(Purchase record);
 
     int updateByPrimaryKey(Purchase record);
+    
+    /**
+     * 查询所有采购单
+     * @return
+     */
+    List<PurchaseVO> getAll(@Param("startDate")String startDate, @Param("endDate")String endDate, @Param("suname")String suname);
+
+    /**
+     * 根据日期查询出最大的单号
+     * @param date
+     * @return
+     */
+    int getMaxOdd(@Param("date")String date);
+    
+    
 }

@@ -10,7 +10,9 @@
 			padding: 0;
 			margin: 0;
 		}
-		
+		.table > tbody > tr > td{
+			vertical-align: middle;
+		}
 	</style>
 	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
@@ -40,11 +42,11 @@
 							<div style="padding-bottom: 10px;width: 100%;overflow:hidden;margin-left: 4px;">
 								<div style="float: left;width: 25%;">
 									<label>单 号</label>
-									<input type="text" class="form-control" style="display: inline-block; width: 78%;">
+									<input type="text" name="odd" class="form-control" style="display: inline-block; width: 78%;">
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>交 期</label>
-									<input type="date" class="form-control" style="display: inline-block; width: 78%;">
+									<input type="date" name="deliverydate" class="form-control" onchange="changeTime()" style="display: inline-block; width: 78%;">
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>供应商</label>
@@ -61,7 +63,7 @@
 							</div>	
 							<div style="float: left;width: 100%;margin-left: 4px;">
 								<label>备 注</label>
-								<input type="text" class="form-control" style="display: inline-block; width: 95.15%;">
+								<input type="text" class="form-control" style="display: inline-block; width: 95.45%;">
 							</div>
 						</form>
 					</div>
@@ -78,19 +80,17 @@
 									<td width="6%">金额</td>
 								</tr>
 							</thead>
-							<tbody align="center">
-								<tr>
-									
-								</tr>
+							<tbody id="tbody2" align="center">
+								
 							</tbody>
 							<tfoot>
 								<tr>
 									<td colspan="7">
 										<div style="float: right;line-height: 38px;padding-right: 14px;">
-											金额<span style="color: red;">0.00</span>
+											金额<span style="color: red;" id="moeny">0.00</span>
 										</div>
 										<div style="float: right;line-height: 38px;padding-right: 14px;">
-											合计<span style="color: red;">0</span>件
+											合计<span style="color: red;" id="num">0</span>件
 										</div>
 									</td>
 								</tr>
@@ -122,7 +122,7 @@
 		            	<table class="table table-bordered table-hover table-striped">
 							<thead align="center">
 								<tr class="info">
-									<td width="6%"><input type="checkbox" name="" /></td>
+									<td width="6%"><input type="checkbox" name="ckAll" />全选</td>
 									<td width="6%">货码/条码</td>
 									<td width="10%">商品</td>
 									<td width="15%">规格</td>
@@ -130,27 +130,175 @@
 									<td width="10%">库存</td>
 								</tr>
 							</thead>
-							<tbody align="center">
-								<tr>
-									<td><input type="checkbox" name="" /></td>
-									<td>612841444</td>
+							<tbody id="tbody" align="center">
+								<!-- <tr>
+									<td><input type="checkbox" name="ck" /></td>
+									<td>
+										<span style="display: block;">6720</span>
+										<span style="display: block;">612841444</span>
+									</td>
 									<td>绿色卫衣</td>
 									<td>--</td>
 									<td>229.00</td>
 									<td>3</td>
-								</tr>
+								</tr> -->
 							</tbody>
 						</table>
 		            </div>
 		            <div class="modal-footer" style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-		                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;" data-dismiss="modal" id="ok">确认</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
+		<script src="/js/jquery-1.8.3.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
+			$(function(){
+				init() ;
+				
+				$.ajax({
+					url:"[[@{/rest/commodity/getCaseCommodity}]]",
+					type:"get",
+					data:{},
+					dataType:"json",
+					success:function(data){
+						console.info(data);
+						$("#tbody").html("");
+						$.each(data,function(i,obj){
+							
+							var tr = $("<tr>"+
+											"<td><input type='checkbox' name='ck' /></td>"+
+											"<td>"+
+												"<span name='articleno' style='display: block;'>"+obj.articleno+"</span>"+
+												"<span name='shapecode' style='display: block;'>"+obj.shapecode+"</span>"+
+											"</td>"+
+											"<td name='cname'>"+obj.cname+"</td>"+
+											"<td>"+
+												"<span name='colorname' style='display: block;'>"+obj.colorname+"</span>"+
+												"<span name='sizename' style='display: block;'>"+obj.sizename+"</span>"+
+											"</td>"+
+											"<td name='sell'>"+obj.sell+"</td>"+
+											"<td name='inventory'>"+obj.inventory+"</td>"+
+										"</tr>");
+									
+							$("#tbody").append(tr);
+						})
+					}
+				});
+				
+				//全选/全不选
+		        $("[name=ckAll]").live("click",function(){
+		       		$("[name=ck]").prop("checked",$(this).prop("checked"))
+		        });
+		       	
+		       	//反选
+		        $("[name=ck]").live("click",function(){
+		       		var ck = $("[name=ck]").length;
+		       		if(ck == $("[name=ck]:checked").length){
+		       			$("[name=ckAll]").prop("checked",true);
+		       		}else{
+		       			$("[name=ckAll]").prop("checked",false);
+		       		}
+		        });
+
+		       	$("#ok").live("click",function(){
+
+		       		var check = $("input[name='ck']:checked");	//选中的复选框	
+		       		var selectedData = [];
+		       		check.each(function(i){	
+		       			var row= $(this).parent("td").parent("tr");	
+		       			
+		       			var articleno = row.find("[name='articleno']").html();
+		       			var shapecode = row.find("[name='shapecode']").html();
+		       			var cname = row.find("[name='cname']").html();
+		       			var colorname = row.find("[name='colorname']").html();
+		       			var sizename = row.find("[name='sizename']").html();
+		       			var sell = row.find("[name='sell']").html();
+		       			var inventory = row.find("[name='inventory']").html();
+		       			
+		       			selectedData.push({articleno:articleno,shapecode:shapecode,cname:cname,colorname:colorname,
+		       				sizename:sizename,sell:sell,inventory:inventory})
+		       		}); 
+		       		//console.info(selectedData)
+					
+		       		$("#tbody2").html("");
+		       		
+		       		$.each(selectedData,function(i,obj){
+		       			var tr = $("<tr>"+
+										"<td>"+obj.articleno+"</td>"+
+										"<td>"+obj.shapecode+"</td>"+
+										"<td>"+obj.cname+"</td>"+
+										"<td>"+
+											"<span style='display: block;'>"+obj.colorname+"</span>"+
+											"<span style='display: block;'>"+obj.sizename+"</span>"+
+										"</td>"+
+										"<td name='sell'>"+obj.sell+"</td>"+
+										"<td><input type='text' onchange='changeNum(this)' name='num' value='1' class='form-control' style='width:80%;padding-left:35px'></td>"+
+										"<td name='sum'>"+obj.sell+"</td>"+
+									"</tr>");
+		       			$("#tbody2").append(tr);
+		       		});		
+		       		setTotal()
+		       	});
+   	
+			});
 			
+			//当数量发生改变时发生
+			function changeNum(dq){
+				$(dq).parent("td").parent("tr").find("[name='sum']").html(
+						parseInt($(dq).val())*parseFloat($(dq).parent("td").parent("tr").find("[name='sell']").text())); 
+				setTotal();
+	       	}
+		
+			//初始化商品金额
+			function setTotal(){ 
+				//商品件数
+	       		$("#num").html($("#tbody2").find("tr").length);
+				
+				var totalMoeny = 0; 
+				$("#tbody2 tr").each(function(){ 
+					totalMoeny += parseInt($(this).find("[name='num']").val())*parseFloat($(this).find("[name='sell']").text()); 
+				}); 
+				
+				$("#moeny").html(totalMoeny.toFixed(2)); 
+			} 
+			//初始化日期
+			function init() {
+				var now = new Date();
+				var year = now.getFullYear();
+				var month = now.getMonth()+1;
+				var date = now.getDate();
+
+				$("[name='deliverydate']").val(year + "-" + month + "-" + date);
+				
+				$.ajax({
+					url : "/rest/purchase/getMaxOdd/" + year + month + date,
+					type : "get",
+					data : {},
+					dataType :"json",
+					success : function(data){
+						//console.info(data);
+						$("[name='odd']").val(data.odd);
+					}
+				});
+			}
+			
+			//根据日期生成单号
+			function changeTime(){
+				var time = $("[name='deliverydate']").val();		
+				$.ajax({
+					url : "/rest/purchase/getMaxOdd/" + time.split("-")[0]+time.split("-")[1]+time.split("-")[2],
+					type : "get",
+					data : {},
+					dataType :"json",
+					success : function(data){
+						//console.info(data);
+						$("[name='odd']").val(data.odd);
+					}
+				});
+				
+			}
 		</script>
 	</body>
 </html>
