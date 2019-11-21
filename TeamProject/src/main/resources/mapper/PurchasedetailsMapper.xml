@@ -5,6 +5,7 @@
     <id column="pudid" property="pudid" jdbcType="INTEGER" />
     <result column="puid" property="puid" jdbcType="INTEGER" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
+     <result column="moeny" property="moeny" jdbcType="DOUBLE" />
     <result column="cdid" property="cdid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    pudid, puid, amount, cdid
+    pudid, puid, amount, moeny, cdid
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.accp.domain.PurchasedetailsExample" >
     select
@@ -99,10 +100,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Purchasedetails" >
-    insert into purchasedetails (pudid, puid, amount, 
+    insert into purchasedetails (pudid, puid, amount, moeny
       cdid)
     values (#{pudid,jdbcType=INTEGER}, #{puid,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, 
-      #{cdid,jdbcType=INTEGER})
+      #{moeny,jdbcType=DOUBLE},#{cdid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.accp.domain.Purchasedetails" >
     insert into purchasedetails
@@ -115,6 +116,9 @@
       </if>
       <if test="amount != null" >
         amount,
+      </if>
+      <if test="moeny != null" >
+        moeny,
       </if>
       <if test="cdid != null" >
         cdid,
@@ -129,6 +133,9 @@
       </if>
       <if test="amount != null" >
         #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="moeny != null" >
+        #{moeny,jdbcType=DOUBLE},
       </if>
       <if test="cdid != null" >
         #{cdid,jdbcType=INTEGER},
@@ -153,6 +160,9 @@
       <if test="record.amount != null" >
         amount = #{record.amount,jdbcType=INTEGER},
       </if>
+      <if test="record.moeny != null" >
+        moeny = #{record.moeny,jdbcType=DOUBLE},
+      </if>
       <if test="record.cdid != null" >
         cdid = #{record.cdid,jdbcType=INTEGER},
       </if>
@@ -166,6 +176,7 @@
     set pudid = #{record.pudid,jdbcType=INTEGER},
       puid = #{record.puid,jdbcType=INTEGER},
       amount = #{record.amount,jdbcType=INTEGER},
+      moeny = #{record.moeny,jdbcType=DOUBLE},
       cdid = #{record.cdid,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -180,6 +191,9 @@
       <if test="amount != null" >
         amount = #{amount,jdbcType=INTEGER},
       </if>
+      <if test="moeny != null" >
+        moeny = #{moeny,jdbcType=DOUBLE},
+      </if>
       <if test="cdid != null" >
         cdid = #{cdid,jdbcType=INTEGER},
       </if>
@@ -190,6 +204,7 @@
     update purchasedetails
     set puid = #{puid,jdbcType=INTEGER},
       amount = #{amount,jdbcType=INTEGER},
+      moeny = #{moeny,jdbcType=DOUBLE},
       cdid = #{cdid,jdbcType=INTEGER}
     where pudid = #{pudid,jdbcType=INTEGER}
   </update>
