@@ -255,4 +255,13 @@
       message = #{message,jdbcType=VARCHAR}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
+  
+  
+  <!-- ===================================================== -->
+  <select id="getCaseCommodity" resultType="com.accp.vo.commodityVO" >
+   SELECT * FROM commodity c 
+	JOIN commoditydetails d ON c.`cid` = d.`cid`
+	JOIN size s ON d.`sizeid` = s.`sizeid`
+	JOIN color r ON d.`colorid` = r.`colorid`
+  </select>
 </mapper>

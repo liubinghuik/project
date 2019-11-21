@@ -8,6 +8,8 @@ public class Purchasedetails {
     private Integer amount;
 
     private Integer cdid;
+    
+    private Double moeny;
 
     public Integer getPudid() {
         return pudid;
@@ -40,4 +42,13 @@ public class Purchasedetails {
     public void setCdid(Integer cdid) {
         this.cdid = cdid;
     }
+
+	public Double getMoeny() {
+		return moeny;
+	}
+
+	public void setMoeny(Double moeny) {
+		this.moeny = moeny;
+	}
+    
 }

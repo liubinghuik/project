@@ -2,6 +2,8 @@ package com.accp.mapper;
 
 import com.accp.domain.Commodity;
 import com.accp.domain.CommodityExample;
+import com.accp.vo.commodityVO;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,10 @@ public interface CommodityMapper {
     int updateByPrimaryKeySelective(Commodity record);
 
     int updateByPrimaryKey(Commodity record);
+    
+    /**
+     * 选择商品分类
+     * @return
+     */
+    List<commodityVO> getCaseCommodity();
 }
