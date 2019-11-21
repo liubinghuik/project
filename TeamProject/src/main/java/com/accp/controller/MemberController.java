@@ -1,8 +1,16 @@
 package com.accp.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.accp.domain.Member;
 import com.accp.domain.Memberclass;
+
 import com.accp.service.MemberService;
+
+import ch.qos.logback.core.pattern.parser.Parser;
 
 @Controller
 @RequestMapping("/member")
@@ -95,4 +106,43 @@ public class MemberController {
 	public int updateHuiFu(Integer id) {
 		return ms.updateHuiFu(id);
 	}
+	//新增会员insertMember
+	@RequestMapping(value = "insertMember", method = RequestMethod.POST)
+	@ResponseBody
+	public int insertMember(@RequestBody Member m) {
+		return ms.insertMember(m);
+	}
+	//查询指定会员信息
+	@RequestMapping(value = "selectMember", method = RequestMethod.GET)
+	@ResponseBody
+	public Member selectMember(Integer id) {
+		return ms.selectMember(id);
+	}
+	//编辑会员
+	@RequestMapping(value = "updateMember", method = RequestMethod.POST)
+	@ResponseBody
+	public int updateMember(@RequestBody Member m) {
+		return ms.updateMember(m);
+	}
+	//导出所有会员信息到Excel
+	@RequestMapping("/exportExcel")
+	@ResponseBody
+	public ResponseEntity<byte []> exportExcel(String ids){
+		String [] sid=ids.split(",");
+		List<Member> lm = new ArrayList<Member>();
+		for(String s:sid) {
+			 Integer i = new Integer(s);
+	         int x = i.intValue();
+	        
+			lm.add(ms.selectMemberById(x));
+		}
+		//导出学生信息为excel
+		/*
+		 * Workbook wb = new XSSFWorkbook(); Sheet sheet = wb.createSheet();
+		 */
+		 
+		return null;
+	}
+	
+	
 }

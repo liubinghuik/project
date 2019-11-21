@@ -38,14 +38,14 @@
 								
 								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 20.50%; display: inline-block;">
 								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"name="chaxun"></a>
-								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;">导出会员</button>
+								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;"name="export"onclick="exportExcel()">导出会员</button>
 								<button type="button" class="btn btn-default" style="margin-left: 5; margin-top: -4px;" data-toggle="modal" data-target="#myModal2">批量导入</button>
 								<button type="button" class="btn btn-success" style="margin-left: 5px; margin-top: -4px;" data-toggle="modal" data-target="#myModal">添加会员</button>
 							</form>
 						</div>
 					</div>
 					<div class="row" style="margin-right: 15px;margin-left:5px;">
-						<table class="table table-bordered table-hover table-striped">
+						<table class="table table-bordered table-hover table-striped"id="Table">
 							<thead align="center">
 								<tr class="info">
 									<td width="7%">序号</td>
@@ -105,19 +105,19 @@
 						  <div class="form-group">					
 						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
+						      <input type="text" class="form-control"name="sj">
 						    </div>
 						    
 						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
+						      <input type="text" class="form-control"name="xm">
 						    </div>
 						  </div>
 						  
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">等&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</label>
 						    <div class="col-sm-4">
-						      <select style="display: inline-block;" name="check" class="form-control">
+						      <select style="display: inline-block;" name="class2" class="form-control">
 						      	<option value="">请选择等级</option>
 						      	<option value="">VIP</option>
 						      	<option value="">会员</option>
@@ -126,7 +126,7 @@
 						    
 						     <label for="inputEmail3" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
 						    <div class="col-sm-4">
-						      <input type="text" class="form-control">
+						      <input type="text" class="form-control"name="mm">
 						    </div>
 						  </div>
 						  
@@ -134,30 +134,102 @@
 						    <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
 						    <div class="col-sm-10">
 						      <div data-toggle="distpicker">
-							          	<select style="display:inline-block;width: 25.90%;" class="form-control" id="province3" data-province="浙江省"></select>						        
+							          	<select style="display:inline-block;width: 25.90%;" class="form-control" id="province3" data-province="湖南省"></select>						        
 								         
-								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="city3" data-city="杭州市"></select>
+								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="city3" data-city="株洲市"></select>
 								      						        
-								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="district3" data-district="西湖区"></select>
+								        <select style="display:inline-block;width: 25.90%;" class="form-control" id="district3" data-district="芦淞区"></select>
 							   </div>
 						    </div>
 						  </div>
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
 						    <div class="col-sm-8">
-						      <input type="text" class="form-control">
+						      <input type="text" class="form-control"name="jd">
 						    </div>
 						  </div>
 						</form>
 		            </div>
 		            <div class="modal-footer" style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
-		                <button type="button" class="btn btn-success" style="width: 16.66%;">确认</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;"onclick="zeng()">确认</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
-		
+		<!--
+        	作者：offline
+        	时间：2019-11-15
+        	描述：模态框（Modal）
+			 编辑会员
+        -->
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div style="width: 76.66%;"  class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">编辑会员</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<form class="form-horizontal">
+						  
+						  <div class="form-group">					
+						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control"name="bsj">
+						    </div>
+						    
+						     <label for="inputEmail3" class="col-sm-2 control-label"><i style="position: relative;top:4px;right:5px;color: red;">*</i>名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control"name="bxm">
+						    </div>
+						  </div>
+						  
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">等&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;级</label>
+						    <div class="col-sm-4">
+						    <input type="hidden"name="ycy">
+						      <select style="display: inline-block;" name="bclass2"id="status" class="form-control">
+						      	<option value="">请选择等级</option>
+						      	<option value="">VIP</option>
+						      	<option value="">会员</option>
+						      </select>
+						    </div>
+						    
+						     <label for="inputEmail3" class="col-sm-2 control-label">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+						    <div class="col-sm-4">
+						      <input type="text" class="form-control"name="bmm">
+						    </div>
+						  </div>
+						  
+						   <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</label>
+						    <div class="col-sm-10">
+						      <div data-toggle="distpicker">
+							          	<select style="display:inline-block;width: 25.90%;" class="form-control provincename" id="bprovince3" data-province="湖南省"></select>						        
+								         
+								        <select style="display:inline-block;width: 25.90%;" class="form-control city" id="bcity3" data-city="株洲市"></select>
+								      						        
+								        <select style="display:inline-block;width: 25.90%;" class="form-control district" id="bdistrict3" data-district="芦淞区"></select>
+							   </div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-2 control-label">街&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;道</label>
+						    <div class="col-sm-8">
+						      <input type="text" class="form-control"name="bjd">
+						    </div>
+						  </div>
+						</form>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;"onclick="xiu()">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
 		<!--
         	作者：offline
         	时间：2019-11-15
@@ -221,7 +293,7 @@
 								tr.append("<td>"+obj.mintegral+"</td>");
 								
 								tr.append("<td>-</td>");
-								tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal'>编辑</a></td>");
+								tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal3'onclick='cha("+obj.mid+")'>编辑</a></td>");
 								
 								$("tbody").append(tr);
 								
@@ -237,13 +309,13 @@
 				dataType:"json",
 				type:"get",
 				success:function(result){
-					
+					console.info(result);
 					
 					$("tbody").html("");
 					$.each(result,function(i,obj){
 						
 						var tr=$("<tr></tr>");
-						tr.append("<td>"+(i+1)+"</td>");
+						tr.append("<td><input type='hidden' id='hide'value='"+obj.mid+"'>"+(i+1)+"</td>");
 						tr.append("<td>"+obj.mname+"</td>");
 						tr.append("<td>"+obj.mphone+"</td>");
 						tr.append("<td>"+obj.mb.mcname+"</td>");
@@ -252,7 +324,7 @@
 						tr.append("<td>"+obj.mbalance+"</td>");
 						tr.append("<td>"+obj.mintegral+"</td>");
 						tr.append("<td>-</td>");
-						tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal'>编辑</a></td>");
+						tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal3'onclick='cha("+obj.mid+")'>编辑</a></td>");
 						$("tbody").append(tr);
 					})
 				}
@@ -265,22 +337,173 @@
 					dataType:"json",
 					type:"get",
 					success:function(result){
+						$("[name=bclass2]").html("");
+						$("[name=class2]").html("");
 						$("[name=class]").html("");
 						
+						$("[name=bclass2]").append("<option value='0'>请选择</option>");
+						$("[name=class2]").append("<option value='0'>请选择</option>");
 						$("[name=class]").append("<option value='0'>请选择</option>");
 						$.each(result,function(i,obj){
 							if(obj.mstate==1){
 								
 							}else{
+								
 								var option=$("<option value="+obj.mcid+">"+obj.mcname+"</option>");
-								$("[name=class]").append(option);
+								
+								$("[name=class2]").append(option);
+								
 							}
-							
+						})
+						$.each(result,function(i,obj){
+								if(obj.mstate==1){
+									
+								}else{
+									
+									var option=$("<option value="+obj.mcid+">"+obj.mcname+"</option>");
+									$("[name=bclass2]").append(option);
+
+								}
+						})
+						$.each(result,function(i,obj){
+								if(obj.mstate==1){
+									
+								}else{
+									
+									var option=$("<option value="+obj.mcid+">"+obj.mcname+"</option>");
+									$("[name=class]").append(option);
+
+								}
 						})
 						
 					}
 				})
+			}
+		
+		 function zeng(){
+			 var m={
+					 mid:1,
+					 mname:$("[name=xm]").val(),
+					 mpassword:$("[name=mm]").val(),
+					 mphone:$("[name=sj]").val(),
+					 mmoney:0,
+					 mbalance:0,
+					 mintegral:0,
+					 wechatid:"",
+					 provincename:$("#province3").val(),
+					 cityname:$("#city3").val(),
+					 regionname:$("#district3").val(),
+					 street:$("[name=jd]").val(),
+					 createtime:new Date(),
+					 mcid:$("[name=class2]").val()
 			 }
+			 $.ajax({
+					url:"[[@{/member/insertMember}]]",
+					data:JSON.stringify(m),
+					dataType:"json",
+					type:"post",
+					contentType : 'application/json;charset=UTF-8',
+					success:function(result){
+						if(result>0){
+							alert("新增会员"+$("[name=xm]").val()+"成功!");
+						}else{
+							alert("新增会员失败!");
+						}
+						function1();
+					}
+			})
+		}
+		function cha(id){
+			 $.ajax({
+					url:"[[@{/member/selectMember}]]",
+					data:{"id":id},
+					dataType:"json",
+					type:"get",
+					
+					success:function(result){
+						//隐藏域保存id
+						$("[name=ycy]").val(result.mid);
+						
+						$("[name=bxm]").val(result.mname);
+						
+						$("[name=bmm]").val(result.mpassword);
+						$("[name=bsj]").val(result.mphone);
+						
+						$("#bprovince3").val(result.provincename);
+						$(".provincename").val(result.provincename).trigger("change");
+						
+						$("#bcity3").val(result.cityname);
+						$(".city").val(result.cityname).trigger("change");
+						
+						$("#bdistrict3").val(result.regionname);
+						$(".district").val(result.regionname).trigger("change");
+						
+						$("[name=bjd]").val(result.street);
+						$("[name=bclass2]").val(result.mcid);
+						
+						
+						$("[name=bclass2] option").each(function(){
+							console.info($(this));
+						    if($(this).val() == result.mcid){
+						       	$(this).attr("selected",true);
+						    }
+						});
+						
+					
+					}
+			})
+		 }
+		function xiu(){
+			var m={
+					 mid:$("[name=ycy]").val(),
+					 mname:$("[name=bxm]").val(),
+					 mpassword:$("[name=bmm]").val(),
+					 mphone:$("[name=bsj]").val(),
+					 mmoney:0,
+					 mbalance:0,
+					 mintegral:0,
+					 wechatid:"",
+					 provincename:$("#bprovince3").val(),
+					 cityname:$("#bcity3").val(),
+					 regionname:$("#bdistrict3").val(),
+					 street:$("[name=bjd]").val(),
+					 createtime:"",
+					 mcid:$("[name=bclass2]").val()
+			 }
+			 $.ajax({
+					url:"[[@{/member/updateMember}]]",
+					data:JSON.stringify(m),
+					dataType:"json",
+					type:"post",
+					contentType : 'application/json;charset=UTF-8',
+					success:function(result){
+						if(result>0){
+							alert("修改信息成功"+$("[name=xm]").val()+"!");
+						}else{
+							alert("修改信息失败失败!");
+						}
+						function1();
+					}
+			})
+		}
+		function exportExcel(){
+          var StrNumber='';
+          $("#Table tbody tr").each(function(){
+			
+             StrNumber=StrNumber+$(this).find("input[id=hide]").val()+",";
+          });
+			StrNumber=StrNumber.substring(0,StrNumber.length-1);
+			$.ajax({
+				url:"[[@{/member/exportExcel}]]",
+				data:{"ids":StrNumber},
+				dataType:"json",
+				type:"get",
+				
+				success:function(result){
+					alert(result);
+				}
+		})
+		}
 		</script>
 	</body>
 </html>

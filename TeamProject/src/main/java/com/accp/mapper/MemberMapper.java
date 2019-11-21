@@ -24,6 +24,16 @@ public interface MemberMapper {
 	int deleteClass2(Integer id);
 	//恢复删除的会员等级
 	int updateHuiFu(Integer id);
+	//新增会员
+	int insertMember(Member m);
+	//查询指定会员信息
+	Member selectMember(Integer id);
+	//编辑会员
+	int updateMember(Member m);
+	//按编号查询会员
+	Member selectMemberById(int id);
+	
+	
 	
     int countByExample(MemberExample example);
 

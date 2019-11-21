@@ -38,14 +38,37 @@
 		SET mstate=1
 		WHERE mcid=#{mcid}
 	</update>
+	<!-- 恢复删除的等级 -->
 	<update id="updateHuiFu" parameterType="Integer">
 		UPDATE memberclass
 		SET mstate=0
 		WHERE mcid=#{mcid}
 	</update>
+	<!-- 彻底移除等级 -->
 	<delete id="deleteClass2" parameterType="Integer">
 		delete from memberclass where mcid=#{mcid}
 	</delete>
+	<!-- 新增会员 -->
+	<insert id="insertMember" parameterType="com.accp.domain.Member">
+		INSERT INTO member(`mname`,`mpassword`,`mphone`,`mmoney`,`mbalance`,`mintegral`,`wechatid`,`provincename`,`cityname`,`regionname`,`street`,`createtime`,`mcid`)
+		VALUES(#{mname},#{mpassword},#{mphone},#{mmoney},#{mbalance},#{mintegral},#{wechatid},#{provincename},#{cityname},#{regionname},#{street},#{createtime},#{mcid})
+	</insert>
+	<!-- 查询指定会员的信息 -->
+	<select id="selectMember" parameterType="int" resultType="com.accp.domain.Member">
+		select * from member where mid=#{mid}
+	</select>
+	<!-- 编辑会员 -->
+	<update id="updateMember" parameterType="com.accp.domain.Member">
+		UPDATE member
+		SET mname=#{mname},mpassword=#{mpassword},mphone=#{mphone},provincename=#{provincename},cityname=#{cityname},regionname=#{regionname},street=#{street},mcid=#{mcid}
+		WHERE `mid`=#{mid}
+	</update>
+	<!-- 按编号查询会员 -->
+	<select id="selectMemberById" resultType="com.accp.domain.Member" parameterType="int">		
+		SELECT * FROM member
+		WHERE `mid`=#{mid}
+	</select>
+	
 
   <resultMap id="BaseResultMap" type="com.accp.domain.Member" >
     <id column="mid" property="mid" jdbcType="INTEGER" />

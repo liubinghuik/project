@@ -47,4 +47,20 @@ public class MemberService {
 	public int updateHuiFu(Integer id) {
 		return mp.updateHuiFu(id);
 	}
+	//新增会员
+	public int insertMember(Member m) {
+		return mp.insertMember(m);
+	}
+	//查询指定会员信息
+	public Member selectMember(Integer id) {
+		return mp.selectMember(id);
+	}
+	//编辑会员
+	public int updateMember(Member m) {
+		return mp.updateMember(m);
+	}
+	//按编号查询会员
+	public Member selectMemberById(int id) {
+		return mp.selectMemberById(id);
+	}
 }
