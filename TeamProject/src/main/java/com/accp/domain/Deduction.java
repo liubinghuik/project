@@ -5,7 +5,18 @@ public class Deduction {
 
     private Float jf;
 
-    public Integer getDdid() {
+    private Integer wtd;
+    
+    
+    public Integer getWtd() {
+		return wtd;
+	}
+
+	public void setWtd(Integer wtd) {
+		this.wtd = wtd;
+	}
+
+	public Integer getDdid() {
         return ddid;
     }
 
