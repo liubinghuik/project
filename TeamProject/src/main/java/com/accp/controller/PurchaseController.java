@@ -43,4 +43,24 @@ public class PurchaseController {
 		map.put("odd", this.purchaseService.getMaxOdd(date));
 		return map;
 	}
+	
+	/**
+	 * 查询所有供应商
+	 * @return
+	 */
+	@GetMapping("getSupplierAll")
+	@ResponseBody
+	public List<PurchaseVO> getSupplierAll(){
+		return this.purchaseService.getSupplierAll();
+	}
+	
+	/**
+	 * 根据单号查询供应商下面的商品信息
+	 * @return
+	 */
+	@GetMapping("getSupplierByOdd/{odd}")
+	@ResponseBody
+	public List<PurchaseVO> getSupplierByOdd(@PathVariable String odd){
+		return this.purchaseService.getSupplierByOdd(odd);
+	}
 }

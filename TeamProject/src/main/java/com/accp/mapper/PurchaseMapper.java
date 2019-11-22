@@ -43,5 +43,16 @@ public interface PurchaseMapper {
      */
     int getMaxOdd(@Param("date")String date);
     
+    /**
+	 * 查询所有供应商
+	 * @return
+	 */
+    List<PurchaseVO> getSupplierAll();
+    
+    /**
+	 * 根据单号查询供应商下面的商品信息
+	 * @return
+	 */
+	List<PurchaseVO> getSupplierByOdd(String odd);
     
 }
