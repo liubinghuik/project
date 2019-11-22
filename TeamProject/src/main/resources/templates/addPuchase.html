@@ -13,6 +13,12 @@
 		.table > tbody > tr > td{
 			vertical-align: middle;
 		}
+		.glyphicon{
+			display: none;
+		}
+		#tbody2 tr:hover .glyphicon{
+			display: inline-block;
+		}
 	</style>
 	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
@@ -50,25 +56,25 @@
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>供应商</label>
-									<select class="form-control" style="display: inline-block;width: 78%;">
-									  <option>请选择供应商</option>
+									<select id="supplierSearch" name="suname" class="form-control" style="display: inline-block;width: 78%;">
+									  
 									</select>
 								</div>
 								<div style="float: left;width: 25%;">
 									<label>制表人</label>
-									<select class="form-control" style="display: inline-block;width: 78%;">
+									<select name="uaccount" class="form-control" style="display: inline-block;width: 78%;">
 									  <option>18610249685</option>
 									</select>
 								</div>
 							</div>	
 							<div style="float: left;width: 100%;margin-left: 4px;">
 								<label>备 注</label>
-								<input type="text" class="form-control" style="display: inline-block; width: 95.45%;">
+								<input type="text" name="remark" class="form-control" style="display: inline-block; width: 95.45%;">
 							</div>
 						</form>
 					</div>
 					<div class="row" style="margin-right: 15px;margin-left:5px;">
-						<table class="table table-bordered table-hover table-striped">
+						<table class="table table-bordered table-hover table-striped" style="font-size: 13px;">
 							<thead align="center">
 								<tr class="info">
 									<td width="4%">货号</td>
@@ -102,8 +108,8 @@
 							<span style="color: #44b549;cursor: pointer;" data-toggle="modal" data-target="#myModal">+ 添加商品</span>
 						</div>
 						<div style="text-align: right;">
-							<button type="button" class="btn btn-default" style="width: 8%;">清空</button>
-							<button type="button" class="btn btn-success" style="width: 8%;">提交</button>
+							<button type="reset" class="btn btn-default" style="width: 8%;">清空</button>
+							<button type="button" class="btn btn-success" style="width: 8%;"id="submit">提交</button>
 						</div>
 					</div>
 				</div>
@@ -118,8 +124,8 @@
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		                <h4 class="modal-title" id="myModalLabel">选择商品</h4>
 		            </div>
-		            <div class="modal-body" style="padding:50px">
-		            	<table class="table table-bordered table-hover table-striped">
+		            <div class="modal-body" style="padding:35px;">
+		            	<table class="table table-bordered table-hover table-striped" style="font-size: 13px;">
 							<thead align="center">
 								<tr class="info">
 									<td width="6%"><input type="checkbox" name="ckAll" />全选</td>
@@ -153,17 +159,82 @@
 		    </div><!-- /.modal -->
 		</div>
 		<script src="/js/jquery-1.8.3.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
+		<script type="text/javascript">	
+			
 			$(function(){
 				init() ;
+
+				var odd = window.sessionStorage.getItem("odd");
+				$.getJSON(`/rest/purchase/getSupplierByOdd/${odd}`,function(data){
+					console.info(data)
+					if(data[0].remark == "-"){
+						data[0].remark = "";
+					}
+					$("[name=odd]").val(data[0].odd);
+					$("[name=deliverydate]").val(data[0].deliverydate);
+					$("[name=suname]").val(data[0].suname);
+					$("[name=remark]").val(data[0].remark);
+					$("[name=uaccount]").val(data[0].uaccount);
+					
+						$("#tbody2").html("");
+						$.each(data,function(i,obj){
+							var tr = $("<tr>"+
+											"<td>"+obj.articleno+"</td>"+
+											"<td>"+obj.shapecode+"</td>"+
+											"<td>"+obj.cname+"</td>"+
+											"<td>"+
+												"<span style='display: block;'>"+obj.colorname+"</span>"+
+												"<span style='display: block;'>"+obj.sizename+"</span>"+
+											"</td>"+
+											"<td name='sell'>"+obj.sell+"</td>"+
+											"<td><input type='text' onchange='changeNum(this)' name='num' value='1' class='form-control' style='width:80%;padding-left:35px'></td>"+
+											"<td>"+
+												"<div style='position: relative;'>"+
+													"<span>￥</span>"+
+													"<span name='sum'>"+obj.sell+"</span>"+
+													"<span onclick='removeTr(this)' style='position: absolute;right:5px;top:3px;' class='glyphicon glyphicon-remove'></span>"+
+												"</div>"+
+											"</td>"+
+										"</tr>");
+	       					$("#tbody2").append(tr);
+					});
+				});
 				
+				//提交
+				$("#submit").click(function(){
+					var obj = {
+						odd : $("[name='odd']").val(),
+						deliverydate : $("[name='deliverydate']").val(),
+						suname : $("[name='suname']").val(),
+						remark : $("[name='remark']").val(),
+						uaccount : $("[name='uaccount']").val()
+					}
+					console.info(obj);
+				});
+				
+				//查询所有供应商
+				$.ajax({
+					url:"[[@{/rest/purchase/getSupplierAll}]]",
+					type:"get",
+					data:{},
+					dataType:"json",
+					success:function(data){
+						//onsole.info(data);
+						$.each(data, function(index, item) {	
+							$("#supplierSearch").append(  //此处向select中循环绑定数据		   
+								"<option value="+item.suid+">" + item.suname+ "</option>");
+						});
+					}
+				});
+				
+				//查询所有商品
 				$.ajax({
 					url:"[[@{/rest/commodity/getCaseCommodity}]]",
 					type:"get",
 					data:{},
 					dataType:"json",
 					success:function(data){
-						console.info(data);
+						//console.info(data);
 						$("#tbody").html("");
 						$.each(data,function(i,obj){
 							
@@ -206,7 +277,7 @@
 
 		       		var check = $("input[name='ck']:checked");	//选中的复选框	
 		       		var selectedData = [];
-		       		check.each(function(i){	
+		       		check.each(function(){	
 		       			var row= $(this).parent("td").parent("tr");	
 		       			
 		       			var articleno = row.find("[name='articleno']").html();
@@ -235,14 +306,26 @@
 										"</td>"+
 										"<td name='sell'>"+obj.sell+"</td>"+
 										"<td><input type='text' onchange='changeNum(this)' name='num' value='1' class='form-control' style='width:80%;padding-left:35px'></td>"+
-										"<td name='sum'>"+obj.sell+"</td>"+
+										"<td>"+
+											"<div style='position: relative;'>"+
+												"<span>￥</span>"+
+												"<span name='sum'>"+obj.sell+"</span>"+
+												"<span onclick='removeTr(this)' style='position: absolute;right:5px;top:3px;' class='glyphicon glyphicon-remove'></span>"+
+											"</div>"+
+										"</td>"+
 									"</tr>");
 		       			$("#tbody2").append(tr);
 		       		});		
-		       		setTotal()
+		       		setTotal();
 		       	});
    	
 			});
+			
+			//移除
+			function removeTr(dq){
+				$(dq).parent("div").parent("td").parent("tr").remove();
+				setTotal();
+			}
 			
 			//当数量发生改变时发生
 			function changeNum(dq){
@@ -253,14 +336,15 @@
 		
 			//初始化商品金额
 			function setTotal(){ 
-				//商品件数
-	       		$("#num").html($("#tbody2").find("tr").length);
-				
 				var totalMoeny = 0; 
+				var num = 0;
 				$("#tbody2 tr").each(function(){ 
 					totalMoeny += parseInt($(this).find("[name='num']").val())*parseFloat($(this).find("[name='sell']").text()); 
+					num += parseInt($(this).find("[name='num']").val()); 
 				}); 
-				
+				//商品件数
+				$("#num").html(num)
+				//总金额
 				$("#moeny").html(totalMoeny.toFixed(2)); 
 			} 
 			//初始化日期

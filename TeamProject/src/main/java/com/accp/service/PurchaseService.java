@@ -41,4 +41,20 @@ public class PurchaseService {
 		
 		return maxNo;
 	}
+	
+	/**
+	 * 查询所有供应商
+	 * @return
+	 */
+	public List<PurchaseVO> getSupplierAll() {
+		return this.purchaseMapper.getSupplierAll();
+	}
+	
+	/**
+	 * 根据单号查询供应商下面的商品信息
+	 * @return
+	 */
+	public List<PurchaseVO> getSupplierByOdd(String odd){
+		return this.purchaseMapper.getSupplierByOdd(odd);
+	}
 }

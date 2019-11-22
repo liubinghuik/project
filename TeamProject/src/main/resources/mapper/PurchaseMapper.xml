@@ -292,4 +292,20 @@
   <select id="getMaxOdd" parameterType="String" resultType="int">
   	select count(*) from purchase where odd like '${date}%'
   </select>
+  
+  <select id="getSupplierAll" resultType="com.accp.vo.PurchaseVO">
+  	select suid,suname from supplier
+  </select>
+  
+  <select id="getSupplierByOdd" parameterType="String" resultType="com.accp.vo.PurchaseVO">
+  	SELECT * FROM purchase p 
+	JOIN purchasedetails d ON p.puid = d.puid 
+	JOIN supplier s ON p.suid = s.suid
+	JOIN commoditydetails t ON t.cdid = d.cdid
+	JOIN commodity m ON t.`cid` = m.`cid`
+	JOIN size z ON t.`sizeid` = z.`sizeid`
+	JOIN color c ON t.`colorid` =c.`colorid`
+	WHERE p.odd = #{odd}
+  </select>
+
 </mapper>
