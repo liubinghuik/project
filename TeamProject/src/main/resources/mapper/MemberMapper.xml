@@ -68,7 +68,39 @@
 		SELECT * FROM member
 		WHERE `mid`=#{mid}
 	</select>
-	
+	<!-- 查询积分设置是否关闭 -->
+	<select id="selectDeduction" resultType="int">
+		SELECT wtd FROM deduction
+		WHERE ddid=1
+	</select>
+	<!-- 设置积分是否可用 -->
+	<update id="updateDeduction" parameterType="int">
+		UPDATE deduction
+		SET wtd=#{wtd}
+		WHERE ddid=1
+	</update>
+	<!-- 设置多少积分可抵一元 -->
+	<update id="updateDeductionJF" parameterType="int">
+		UPDATE deduction
+		SET jf=#{jf}
+		WHERE ddid=1
+	</update>
+	<!-- 查询现有的积分 -->
+	<select id="selectDeductionJf" resultType="int">
+		SELECT jf FROM deduction
+		WHERE ddid=1
+	</select>
+	<!-- 将充值金额加到会员表余额内 -->
+	<update id="updateMoney" parameterType="com.accp.domain.Recharge">
+		UPDATE Member
+		SET mbalance=mbalance+#{mbalance}
+		WHERE `mid`=#{mid}
+	</update>
+	<!-- 将充值记录加载到充值表 -->
+	<insert id="insertRecharge" parameterType="com.accp.domain.Recharge">
+	INSERT INTO recharge(`mid`,remoney,reway,rejf,rebalance,remark,createtime)
+	VALUES(#{mid},#{remoney},#{reway},#{rejf},#{rebalance},#{remark},#{createtime})
+	</insert>
 
   <resultMap id="BaseResultMap" type="com.accp.domain.Member" >
     <id column="mid" property="mid" jdbcType="INTEGER" />

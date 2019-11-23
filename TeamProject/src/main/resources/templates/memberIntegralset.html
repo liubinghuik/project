@@ -49,12 +49,12 @@
 								
 								<div style="margin:20px 0px;">
 									<div style="margin-left: 120px;">
-										使用积分:<input type="tetx"placeholder="100"style="height:36px;margin:0px 5px;width:110px;">可抵扣<span style="color:red;margin:0px 5px;">1.00</span>元
+										使用积分:<input type="text"placeholder="100"style="height:36px;margin:0px 5px;width:110px;"name="dikou">可抵扣<span style="color:red;margin:0px 5px;">1.00</span>元
 									</div>
 								</div>
 							</div>
 							<div class="col-md-offset-3"style="border:0px solid #ddd;font-size:110%;padding:15px 0px;text-align: right;">
-								<input type="button"name=""value="确认"style="color:white;background:#44B549;border:0px;padding:7px 40px;border-radius: 3px;">
+								<input type="button"name="xiudikou"value="确认"style="color:white;background:#44B549;border:0px;padding:7px 40px;border-radius: 3px;"onclick="gai()">
 							</div>
 						</div>
 					</div>
@@ -63,19 +63,96 @@
 		</div>
 		<script type="text/javascript">
 			$(function(){
+				chawtd();
+				cha();
 				$(".x").click(function(){
 					$(this).removeClass('axx'); 
 					$(this).addClass('ahh');
 					$(".xx").removeClass('ahh'); 
 					$(".xx").addClass('axx');
+					$("[name=dikou]").removeAttr("disabled");//去除input元素的disabled属性
+					$("[name=xiudikou]").removeAttr("disabled");//去除input元素的disabled属性
+					xiu(1);
 				})
 				$(".xx").click(function(){
 					$(this).removeClass('axx'); 
 					$(this).addClass('ahh');
 					$(".x").removeClass('ahh'); 
 					$(".x").addClass('axx');
+
+					$("[name=dikou]").attr("disabled","disabled")//将input元素设置为disabled
+					$("[name=xiudikou]").attr("disabled","disabled")//将input元素设置为disabled
+					xiu(0);
+					
 				})
 			})
+			function chawtd(){
+				$.ajax({
+					url:"[[@{/member/selectDeduction}]]",
+					data:{},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						if(result==0){
+							$(".xx").click();
+						}else{
+							$(".x").click();
+						}
+					}
+				}) 
+			}
+			function xiu(wtd){
+				$.ajax({
+					url:"[[@{/member/updateDeduction}]]",
+					data:{"wtd":wtd},
+					dataType:"json",
+					type:"post",
+					success:function(result){
+						
+					}
+				}) 
+			}
+			function gai(){
+				
+				var Jf=$("[name=dikou]").val();
+				$.ajax({
+					url:"[[@{/member/selectDeductionJf}]]",
+					data:{},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						if(result==Jf){
+							alert("输入积分不可和现有积分一致!");
+						} else{
+							$.ajax({
+								url:"[[@{/member/updateDeductionJF}]]",
+								data:{"Jf":Jf},
+								dataType:"json",
+								type:"post",
+								success:function(result){
+									if(result>=1){
+										alert("设置成功");
+									}else{
+										alert("设置失败");
+									}
+								}
+							})
+						}
+					}
+				}) 
+				
+			}
+			function cha(){
+				$.ajax({
+					url:"[[@{/member/selectDeductionJf}]]",
+					data:{},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						$("[name=dikou]").val(result);
+					}
+				}) 
+			}
 		</script>
 	</body>
 </html>

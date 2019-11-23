@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.Member;
 import com.accp.domain.Memberclass;
+import com.accp.domain.Recharge;
 import com.accp.mapper.MemberMapper;
 
 @Service
@@ -62,5 +63,30 @@ public class MemberService {
 	//按编号查询会员
 	public Member selectMemberById(int id) {
 		return mp.selectMemberById(id);
+	}
+	//查询积分设置是否关闭
+	public int selectDeduction() {
+		return mp.selectDeduction();
+	}
+	//设置积分是否可用
+	public int updateDeduction(int wtd) {
+		return mp.updateDeduction(wtd);
+	}
+	
+	//设置多少积分可抵一元
+	public int updateDeductionJF(int Jf) {
+		return mp.updateDeductionJF(Jf);
+	}
+	//查询现有的积分
+	public int selectDeductionJf() {
+		return mp.selectDeductionJf();
+	}
+	//将金额充值到会员表余额
+	public int updateMoney(Member r) {
+		return mp.updateMoney(r);
+	}
+	//将充值记录录入到充值表
+	public int insertRecharge(Recharge c) {
+		return mp.insertRecharge(c);
 	}
 }

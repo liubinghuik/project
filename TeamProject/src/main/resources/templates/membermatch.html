@@ -96,13 +96,19 @@
 		            <div class="modal-body" style="text-align: center;">
 		            	<div class="row"style="margin:20px 0px;">
 		            		<div class="col-md-3"style="border:0px solid red"></div>
-		            		<div class="col-md-6"style="border:0px solid red">充值账户<input type="text"name=""style="margin-left:8px;height:36px;width:220px;"></div>
+		            		<div class="col-md-6"style="border:0px solid red">充值会员
+		            		
+		        
+		            			<select name="huiyuan" style="margin-left:4px ;height:36px;width:220px;">
+		            				<option value="">张三</option>
+		            			</select>	
+		            		</div>
 		            		
 		            		<div class="col-md-3"style="border:0px solid red"></div>
 		            	</div>
 		            	<div class="row"style="margin:20px 0px;">
 		            		<div class="col-md-3"style="border:0px solid red"></div>
-		            		<div class="col-md-6"style="border:0px solid red">充值金额<input type="text"name=""style="margin-left:8px;height:36px;width:220px;"></div>
+		            		<div class="col-md-6"style="border:0px solid red">充值金额<input type="text"name="czje"style="margin-left:8px;height:36px;width:220px;"></div>
 		            		
 		            		<div class="col-md-3"style="border:0px solid red"></div>
 		            	</div>
@@ -111,9 +117,22 @@
 		            		<div class="col-md-3"style="border:0px solid red"></div>
 		            		<div class="col-md-6"style="border:0px solid red">
 		            			充值方式
-		            			<select name="" style="margin-left:4px ;height:36px;width:220px;">
-		            				<option value="">微信</option>
+		            			<select name="czfs" style="margin-left:4px ;height:36px;width:220px;">
+		            				<option value="微信">微信</option>
+		            				<option value="支付宝">支付宝</option>
+		            				<option value="银联">银联</option>
 		            			</select>	
+		            		</div>
+		            		
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            	</div>
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            		<div class="col-md-6"style="border:0px solid red;padding-left:40px;">
+		            			备注
+		            			<textarea cols="28"rows="4"name="bz"style="margin-left:4px ;overflow-x:hidden;overflow-y:hidden">
+		            				
+		            			</textarea>
 		            		</div>
 		            		
 		            		<div class="col-md-3"style="border:0px solid red"></div>
@@ -123,13 +142,81 @@
 		            <div class="modal-footer"style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
 		                &nbsp;&nbsp;
-		                <button type="button" class="btn btn-primary"style="width:90px">确定</button>
+		                <button type="button" class="btn btn-primary"style="width:90px"onclick="xiu()">确定</button>
 		            </div>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
 		<script type="text/javascript">
+			$(function(){
+				selectAllMember();
+			})
+			function selectAllMember(){
+				$.ajax({
+					url:"[[@{/member/SelectMemberInfo}]]",
+					data:{},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						$("[name=huiyuan]").html("");
+						$.each(result,function(i,obj){
+							var option=$("<option value="+obj.mid+">"+obj.mname+"</option>");
+							$("[name=huiyuan]").append(option);
+						})
+					}
+				})
+			}
+			function xiu(){
+			var m={
+					reid:1,
+					mid:$("[name=huiyuan]").val(),
+					remoney:$("[name=czje]").val(),
+					reway:$("[name=czfs]").val(),
+					rejf:0,
+					rebalance:0,
+					remark:$("[name=bz]").val(),
+					createtime:new Date()
+			 }
+			 $.ajax({
+					url:"[[@{/member/updateMoney}]]",
+					data:JSON.stringify(m),
+					dataType:"json",
+					type:"post",
+					contentType : 'application/json;charset=UTF-8',
+					success:function(result){
+						if(result>0){
+							alert("充值成功！");
+							insertRecharge();
+						}else{
+							alert("充值失败！");
+						}
+					}
+			})
 			
+		} 
+		function insertRecharge(){
+			var m={
+					reid:1,
+					mid:$("[name=huiyuan]").val(),
+					remoney:$("[name=czje]").val(),
+					reway:$("[name=czfs]").val(),
+					rejf:0,
+					rebalance:0,
+					remark:$("[name=bz]").val(),
+					createtime:new Date()
+			 }
+			 $.ajax({
+					url:"[[@{/member/insertRecharge}]]",
+					data:JSON.stringify(m),
+					dataType:"json",
+					type:"post",
+					contentType : 'application/json;charset=UTF-8',
+					success:function(result){
+						alert(result);
+					}
+			})
+			
+		} 
 		</script>
 	</body>
 </html>

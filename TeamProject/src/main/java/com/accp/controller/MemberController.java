@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.accp.domain.Member;
 import com.accp.domain.Memberclass;
-
+import com.accp.domain.Recharge;
 import com.accp.service.MemberService;
 
 import ch.qos.logback.core.pattern.parser.Parser;
@@ -215,6 +215,42 @@ public class MemberController {
 		}
 		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
 	}
-	
+	//查询积分设置是否关闭
+	@RequestMapping(value = "selectDeduction", method = RequestMethod.GET)
+	@ResponseBody
+	public int selectDeduction() {
+		return ms.selectDeduction();
+	}
+	//设置积分是否可用
+	@RequestMapping(value = "updateDeduction", method = RequestMethod.POST)
+	@ResponseBody
+	public int updateDeduction(int wtd) {
+		return ms.updateDeduction(wtd);
+	}
+	//设置多少积分可抵一元
+	@RequestMapping(value = "updateDeductionJF", method = RequestMethod.POST)
+	@ResponseBody
+	public int updateDeductionJF(int Jf) {
+		return ms.updateDeductionJF(Jf);
+	}
+	//查询现有的积分
+	@RequestMapping(value = "selectDeductionJf", method = RequestMethod.GET)
+	@ResponseBody
+	public int selectDeductionJf() {
+		return ms.selectDeductionJf();
+	}
+	//将金额充值到会员表余额
+	@RequestMapping(value = "updateMoney", method = RequestMethod.POST)
+	@ResponseBody
+	public int updateMoney(@RequestBody Recharge r) {
+		Member m=new Member(r.getMid(),r.getRemoney());
+		return ms.updateMoney(m);
+	}
+	//将充值记录录入到充值表
+	@RequestMapping(value = "insertRecharge", method = RequestMethod.POST)
+	@ResponseBody
+	public int insertRecharge(@RequestBody Recharge c) {
+		return ms.insertRecharge(c);
+	}
 	
 }
