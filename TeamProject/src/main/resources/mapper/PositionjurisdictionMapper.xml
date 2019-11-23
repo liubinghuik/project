@@ -103,6 +103,7 @@
     values (#{pjid,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{jid,jdbcType=INTEGER}
       )
   </insert>
+  <!-- 新增职位权限 -->
   <insert id="insertSelective" parameterType="com.accp.domain.Positionjurisdiction" >
     insert into positionjurisdiction
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -178,4 +179,9 @@
       jid = #{jid,jdbcType=INTEGER}
     where pjid = #{pjid,jdbcType=INTEGER}
   </update>
+  
+  <!--  修改职位权限 -->
+  <delete id="deletepositionjurisdictionBypid"  parameterType="int">
+  	DELETE from positionjurisdiction WHERE pid=#{0}
+  </delete>
 </mapper>

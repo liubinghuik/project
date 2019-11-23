@@ -82,4 +82,15 @@ public class Staff {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+
+	public Staff() {
+		super();
+	}
+
+	public Staff(Integer stid, String jobnumber, String stpwd) {
+		super();
+		this.stid = stid;
+		this.jobnumber = jobnumber;
+		this.stpwd = stpwd;
+	}
 }

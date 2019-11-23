@@ -161,4 +161,30 @@
     set pname = #{pname,jdbcType=VARCHAR}
     where pid = #{pid,jdbcType=INTEGER}
   </update>
+ <!--  查询所有职位 -->
+  <select id="selectPositionAll" resultMap="BaseResultMap">
+  	select * from position
+  </select>
+	<!--   新增职位 -->
+  <insert id="insertpositionBypname" parameterType="String">
+  	INSERT INTO `position`(`pname`)
+	VALUES(#{0})
+  </insert>
+  <!-- 根据职位名称查询id -->
+  <select id="selectpositionBypname" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM POSITION WHERE pname=#{0}
+  </select>
+   <!-- 根据职位id查询名称 -->
+  <select id="selectpositionBypid" parameterType="int" resultMap="BaseResultMap">
+  	SELECT * FROM POSITION WHERE pid=#{0}
+  </select>
+  <!-- 修改职位名称 -->
+  <update id="updatepositionBypid" parameterType="com.accp.domain.Position">
+  	update position set pname=#{pname}
+  	where pid=#{pid}
+  </update>
+  <!-- 删除职位 -->
+  <delete id="deletepositionBypid" parameterType="int">
+  	delete FROM position where pid=#{0}
+  </delete>
 </mapper>

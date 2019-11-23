@@ -35,20 +35,17 @@
 						<div style="padding-left: 0;float: left;">员工管理</div>
 						<div style="float: right;width: 80%;text-align: right;">
 							<form action="" method="post">
-								<select class="form-control" style="width: 25.66%; display: inline-block;">
-								  <option>全部店铺</option>
-								  <option>莱米琪</option>
+								<select class="form-control" style="width: 25.66%; display: inline-block;" name="alldp" id="selectdp" onchange="page()">
+								  <option selected value="0">全部店铺</option>
 								</select>
 								
-								<select class="form-control" style="width: 25.66%; display: inline-block;">
-								  <option>全部职位</option>
-								  <option>店长</option>
-								  <option>收银员</option>
+								<select class="form-control" style="width: 25.66%; display: inline-block;" name="allzw" id="selectzw" onchange="page()">
+								  <option selected value="0">全部职位</option>
 								</select>
 								
-								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 26.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
-								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" data-toggle="modal" data-target="#myModal">添加员工</button>
+								<input type="text" class="form-control" id="mhname" placeholder="查找" style="width: 26.50%; display: inline-block;">
+								<a class="glyphicon glyphicon-search" onclick="page()" style="margin-left: -28px;cursor: pointer;"></a>
+								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" data-toggle="modal" data-target="#myModal" id="tjzwbtn">添加员工</button>
 							</form>
 						</div>
 					</div>
@@ -65,16 +62,7 @@
 									<td width="8%">操作</td>
 								</tr>
 							</thead>
-							<tbody align="center">
-								<tr>
-									<td>1</td>
-									<td>莱米琪</td>
-									<td>-</td>
-									<td>18670802166</td>
-									<td>总账号</td>
-									<td>******</td>
-									<td data-toggle="modal" data-target="#myModal2">编辑</td>
-								</tr>
+							<tbody align="center" id="tab">
 							</tbody>
 						</table>
 					</div>
@@ -92,14 +80,14 @@
 		      	<div class="form-group" style="margin-top: 30px;">
 				    <label class="col-sm-2 control-label">店铺</label>
 				    <div class="col-sm-5">
-				      <select class="form-control">
-						  <option>请选择店铺</option>
+				      <select class="form-control" name="alldp" id="xzdp">
+						  <option value="0" selected>请选择店铺</option>
 					  </select>
 				    </div>
 				    <label class="col-sm-2 control-label" >职位</label>
 				    <div class="col-sm-5">
-				      <select class="form-control">
-						  <option>请选择职位</option>
+				      <select class="form-control" name="allzw" id="xzzw">
+						  <option value="0" selected>请选择职位</option>
 					  </select>
 				    </div>
 			  	</div>
@@ -110,7 +98,7 @@
 				    </div>
 				    <label class="col-sm-2 control-label" >姓名</label>
 				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
-				      <input type="password" class="form-control" style="width:206.66px" id="xzxm">
+				      <input type="text" class="form-control" style="width:206.66px" id="xzxm">
 				    </div>
 			  	</div>
 			  	<div class="form-group" >
@@ -138,38 +126,39 @@
 		      	<div class="form-group" style="margin-top: 30px;">
 				    <label class="col-sm-2 control-label">店铺</label>
 				    <div class="col-sm-5">
-				      <select class="form-control">
-						  <option>请选择店铺</option>
+				      <select class="form-control" name="alldp" id="xgdp">
+						  <option selected value="0">请选择店铺</option>
 					  </select>
 				    </div>
 				    <label class="col-sm-2 control-label" >职位</label>
 				    <div class="col-sm-5">
-				      <select class="form-control">
-						  <option>请选择职位</option>
+				      <select class="form-control" name="allzw" id="xgzw">
+						  <option selected value="0">请选择职位</option>
 					  </select>
 				    </div>
 			  	</div>
 			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
 				    <label class="col-sm-2 control-label">工号</label>
 				    <div class="col-sm-5" style="margin-left: -51px;">
-				      <input type="text" class="form-control" style="width:206.66px">
+				      <input type="text" class="form-control" style="width:206.66px"id="xggh">
 				    </div>
 				    <label class="col-sm-2 control-label" >姓名</label>
 				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
-				      <input type="password" class="form-control" style="width:206.66px">
+				      <input type="text" class="form-control" style="width:206.66px" id="xgxm">
 				    </div>
 			  	</div>
 			  	<div class="form-group" >
 				    <label class="col-sm-2 control-label"style="width:94.66px;">密码</label>
 				    <div class="col-sm-5" style="margin-left: -51px;">
-				      <input type="password" class="form-control" style="width:206.66px">
+				      <input type="password" class="form-control" style="width:206.66px" id="xgmm">
+				      <input type="hidden"id="xgstid">
 				    </div>
 			  	</div>
 		      </div>
 		      <div class="modal-footer" style="margin-top: 40px;">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button type="button" class="btn btn-danger">删除</button>
-		        <button type="button" class="btn btn-success">确定</button>
+		        <button type="button" class="btn btn-danger" name="scstaff">删除</button>
+		        <button type="button" class="btn btn-success" name="xgstaff">确定</button>
 		      </div>
 		    </div>
 		  </div>
@@ -177,23 +166,191 @@
 	</body>
 	<script type="text/javascript">
 			$(function(){
-				$("[name=xzstaff]").click(function(){
-					var gh=$("#xzgh").val();
-					var xm=$("#xzxm").val();
-					var mm=#("xzmm").val();
+				page();
+				zjdp();
+				zjzw();
+				getMyscope();
+				//删除员工
+				$("[name=scstaff]").click(function(){
+					var stid=$("#xgstid").val();
 					$.ajax({
-						url:"[[@{/}]]",
-						type:"",
-						data:"",
-						dataType:"",
+						url:"[[@{/staff/deletestaff}]]",
+						type:"post",
+						data:{
+							stid:stid
+						},
+						dataType:"json",
 						success:function(res){
-							
+							if (res == "0") {
+								$("#myModal2").modal('hide');
+								location.reload();
+							} else if (res == "1") {
+								alert("删除失败，请重试！");
+								$("#myModal2").modal('hide');
+								location.reload();
+							}
+						}
+					})
+				});
+				//修改员工
+				$("[name=xgstaff]").click(function(){
+					var st={
+							stid:$("#xgstid").val(),
+							sid:$("#xgdp").val(),
+							pid:$("#xgzw").val(),
+							jobnumber:$("#xggh").val(),
+							stname:$("#xgxm").val(),
+							stpwd:$("#xgmm").val()
+						};
+					$.ajax({
+						url:"[[@{/staff/toxgstaff}]]",
+						type:"post",
+						data:JSON.stringify(st),
+						contentType : "application/json;charset=utf-8",
+						dataType:"json",
+						success:function(res){
+							if (res == "0") {
+								$("#myModal2").modal('hide');
+								location.reload();
+							} else if (res == "1") {
+								alert("修改失败，请重试！");
+								$("#myModal2").modal('hide');
+								location.reload();
+							}
+						}
+					});
+				});
+				//新增
+				$("[name=xzstaff]").click(function(){
+					var st={
+						sid:$("#xzdp").val(),
+						pid:$("#xzzw").val(),
+						jobnumber:$("#xzgh").val(),
+						stname:$("#xzxm").val(),
+						stpwd:$("#xzmm").val()
+					};
+					$.ajax({
+						url:"[[@{/staff/toxzstaff}]]",
+						type:"post",
+						data:JSON.stringify(st),
+						contentType : "application/json;charset=utf-8",
+						dataType:"json",
+						success:function(res){
+							if (res == "0") {
+								$("#myModal").modal('hide');
+								page();
+							} else if (res == "1") {
+								alert("新增失败，请重试！");
+								$("#myModal").modal('hide');
+								location.reload();
+							}
 						}
 					})
 				});
 				
 				
 			});
-			
+			//查询
+			function page(){
+				var sid=$("#selectdp").val();
+				var pid=$("#selectzw").val();
+				var account = $("#uaccount", parent.document).text();
+				var name=$("#mhname").val();
+				$.ajax({
+					url:"[[@{/shopall/tostaffselect}]]",
+					type:"get",
+					data:{
+						sid:sid,
+						pid:pid,
+						account:account,
+						name:name
+					},
+					dataType:"json",
+					success:function(res){
+						$("#tab").html("");
+						$.each(res,function(i,obj){
+							var $tr="<tr><td>"+(i+1)+"</td><td>"+obj.sname+"</td><td>"+obj.pname+
+							"</td><td>"+obj.jobnumber+"</td><td>"+obj.stname+"</td><td>"+obj.stpwd+
+							"</td><td data-toggle='modal' data-target='#myModal2' onclick='xg("+obj.stid+")'>编辑</td></tr>";
+							$("#tab").append($tr);
+						})
+					}
+				});
+			};
+			//获取现在session的内容判断是否有当前页面的功能，如果没有则禁用按钮
+			function getMyscope(){ 
+			   　$.ajax({
+				  url:"[[@{/user/cxcsope}]]",
+				  type:"get",
+				  dataType:"json",
+				  success:function(res){
+					  $("#tjzwbtn").attr("disabled", "disabled");
+					  $("[name=scstaff]").attr("disabled", "disabled");
+					  $("[name=xgstaff]").attr("disabled", "disabled");
+					  $.each(res,function(i,obj){
+						  if(obj.moid==22){
+							  $("#tjzwbtn").removeAttr("disabled");
+						  }
+						  if(obj.moid==23){
+							  $("[name=xgstaff]").removeAttr("disabled");
+						  }
+						  if(obj.moid==24){
+							  $("[name=scstaff]").removeAttr("disabled");
+						  }
+					  })
+				  }
+			   　});
+			}; 
+			//根据stid查询
+			function xg(stid){
+				$.ajax({
+					url:"[[@{/staff/toselectBysid}]]",
+					type:"get",
+					data:{
+						stid:stid
+					},
+					dataType:"json",
+					success:function(res){
+						$("#xgstid").val(res.stid);
+						$("#xgdp").val(res.sid);
+						$("#xgzw").val(res.pid);
+						$("#xggh").val(res.jobnumber);
+						$("#xgxm").val(res.stname);
+						$("#xgmm").val(res.stpwd);
+					}
+				});
+			};
+			//加载全部店铺
+			function zjdp(){
+				var account = $("#uaccount", parent.document).text();
+				$.ajax({
+					url:"[[@{/staff/tozjdp}]]",
+					type:"get",
+					data:{
+						account:account
+					},
+					dataType:"json",
+					success:function(res){
+						$.each(res,function(i,obj){
+							var $option="<option value='"+obj.sid+"'>"+obj.sname+"</option>";
+							$("[name=alldp]").append($option);
+						})
+					}
+				})
+			};
+			//加载全部职位
+			function zjzw(){
+				$.ajax({
+					url:"[[@{/staff/tozjzw}]]",
+					type:"get",
+					dataType:"json",
+					success:function(res){
+						$.each(res,function(i,obj){
+							var $option="<option value='"+obj.pid+"'>"+obj.pname+"</option>";
+							$("[name=allzw]").append($option);
+						})
+					}
+				})
+			};
 	</script>
 </html>

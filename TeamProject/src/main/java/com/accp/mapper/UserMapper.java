@@ -31,12 +31,17 @@ public interface UserMapper {
     /* 根据账号和密码查询用户表 */
     User selectUserByaccountAndPwd(User user);
     
+    int insertuser(User user);
+    
     /* 根据id查询用户表 */
     User selectUserByuid(int id);
+    User selectUserByuaccount(String uaccount);
 
 	/* 修改账户信息 */
     int updateUserByuidxx(User user);
+    int updateUserByuaccountAndupwd(User user);
 
 	/* 修改账户图片路径 */
     int updateUserByuserpic(User user);
+    int deleteUser(int uid);
 }

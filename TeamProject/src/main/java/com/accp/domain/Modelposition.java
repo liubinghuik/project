@@ -7,7 +7,17 @@ public class Modelposition {
 
     private Integer pid;
 
-    public Integer getMpid() {
+    public Modelposition(Integer moid, Integer pid) {
+		super();
+		this.moid = moid;
+		this.pid = pid;
+	}
+
+	public Modelposition() {
+		super();
+	}
+
+	public Integer getMpid() {
         return mpid;
     }
 

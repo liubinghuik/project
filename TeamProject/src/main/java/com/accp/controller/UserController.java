@@ -2,6 +2,7 @@ package com.accp.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.accp.domain.ShopAll;
+import com.accp.domain.Staff;
 import com.accp.domain.User;
+import com.accp.service.ShopAllService;
+import com.accp.service.StaffService;
 import com.accp.service.UserService;
 import com.accp.util.ImageUtil;
 
@@ -23,6 +28,10 @@ import com.accp.util.ImageUtil;
 public class UserController {
 	@Autowired
 	UserService userservice;
+	@Autowired
+	ShopAllService shopallservice;
+	@Autowired
+	StaffService staffservice;
 	
 	@RequestMapping("/GetImage")
 	public void GetImage(HttpServletResponse response,HttpServletRequest request) throws IOException {
@@ -45,8 +54,11 @@ public class UserController {
 			User uu=new User(uaccount,upwd);
 			User user=userservice.selectUserByaccountAndPwd(uu);
 			if(user!=null) {
-				if(yzm.equals(session.getAttribute("code"))) {
-					session.setAttribute("user",user);
+				String code = (String) session.getAttribute("code");
+				if(yzm.equals(code)) {
+					List<ShopAll> shopall=shopallservice.selectShopAllByjobnumber(uaccount);
+					session.setAttribute("zwdqx", shopall);
+					session.setAttribute("user", user);
 					return "0";
 				}else{
 					return "1";
@@ -55,23 +67,38 @@ public class UserController {
 				return "2";
 			}
 		}
+		//查询用户 权限
+		@RequestMapping("/cxcsope")
+		@ResponseBody
+		public List<ShopAll> selectsope(HttpSession session) {
+			List<ShopAll> shopall=(List<ShopAll>) session.getAttribute("zwdqx");
+			return shopall;
+		}
 		//修改用户信息
 		@RequestMapping("/toupdate")
 		@ResponseBody
 		public String toupdate(@RequestBody User uu,HttpSession session){
-		  if(userservice.updateUserByuidxx(uu)>0) { 
-			  User user=userservice.selectUserByuid(uu.getUid());
-			  session.setAttribute("user",user);
-			  return "0"; 
+			//根据uid查询uname
+			User qq=userservice.selectUserByuid(uu.getUid());
+			/*再根据uname查出对应的员工表*/
+			Staff st= staffservice.selectstaffByjobnumber(qq.getUaccount());
+			/*再修改账户信息*/
+			Staff vv=new Staff(st.getStid(),uu.getUaccount(),uu.getUpwd());
+		  if(userservice.updateUserByuidxx(uu)>0) {
+			  if(staffservice.updateByPrimaryKeySelective(vv)>0) {
+				  User user=userservice.selectUserByuid(uu.getUid());
+				  session.setAttribute("user",user);
+				  return "0";
+			  }
 		  }else { 
 			  return "1"; 
 		  }
+		return null;
 		}
 		//修改用户头像(文件上传)
 		@RequestMapping("/upload")
 		@ResponseBody
 		public String upload(HttpSession session,MultipartFile file,int id){
-			System.out.println(file+"\t"+id);
 			File directory = new File("/D:/git/tupian");
 			if(!directory.exists()) {
 				directory.mkdirs();
@@ -79,7 +106,6 @@ public class UserController {
 			try {
 				String url = "/D:/git/tupian/";
 				url = url+"/"+file.getOriginalFilename();
-				System.out.println(file.getOriginalFilename());
 				File f = new File(url);
 				file.transferTo(f);
 			} catch (IllegalStateException | IOException e) {

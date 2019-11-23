@@ -178,4 +178,13 @@
       pid = #{pid,jdbcType=INTEGER}
     where mpid = #{mpid,jdbcType=INTEGER}
   </update>
+  <!--  新增功能职位 -->
+  <insert id="insertmodelposition" parameterType="com.accp.domain.Modelposition">
+  	INSERT INTO modelposition(moid,pid)
+	VALUES(#{moid},#{pid})
+  </insert>
+ 	<!--  删除功能职位 -->
+  <delete id="deletemodelposition" parameterType="int">
+  	DELETE FROM modelposition WHERE pid=#{0}
+  </delete>
 </mapper>

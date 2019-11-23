@@ -5,7 +5,19 @@ public class Position {
 
     private String pname;
 
-    public Integer getPid() {
+   
+
+	public Position() {
+		super();
+	}
+
+	public Position(Integer pid, String pname) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+	}
+
+	public Integer getPid() {
         return pid;
     }
 
@@ -20,4 +32,5 @@ public class Position {
     public void setPname(String pname) {
         this.pname = pname;
     }
+    
 }
