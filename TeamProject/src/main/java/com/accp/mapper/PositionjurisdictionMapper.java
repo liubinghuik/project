@@ -33,5 +33,5 @@ public interface PositionjurisdictionMapper {
 
 	/* 修改and删除 */
     int deletepositionjurisdictionBypid(int pid);
-    
+ 
 }

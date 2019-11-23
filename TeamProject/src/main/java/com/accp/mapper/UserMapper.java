@@ -44,4 +44,5 @@ public interface UserMapper {
 	/* 修改账户图片路径 */
     int updateUserByuserpic(User user);
     int deleteUser(int uid);
+
 }

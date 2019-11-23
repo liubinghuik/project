@@ -187,4 +187,5 @@
   <delete id="deletepositionBypid" parameterType="int">
   	delete FROM position where pid=#{0}
   </delete>
+
 </mapper>

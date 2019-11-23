@@ -117,5 +117,4 @@ public class User {
 		return "User [uid=" + uid + ", uaccount=" + uaccount + ", upwd=" + upwd + ", phone=" + phone + ", userpic="
 				+ userpic + ", industry=" + industry + "]";
 	}
-	
 }

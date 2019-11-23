@@ -40,4 +40,9 @@ public class UserService {
 	public int deleteUser(int uid) {
 		return usermapper.deleteUser(uid);
 	}
+	/*
+	 * public User selectUserByaccountAndPwd(User user) { return
+	 * usermapper.selectUserByaccountAndPwd(user); }
+	 */
+
 }

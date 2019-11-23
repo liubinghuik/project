@@ -29,4 +29,5 @@ public interface ModelMapper {
     int updateByPrimaryKey(Model record);
     
     List<Model> selectModelAll();
+
 }

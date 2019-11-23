@@ -30,7 +30,9 @@ public class Shop {
 				+ ", regionname=" + regionname + ", street=" + street + ", state=" + state + "]";
 	}
 
-	public Integer getSid() {
+	
+
+    public Integer getSid() {
         return sid;
     }
 

@@ -7,13 +7,15 @@ public class Modelposition {
 
     private Integer pid;
 
+
     public Modelposition(Integer moid, Integer pid) {
 		super();
 		this.moid = moid;
 		this.pid = pid;
 	}
 
-	public Modelposition() {
+	
+    public Modelposition() {
 		super();
 	}
 

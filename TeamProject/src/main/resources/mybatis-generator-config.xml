@@ -16,6 +16,7 @@
     	c.andNameLike("%"+name+"%");
     	c.andParentidEqualTo(parentId); -->
 	<classPathEntry
+<<<<<<< HEAD
 		location="E:\ACCP\Y2\maven\mysql\mysql-connector-java-5.1.6-bin.jar" />
 	<context id="context1">
 		<!-- 注释 -->
@@ -63,6 +64,55 @@
 			<table schema="record" tableName="Record"></table>
 			<table schema="rddetails" tableName="Rddetails"></table>
 			<table schema="deduction" tableName="Deduction"></table>
+=======
+		location="F:\LearningMaterials\Y2StudyTool\local-repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" />
+	<context id="context1">
+		<!-- 注释 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释代时间戳 -->
+		</commentGenerator>
+		<jdbcConnection connectionURL="jdbc:mysql://localhost:3306/moneypenny?useUnicode=true&amp;characterEncoding=utf-8&amp;allowMutilQueries=true"
+			driverClass="com.mysql.jdbc.Driver" password="123456" userId="root" />
+		<!-- 实体生成位置 -->
+		<javaModelGenerator targetPackage="com.accp.domain"
+			targetProject="src/main/java" />
+		<!-- mapper配置文件生成 -->
+		<sqlMapGenerator targetPackage="mapper"
+			targetProject="src/main/resources" />
+		<!-- mapper接口生成 -->
+		<javaClientGenerator targetPackage="com.accp.mapper" 
+			targetProject="src/main/java" type="XMLMAPPER" />
+			<!-- 店铺 -->
+			<!-- <table schema="user" tableName="User"></table>
+			<table schema="shop" tableName="Shop"></table>
+			<table schema="position" tableName="Position"></table>
+			<table schema="jurisdiction" tableName="Jurisdiction"></table>
+			<table schema="positionjurisdiction" tableName="PositionJurisdiction"></table>
+			<table schema="staff" tableName="Staff"></table> -->
+			<table schema="model" tableName="Model"></table>
+			<table schema="modelposition" tableName="ModelPosition"></table>
+			
+			
+			<!-- 商品 -->
+			<!-- <table schema="commoditysort" tableName="Commoditysort"></table>
+			<table schema="shopcommodity" tableName="Shopcommodity"></table>
+			<table schema="commodity" tableName="Commodity"></table>
+			<table schema="commoditydetails" tableName="CommodityDetails"></table>
+			<table schema="size" tableName="Size"></table>
+			<table schema="color" tableName="Color"></table>
+			<table schema="supplier" tableName="Supplier"></table>
+			<table schema="purchase" tableName="Purchase"></table>
+			<table schema="purchasedetails" tableName="PurchaseDetails"></table> -->
+			
+			<!-- 会员 -->
+			<!-- <table schema="member" tableName="Member"></table>
+			<table schema="memberclass" tableName="Memberclass"></table>
+			<table schema="recharge" tableName="Recharge"></table>
+			<table schema="record" tableName="Record"></table>
+			<table schema="rddetails" tableName="Rddetails"></table>
+			<table schema="deduction" tableName="Deduction"></table> -->
+>>>>>>> branch 'qmn' of https://github.com/liubinghuik/project.git
 			
 	</context>
 </generatorConfiguration>

@@ -5,6 +5,7 @@ public class Position {
 
     private String pname;
 
+
    
 
 	public Position() {
@@ -32,5 +33,4 @@ public class Position {
     public void setPname(String pname) {
         this.pname = pname;
     }
-    
 }

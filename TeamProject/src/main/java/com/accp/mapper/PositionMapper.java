@@ -34,4 +34,5 @@ public interface PositionMapper {
     Position selectpositionBypid(int pid);
     int updatepositionBypid(Position position);
     int deletepositionBypid(int pid);
+
 }

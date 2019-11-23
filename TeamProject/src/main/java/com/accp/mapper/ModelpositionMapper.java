@@ -29,4 +29,5 @@ public interface ModelpositionMapper {
     int updateByPrimaryKey(Modelposition record);
     int insertmodelposition(Modelposition modelposition);
     int deletemodelposition(int pid);
+
 }
