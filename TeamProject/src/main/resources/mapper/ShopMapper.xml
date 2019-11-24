@@ -149,9 +149,7 @@
       <if test="street != null" >
         street,
       </if>
-      <if test="state != null" >
-        state,
-      </if>
+        state
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="sid != null" >
@@ -184,9 +182,7 @@
       <if test="street != null" >
         #{street,jdbcType=VARCHAR},
       </if>
-      <if test="state != null" >
-        #{state,jdbcType=INTEGER},
-      </if>
+     	 0
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.accp.domain.ShopExample" resultType="java.lang.Integer" >
@@ -303,9 +299,27 @@
       state = #{state,jdbcType=INTEGER}
     where sid = #{sid,jdbcType=INTEGER}
   </update>
-  
-  <!-- 根据登录的账号查询对应的店铺 -->
-  <select id="selectshopByuaccount" parameterType="String" resultMap="BaseResultMap">
-  	SELECT * FROM shop WHERE uaccount=#{0}
+  <!-- 新增门店 -->
+  <insert id="insertShop" parameterType="com.accp.domain.Shop">
+  	INSERT INTO shop(`uaccount`,`sname`,`linkman`,`phone`,telephone,provincename,cityname,regionname,street,`state`)
+	VALUES(#{uaccount},#{sname},#{linkman},#{phone},#{telephone},#{provincename},#{cityname},#{regionname},#{street},0);
+  </insert>
+  <!-- 根据id查询对应的门店信息 -->
+  <select id="selectShopBysid" parameterType="int" resultMap="BaseResultMap">
+  	SELECT * FROM shop WHERE sid=#{0}
+  </select>
+  <!-- 修改门店信息 -->
+  <update id="updateShop" parameterType="com.accp.domain.Shop">
+  	update shop set uaccount=#{uaccount},`sname`=#{sname},`linkman`=#{linkman},`phone`=#{phone},telephone=#{telephone},provincename=#{provincename},cityname=#{cityname},regionname=#{regionname},street=#{street}
+	where sid =#{sid};
+  </update>
+  <!-- 删除门店 -->
+   <update id="updateShopBydelete" parameterType="int">
+  	update shop set state=1
+	where sid =#{0};
+  </update>
+  <!-- 查询所有店铺 -->
+  <select id="selectShopAll" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM shop where uaccount=#{0}
   </select>
 </mapper>

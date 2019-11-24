@@ -14,7 +14,7 @@ public interface PositionjurisdictionMapper {
 
     int insert(Positionjurisdiction record);
 
-    int insertSelective(Positionjurisdiction record);
+   
 
     List<Positionjurisdiction> selectByExample(PositionjurisdictionExample example);
 
@@ -27,4 +27,11 @@ public interface PositionjurisdictionMapper {
     int updateByPrimaryKeySelective(Positionjurisdiction record);
 
     int updateByPrimaryKey(Positionjurisdiction record);
+    
+	/* 新增 */
+    int insertSelective(Positionjurisdiction record);
+
+	/* 修改and删除 */
+    int deletepositionjurisdictionBypid(int pid);
+ 
 }

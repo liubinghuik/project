@@ -226,16 +226,29 @@
     where uid = #{uid,jdbcType=INTEGER}
   </update>
 
+  <!--  根据账号和密码查询用户表 -->
   <select id="selectUserByaccountAndPwd" parameterType="com.accp.domain.User" resultMap="BaseResultMap">
   	SELECT * FROM USER WHERE uaccount=#{uaccount} AND upwd=#{upwd}
   </select>
+  <insert id="insertuser" parameterType="com.accp.domain.User">
+  	INSERT INTO `user`(`uaccount`,`upwd`,`phone`,`userpic`,`industry`)
+	VALUES(#{uaccount},#{upwd},#{phone},#{userpic},#{industry});
+  </insert>
    <!--  根据id查询用户表 -->
   <select id="selectUserByuid" parameterType="int" resultMap="BaseResultMap">
   	SELECT * FROM USER WHERE uid=#{0}
   </select>
+  <!--  根据id查询用户表 -->
+  <select id="selectUserByuaccount" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM USER WHERE uaccount=#{0}
+  </select>
   <!-- 修改账户信息 -->
   <update id="updateUserByuidxx" parameterType="com.accp.domain.User">
   	UPDATE USER SET uaccount=#{uaccount},upwd=#{upwd},phone=#{phone},industry=#{industry}
+	WHERE uid=#{uid}
+  </update>
+  <update id="updateUserByuaccountAndupwd" parameterType="com.accp.domain.User">
+  	UPDATE USER SET uaccount=#{uaccount},upwd=#{upwd}
 	WHERE uid=#{uid}
   </update>
   <!-- 修改账户图片路径 -->
@@ -243,4 +256,7 @@
   	UPDATE USER SET userpic=#{userpic}
 	WHERE uid=#{uid}
   </update>
+  <delete id="deleteUser" parameterType="int">
+  	DELETE FROM USER WHERE uid=#{0}
+  </delete>
 </mapper>

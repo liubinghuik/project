@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.ShopAllMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.ShopAll" >
+  	<!-- 用户表 -->
+  	<id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="uaccount" property="uaccount" jdbcType="VARCHAR" />
+    <result column="upwd" property="upwd" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="userpic" property="userpic" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="VARCHAR" />
+  	<!--   店铺表 -->
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="linkman" property="linkman" jdbcType="VARCHAR" />
+    <result column="sphone" property="phone" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="provincename" property="provincename" jdbcType="VARCHAR" />
+    <result column="cityname" property="cityname" jdbcType="VARCHAR" />
+    <result column="regionname" property="regionname" jdbcType="VARCHAR" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="stafftotal" property="stafftotal" jdbcType="INTEGER" />
+    <!--   职位表 -->
+    <result column="pid" property="pid" jdbcType="INTEGER" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <!-- 权限表 -->
+    <result column="jid" property="jid" jdbcType="INTEGER" />
+    <result column="jname" property="jname" jdbcType="VARCHAR" />
+    <result column="fatherid" property="fatherid" jdbcType="INTEGER" />
+    <!--  职位权限表 -->
+    <result column="pjid" property="pjid" jdbcType="INTEGER" />
+    <!-- 模型表 -->
+    <result column="moid" property="moid" jdbcType="INTEGER" />
+    <result column="moname" property="moname" jdbcType="VARCHAR" />
+    <result column="mfatherid" property="fatherid" jdbcType="INTEGER" />
+    <result column="menuid" property="menuid" jdbcType="INTEGER" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="column1" property="column1" jdbcType="VARCHAR" />
+    <result column="column2" property="column2" jdbcType="VARCHAR" />
+    <result column="column3" property="column3" jdbcType="VARCHAR" />
+    <!-- 模型职位表 -->
+    <result column="mpid" property="mpid" jdbcType="INTEGER" />
+    <!-- 员工表 -->
+    <result column="stid" property="stid" jdbcType="INTEGER" />
+    <result column="jobnumber" property="jobnumber" jdbcType="VARCHAR" />
+    <result column="stname" property="stname" jdbcType="VARCHAR" />
+    <result column="stpwd" property="stpwd" jdbcType="VARCHAR" />
+    <result column="ststate" property="ststate" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 根据登录的账号查询对应的店铺信息 -->
+  <select id="selectshopByuaccount" parameterType="String" resultMap="BaseResultMap">
+  	SELECT s.*,COUNT(t.sid) stafftotal FROM shop s LEFT JOIN (
+	SELECT * FROM staff WHERE ststate = 0) t ON s.`sid` = t.`sid`
+	WHERE s.state=0 AND s.uaccount=#{0}
+	GROUP BY s.`sid`
+  </select>
+  <!-- 根据登录的账号查询对应的员工信息 -->
+  <select id="selectStaffByuaccount" parameterType="com.accp.domain.ShopAll" resultMap="BaseResultMap">
+  	SELECT s.`sname`,p.`pname`,t.* FROM staff t,shop s,`position` p
+	WHERE t.`sid`=s.`sid` AND p.`pid`=t.`pid` AND s.`uaccount`=#{uaccount}
+	and t.ststate=0
+	<if test="sid!=null and sid!=0">
+ 			AND t.sid =#{sid}
+ 	</if>
+ 	<if test="pid!=null and pid!=0">
+ 			AND t.pid =#{pid}
+ 	</if>
+	<if test="stname!=null">
+ 			AND t.stname LIKE '%${stname}%'
+ 	</if>
+  </select>
+  <!-- 根据对应的员工id查询对应的员工信息 -->
+  <select id="selectStaffBystid" parameterType="int" resultMap="BaseResultMap">
+  	SELECT s.`sname`,p.`pname`,t.* FROM staff t,shop s,`position` p
+	WHERE t.`sid`=s.`sid` AND p.`pid`=t.`pid` AND stid=#{0}
+  </select>
+ <!--  根据职位id查询出权限 -->
+  <select id="selectpositionBypid" parameterType="int" resultMap="BaseResultMap">
+  	SELECT * FROM modelposition mp,model m,POSITION p
+	WHERE mp.moid=m.moid AND p.pid=mp.pid 
+	AND p.pid=#{0}
+  </select>
+  <!-- 根据员工工号，查询出对应的路径 -->
+  <select id="selectShopAllByjobnumber" parameterType="String" resultMap="BaseResultMap">
+  	SELECT p.*,m.*
+	FROM modelposition mp,model m,POSITION p,staff s
+	WHERE mp.moid=m.moid AND p.pid=mp.pid AND s.`pid`=p.`pid`
+	AND s.jobnumber=#{0}
+  </select>
+</mapper>

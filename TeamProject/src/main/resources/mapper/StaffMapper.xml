@@ -11,7 +11,7 @@
     <result column="ststate" property="ststate" jdbcType="INTEGER" />
     <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <!-- <sql id="Example_Where_Clause" >
+  <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
         <if test="criteria.valid" >
@@ -254,7 +254,15 @@
       ststate = #{ststate,jdbcType=INTEGER},
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where stid = #{stid,jdbcType=INTEGER}
-  </update> -->
+  </update> 
+  <!-- 根据工号查询员工信息 -->
+  <select id="selectstaffByjobnumber" parameterType="String" resultMap="BaseResultMap">
+  	SELECT * FROM staff WHERE jobnumber=#{0}
+  </select>
+   <!-- 根据工号查询员工信息 -->
+  <select id="selectstaffBystid" parameterType="int" resultMap="BaseResultMap">
+  	SELECT * FROM staff WHERE stid=#{0}
+  </select>
   <!-- 新增员工 -->
   <insert id="insertstaff" parameterType="com.accp.domain.Staff">
   	INSERT INTO staff(`sid`,`pid`,`jobnumber`,`stname`,`stpwd`,`ststate`)
@@ -266,8 +274,8 @@
 	where stid=#{stid}
   </update>
  <!--  修改员工状态，即删除员工 -->
-  <!-- <update id="updatestaff" parameterType="com.accp.domain.Staff">
-  	update staff set sid=#{sid},pid=#{pid},jobnumber=#{jobnumber},stname=#{stname},stpwd=#{stpwd}
+  <update id="updatestaffdelete" parameterType="int">
+  	update staff set ststate=1
 	where stid=#{stid}
-  </update> -->
+  </update> 
 </mapper>

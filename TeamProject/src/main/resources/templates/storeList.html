@@ -1,221 +1,382 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>门店列表</title>
-	</head>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css"/>
-	<style type="text/css">
-		*{
-			padding: 0;
-			margin: 0;
-		}
-		#myModal .modal-body .col-sm-2,#myModal2 .modal-body .col-sm-2{
-			margin-top: 7px;
-		}
-		#myModal .modal-body .col-sm-5,#myModal2 .modal-body .col-sm-5{
-			margin-left: -50px;
-		}
-	</style>
-	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
-	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
-	<body>
-		<!--
+<head>
+<meta charset="UTF-8">
+<title>门店列表</title>
+</head>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+<style type="text/css">
+* {
+	padding: 0;
+	margin: 0;
+}
+
+#myModal .modal-body .col-sm-2, #myModal2 .modal-body .col-sm-2 {
+	margin-top: 7px;
+}
+
+#myModal .modal-body .col-sm-5, #myModal2 .modal-body .col-sm-5 {
+	margin-left: -50px;
+}
+</style>
+<script src="/js/jquery-1.12.4.js" type="text/javascript"
+	charset="utf-8"></script>
+<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/dialog.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
+<body>
+	<!--
 	    	作者：offline
 	    	时间：2019-11-12
 	    	描述：门店列表
 	    -->
-		<div class="col-md-10" style="width: 100%;">
-			<div class="row">
-				<div id="tab_dpgl" class="tal_none2">
-					<div class="row" style="line-height:32px;margin-left:5px;margin-right:15px;padding-bottom: 8px;padding-top:15px;">
-						<span style="border-left: 4px solid #44b549;height: 18px;line-height: 16px;padding-left: 3px;">门店列表</span>
-						<button type="button" class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal">添加门店</button>
+	<div class="col-md-10" style="width: 100%;">
+		<div class="row">
+			<div id="tab_dpgl" class="tal_none2">
+				<div class="row"
+					style="line-height: 32px; margin-left: 5px; margin-right: 15px; padding-bottom: 8px; padding-top: 15px;">
+					<span
+						style="border-left: 4px solid #44b549; height: 18px; line-height: 16px; padding-left: 3px;">门店列表</span>
+					<button type="button" class="btn btn-success" style="float: right;"
+						data-toggle="modal" data-target="#myModal" id="tjzwbtn">添加门店</button>
+				</div>
+				<div class="row" style="margin-right: 15px; margin-left: 5px;">
+					<table class="table table-bordered table-hover">
+						<thead align="center">
+							<tr class="active">
+								<td width="3%">序号</td>
+								<td width="6%">账号</td>
+								<td width="6%">店名</td>
+								<td width="3%">员工</td>
+								<td width="5%">联系人</td>
+								<td width="5%">手机</td>
+								<td width="5%">电话</td>
+								<td width="12%">地址</td>
+								<td width="4%">操作</td>
+							</tr>
+						</thead>
+						<tbody align="center" id="tab">
+						</tbody>
+					</table>
+				</div>
+				<div style="text-align: right;">注:可添加多家门店，系统自动分配订单到附近门店。</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加门店</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" style="margin-top: 30px;">
+						<label class="col-sm-2 control-label">店名</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="xzdm">
+						</div>
+						<label class="col-sm-2 control-label"
+							style="margin: 7px 5px 0 -5px;">联系人</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="xzlxr">
+						</div>
 					</div>
-					<div class="row" style="margin-right: 15px;margin-left:5px;">
-						<table class="table table-bordered table-hover">
-							<thead align="center">
-								<tr class="active">
-									<td width="3%">序号</td>
-									<td width="6%">账号</td>
-									<td width="6%">店名</td>
-									<td width="3%">员工</td>
-									<td width="5%">联系人</td>
-									<td width="5%">手机</td>
-									<td width="5%">电话</td>
-									<td width="12%">地址</td>
-									<td width="4%">操作</td>
-								</tr>
-							</thead>
-							<tbody align="center" id="tab">
-								<!-- <tr>
-									<td>1</td>
-									<td>18670802166</td>
-									<td>来米奇</td>
-									<td>2</td>
-									<td>欧思琪</td>
-									<td>18670802166</td>
-									<td></td>
-									<td></td>
-									<td data-toggle="modal" data-target="#myModal2">编辑</td>
-								</tr> -->
-							</tbody>
-						</table>
+					<div class="form-group"
+						style="margin-top: 20px; display: inline-block;">
+						<label class="col-sm-2 control-label">手机</label>
+						<div class="col-sm-5" style="margin-left: -51px;">
+							<input type="text" class="form-control" style="width: 206.66px"
+								id="xzsj">
+						</div>
+						<label class="col-sm-2 control-label"
+							style="margin: 7px 5px 0 -5px;">电&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+						<div class="col-sm-5" style="margin: -33px 0px 0 325px;">
+							<input type="text" class="form-control"
+								style="width: 206.66px" id="xzdh">
+						</div>
 					</div>
-					<div style="text-align: right;">注:可添加多家门店，系统自动分配订单到附近门店。</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">地址</label>
+						<form class="form-inline">
+							<div data-toggle="distpicker" >
+								<div class="form-group" style="margin-left: -35px;">
+									<label class="sr-only" for="province3">Province</label> <select
+										class="form-control" id="xzprovince" ></select>
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="city3">City</label> <select
+										class="form-control" id="xzcity" ></select>
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="district3">District</label> <select
+										class="form-control" id="xzdistrict"></select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="form-group"
+						style="margin-top: 15px; display: inline-block;">
+						<label class="col-sm-2 control-label">街道</label>
+						<div class="col-sm-10" style="margin-left: -45px;">
+							<input type="text" class="form-control" style="width: 489px;"
+								id="xzstreet">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="margin-top: 30px;">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-success" name="xzqd">确定</button>
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		 <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">添加门店</h4>
-		      </div>
-		      <div class="modal-body">
-		      	<div class="form-group" style="margin-top: 30px;">
-				    <label class="col-sm-2 control-label">店名</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control">
-				    </div>
-				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">联系人</label>
-				    <div class="col-sm-5">
-				      <input type="password" class="form-control">
-				    </div>
-			  	</div>
-			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
-				    <label class="col-sm-2 control-label">手机</label>
-				    <div class="col-sm-5" style="margin-left: -51px;">
-				      <input type="text" class="form-control" style="width:206.66px">
-				    </div>
-				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">电&nbsp;&nbsp;&nbsp;&nbsp;话</label>
-				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
-				      <input type="password" class="form-control" style="width:206.66px">
-				    </div>
-			  	</div>
-			  	<div class="form-group">
-				    <label class="col-sm-2 control-label">地址</label>
-				    <div class="col-sm-4" style="margin-left: -50px;">
-				      <select class="form-control">
-						  <option>请选择省份</option>
-					  </select>
-				    </div>
-				    <div class="col-sm-4" style="margin-left: -25px;">
-				      <select class="form-control">
-						  <option>请选择城市</option>
-					  </select>
-				    </div>
-				    <div class="col-sm-4" style="margin-left: -25px;">
-				      <select class="form-control">
-						  <option>请选择地区</option>
-					  </select>
-				    </div>
-			  	</div>
-			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
-				    <label class="col-sm-2 control-label">街道</label>
-				    <div class="col-sm-10" style="margin-left: -45px;">
-				      <input type="text" class="form-control" style="width: 489px;">
-				    </div>
-			  	</div>
-		      </div>
-		      <div class="modal-footer" style="margin-top: 30px;">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button type="button" class="btn btn-success">确定</button>
-		      </div>
-		    </div>
-		  </div>
+	</div>
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">编辑门店</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" style="margin-top: 30px;">
+						<label class="col-sm-2 control-label">店名</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="xgdm">
+						</div>
+						<label class="col-sm-2 control-label"
+							style="margin: 7px 5px 0 -5px;">联系人</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="xglxr">
+						</div>
+					</div>
+					<div class="form-group"
+						style="margin-top: 20px; display: inline-block;">
+						<label class="col-sm-2 control-label">手机</label>
+						<div class="col-sm-5" style="margin-left: -51px;">
+							<input type="text" class="form-control" style="width: 206.66px" id="xgsj"> 
+						</div>
+						<label class="col-sm-2 control-label"
+							style="margin: 7px 5px 0 -5px;">电&nbsp;&nbsp;&nbsp;&nbsp;话</label>
+						<div class="col-sm-5" style="margin: -33px 0px 0 325px;">
+							<input type="text" class="form-control"
+								style="width: 206.66px" id="xgdh">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">地址</label>
+						<form class="form-inline">
+							<div data-toggle="distpicker" >
+								<div class="form-group" style="margin-left: -35px;">
+									<label class="sr-only" for="province3">Province</label> <select
+										class="form-control" id="xgprovince" ></select>
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="city3">City</label> <select
+										class="form-control" id="xgcity" ></select>
+								</div>
+								<div class="form-group">
+									<label class="sr-only" for="district3">District</label> <select
+										class="form-control" id="xgdistrict"></select>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="form-group"
+						style="margin-top: 15px; display: inline-block;">
+						<label class="col-sm-2 control-label">街道</label>
+						<div class="col-sm-10" style="margin-left: -45px;">
+							<input type="text" class="form-control" style="width: 489px;" id="xgstreet">
+							<input type="hidden" id="xgsid" >
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer" style="margin-top: 30px;">
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-danger" name="scshop">删除</button>
+					<button type="button" class="btn btn-success" name="xgshop">确定</button>
+				</div>
+			</div>
 		</div>
-		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		 <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">编辑门店</h4>
-		      </div>
-		      <div class="modal-body">
-		      	<div class="form-group" style="margin-top: 30px;">
-				    <label class="col-sm-2 control-label">店名</label>
-				    <div class="col-sm-5">
-				      <input type="text" class="form-control">
-				    </div>
-				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">联系人</label>
-				    <div class="col-sm-5">
-				      <input type="password" class="form-control">
-				    </div>
-			  	</div>
-			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
-				    <label class="col-sm-2 control-label">手机</label>
-				    <div class="col-sm-5" style="margin-left: -51px;">
-				      <input type="text" class="form-control" style="width:206.66px">
-				    </div>
-				    <label class="col-sm-2 control-label" style="margin:7px 5px 0 -5px;">电&nbsp;&nbsp;&nbsp;&nbsp;话</label>
-				    <div class="col-sm-5"style="margin: -33px 0px 0 325px;">
-				      <input type="password" class="form-control" style="width:206.66px">
-				    </div>
-			  	</div>
-			  	<div class="form-group">
-				    <label class="col-sm-2 control-label">地址</label>
-				    <div class="col-sm-4" style="margin-left: -50px;">
-				      <select class="form-control">
-						  <option>请选择省份</option>
-					  </select>
-				    </div>
-				    <div class="col-sm-4" style="margin-left: -25px;">
-				      <select class="form-control">
-						  <option>请选择城市</option>
-					  </select>
-				    </div>
-				    <div class="col-sm-4" style="margin-left: -25px;">
-				      <select class="form-control">
-						  <option>请选择地区</option>
-					  </select>
-				    </div>
-			  	</div>
-			  	<div class="form-group" style="margin-top: 20px;display: inline-block;">
-				    <label class="col-sm-2 control-label">街道</label>
-				    <div class="col-sm-10" style="margin-left: -45px;">
-				      <input type="text" class="form-control" style="width: 489px;">
-				    </div>
-			  	</div>
-		      </div>
-		      <div class="modal-footer" style="margin-top: 30px;">
-		        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-		        <button type="button" class="btn btn-danger">删除</button>
-		        <button type="button" class="btn btn-success">确定</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	</body>
-	<script type="text/javascript">
-			$(function(){
-				/* page(); */
+	</div>
+</body>
+<script src="/js/distpicker.data.js"></script>
+<script src="/js/distpicker.js"></script>
+<script src="/js/main.js"></script>
+<script type="text/javascript">
+	$(function() {
+		page();
+		getMyscope();
+		//删除门店
+		$("[name=scshop]").click(function(){
+			var sid=$("#xgsid").val();
+			$.ajax({
+				url:"[[@{/shop/deleteshop}]]",
+				type:"post",
+				data:{
+					sid:sid
+				},
+				dataType:"json",
+				success:function(res){
+					if (res == "0") {
+						$("#myModal2").modal('hide');
+						location.reload();
+					} else if (res == "1") {
+						alert("删除失败，请重试！");
+						$("#myModal2").modal('hide');
+						location.reload();
+					}
+				}
+			})
+		});
+		//修改门店
+		$("[name=xgshop]").click(function(){
+			var ss = {
+					sid:$("#xgsid").val(),
+					uaccount : $("#uaccount", parent.document).text(),
+					sname : $("#xgdm").val(),
+					linkman : $("#xglxr").val(),
+					phone : $("#xgsj").val(),
+					telephone : $("#xgdh").val(),
+					provincename : $("#xgprovince").val(),
+					cityname : $("#xgcity").val(),
+					regionname : $("#xgdistrict").val(),
+					street : $("#xgstreet").val()
+				};
+			$.ajax({
+				url:"[[@{/shop/toupdate}]]",
+				type:"post",
+				data:JSON.stringify(ss),
+				contentType : "application/json;charset=utf-8",
+				dataType : "json",
+				success:function(res){
+					if (res == "0") {
+						$("#myModal2").modal('hide');
+						location.reload();
+					} else if (res == "1") {
+						alert("修改失败，请重试！");
+						$("#myModal2").modal('hide');
+						location.reload();
+					}
+				}
 			});
-			function page(){
-				var uaccount=$("#uaccount").val();
-				alert(uaccount);
-				$.ajax({
-					url:"[[@{/shop/toselect}]]",
-					type:"get",
-					data:{
-						uaccount:uaccount
+		});
+		//新增门店
+		$("[name=xzqd]").click(function() {
+			var ss = {
+				uaccount : $("#uaccount", parent.document).text(),
+				sname : $("#xzdm").val(),
+				linkman : $("#xzlxr").val(),
+				phone : $("#xzsj").val(),
+				telephone : $("#xzdh").val(),
+				provincename : $("#xzprovince").val(),
+				cityname : $("#xzcity").val(),
+				regionname : $("#xzdistrict").val(),
+				street : $("#xzstreet").val()
+			};
+			$.ajax({
+				url : "[[@{/shop/toinsert}]]",
+				type : "post",
+				data : JSON.stringify(ss),
+				contentType : "application/json;charset=utf-8",
+				dataType : "json",
+				success : function(res) {
+					if (res == "0") {
+						$("#myModal").modal('hide');
+						page();
+					} else if (res == "1") {
+						alert("新增失败，请重试！");
+						$("#myModal").modal('hide');
+						location.reload();
+					}
+				}
+			}); 
+		});
+	});
+	//查询门店
+	function page() {
+		var account = $("#uaccount", parent.document).text();
+		$.ajax({
+					url : "[[@{/shopall/toselect}]]",
+					type : "get",
+					data : {
+						account : account
 					},
-					dataType:"json",
-					success:function(res){
+					dataType : "json",
+					success : function(res) {
 						$("#tab").html("");
-						$.each(res,function(i,obj){
-							var $tr="<tr><td>"+(i+1)+"</td><td>"+obj.uaccount+"</td><td>"+obj.sname+
-							"</td><td>"++"</td><td>"+obj.linkman+"</td><td>"+obj.phone+"</td><td>"+obj.telephone+
-							"</td><td>"+obj.street+"</td><td data-toggle='modal' data-target='.myModal2'>编辑</td></tr>";
-							$("#tab").append($tr);
+						$.each(res,function(i, obj) {
+											var telephone = "";
+											if (obj.telephone != null) {
+												telephone = obj.telephone;
+											}
+											var street = "";
+											if (obj.provincename != null) {
+												street = obj.provincename+obj.cityname+obj.regionname+obj.street;
+											}
+											var $tr = "<tr><td>"+ (i + 1)+ "</td><td>"+ obj.uaccount+ "</td><td>"+ obj.sname+
+											"</td><td>"+ obj.stafftotal+ "</td><td>"+ obj.linkman+ "</td><td>"+ obj.phone+ 
+											"</td><td>"+ telephone+ "</td><td>"+ street+ 
+											"</td><td data-toggle='modal' data-target='#myModal2' onclick='xg("+obj.sid+")'>编辑</td></tr>";
+											$("#tab").append($tr);
 						})
 					}
-					
-				});
+		});
+	}
+	//获取现在session的内容判断是否有当前页面的功能，如果没有则禁用按钮
+	function getMyscope(){ 
+	   　$.ajax({
+		  url:"[[@{/user/cxcsope}]]",
+		  type:"get",
+		  dataType:"json",
+		  success:function(res){
+			  $("#tjzwbtn").attr("disabled", "disabled");
+			  $("[name=scshop]").attr("disabled", "disabled");
+			  $("[name=xgshop]").attr("disabled", "disabled");
+			  $.each(res,function(i,obj){
+				  if(obj.moid==14){
+					  $("#tjzwbtn").removeAttr("disabled");
+				  }
+				  if(obj.moid==15){
+					  $("[name=xgshop]").removeAttr("disabled");
+				  }
+				  if(obj.moid==16){
+					  $("[name=scshop]").removeAttr("disabled");
+				  }
+			  })
+		  }
+	   　});
+	}; 
+	//根据sid查询要修改的信息
+	function xg(sid){
+		$.ajax({
+			url:"[[@{/shop/toselectBysid}]]",
+			type:"get",
+			data:{
+				sid:sid
+			},
+			dataType:"json",
+			success:function(res){
+				$("#xgsid").val(res.sid);
+				$("#xgdm").val(res.sname);
+				$("#xglxr").val(res.linkman);
+				$("#xgsj").val(res.phone);
+				$("#xgdh").val(res.telephone);
+				$("#xgprovince").val(res.provincename).trigger("change");
+				$("#xgcity").val(res.cityname).trigger("change");
+				$("#xgdistrict").val(res.regionname).trigger("change");
+				$("#xgstreet").val(res.street);
 			}
-		</script>
+		});
+	}
+</script>
 </html>

@@ -244,11 +244,10 @@ li {
 	$(function() {
 		//图片上传
 		$("#ajaxfile").change(function(){
-			//alert("??");
 			var formData = new FormData($("[name=form]")[0]);
 			var id = $("[name=modaluid]").val();
-			//alert(id);
 			formData.append("id",id);
+			console.log(formData);
 			$.ajax({
 				url:"[[@{/user/upload}]]",
 				type:"post",
@@ -258,7 +257,6 @@ li {
 				contentType:false,
 				success:function(res){
 					if (res != "0") {
-						alert("修改成功！");
 						$(".tpxgh").attr("src","/"+res);
 					} else if (res == "1") {
 						alert("修改失败，请重试！");

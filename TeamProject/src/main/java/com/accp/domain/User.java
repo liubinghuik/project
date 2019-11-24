@@ -95,11 +95,26 @@ public class User {
 		this.uaccount = uaccount;
 		this.upwd = upwd;
 	}
+	
+	public User(String uaccount, String upwd, String phone, String userpic, String industry) {
+		super();
+		this.uaccount = uaccount;
+		this.upwd = upwd;
+		this.phone = phone;
+		this.userpic = userpic;
+		this.industry = industry;
+	}
+
+	public User(Integer uid, String uaccount, String upwd) {
+		super();
+		this.uid = uid;
+		this.uaccount = uaccount;
+		this.upwd = upwd;
+	}
 
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", uaccount=" + uaccount + ", upwd=" + upwd + ", phone=" + phone + ", userpic="
 				+ userpic + ", industry=" + industry + "]";
 	}
-	
 }

@@ -965,6 +965,7 @@ public class MemberExample {
             return (Criteria) this;
         }
 
+
         public Criteria andMcidIsNull() {
             addCriterion("mcid is null");
             return (Criteria) this;

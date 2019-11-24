@@ -255,4 +255,7 @@
       column3 = #{column3,jdbcType=VARCHAR}
     where moid = #{moid,jdbcType=INTEGER}
   </update>
+  <select id="selectModelAll" resultMap="BaseResultMap">
+  	SELECT * FROM model
+  </select>
 </mapper>
