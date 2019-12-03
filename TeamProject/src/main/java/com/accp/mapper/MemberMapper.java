@@ -3,7 +3,9 @@ package com.accp.mapper;
 import com.accp.domain.Member;
 import com.accp.domain.MemberExample;
 import com.accp.domain.Memberclass;
-
+import com.accp.domain.Recharge;
+import com.accp.domain.Rechargededuction;
+import com.accp.domain.Record;
 import com.accp.service.MemberService;
 
 import java.util.List;
@@ -32,8 +34,32 @@ public interface MemberMapper {
 	int updateMember(Member m);
 	//按编号查询会员
 	Member selectMemberById(int id);
-	
-	
+	//查询积分设置是否关闭
+	int selectDeduction();
+	//设置积分是否可用
+	int updateDeduction(int wtd);
+	//设置多少积分可抵一元
+	int updateDeductionJF(int Jf);
+	//查询现有的积分
+	int selectDeductionJf();
+	//将金额充值到会员表余额
+	int updateMoney(Member r);
+	//将充值记录录入到充值表
+	int insertRecharge(Recharge c);
+	//查询交易记录
+	List<Record> selectRecord();
+	//条件查询交易记录
+	List<Record> selectRecordByIdAndDatetime(String a);
+	//添加冲抵记录
+	int insertRechargededuction(Rechargededuction r);
+	//冲抵成功后清空会员积分
+	int updateMemberJf(int id);
+	//查新所有冲抵记录
+	List<Rechargededuction> selectRechargededuction();
+	//按条件查询冲抵记录
+	List<Rechargededuction> selectRechargedeductionBytime(String a);
+	//积分情况
+	Integer selectJf();
 	
     int countByExample(MemberExample example);
 
@@ -56,4 +82,5 @@ public interface MemberMapper {
     int updateByPrimaryKeySelective(Member record);
 
     int updateByPrimaryKey(Member record);
+
 }

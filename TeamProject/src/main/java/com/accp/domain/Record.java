@@ -2,6 +2,8 @@ package com.accp.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Record {
     private Integer rdid;
 
@@ -26,10 +28,19 @@ public class Record {
     private String shopassistant;
 
     private Integer state;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createtime;
+    private Member mem;
 
-    public Integer getRdid() {
+    public Member getMem() {
+		return mem;
+	}
+
+	public void setMem(Member mem) {
+		this.mem = mem;
+	}
+
+	public Integer getRdid() {
         return rdid;
     }
 
@@ -132,4 +143,5 @@ public class Record {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+    
 }

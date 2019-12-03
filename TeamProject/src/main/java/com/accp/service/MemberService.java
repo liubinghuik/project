@@ -8,7 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.accp.domain.Member;
 import com.accp.domain.Memberclass;
+import com.accp.domain.Recharge;
+import com.accp.domain.Rechargededuction;
+import com.accp.domain.Record;
 import com.accp.mapper.MemberMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 @Transactional
@@ -62,5 +67,63 @@ public class MemberService {
 	//按编号查询会员
 	public Member selectMemberById(int id) {
 		return mp.selectMemberById(id);
+	}
+	//查询积分设置是否关闭
+	public int selectDeduction() {
+		return mp.selectDeduction();
+	}
+	//设置积分是否可用
+	public int updateDeduction(int wtd) {
+		return mp.updateDeduction(wtd);
+	}
+	
+	//设置多少积分可抵一元
+	public int updateDeductionJF(int Jf) {
+		return mp.updateDeductionJF(Jf);
+	}
+	//查询现有的积分
+	public int selectDeductionJf() {
+		return mp.selectDeductionJf();
+	}
+	//将金额充值到会员表余额
+	public int updateMoney(Member r) {
+		return mp.updateMoney(r);
+	}
+	//将充值记录录入到充值表
+	public int insertRecharge(Recharge c) {
+		return mp.insertRecharge(c);
+	}
+	//查询交易记录
+	public PageInfo<Record> selectRecord(int pageNum,int pageSize){
+		PageHelper.startPage(pageNum,pageSize);
+		List<Record> le= mp.selectRecord();
+		PageInfo<Record> page=new PageInfo<Record>(le);
+		return page;
+	}
+	//条件查询交易记录
+	public List<Record> selectRecordByIdAndDatetime(String a) {
+		List<Record> ah= mp.selectRecordByIdAndDatetime(a);
+		
+		return ah;
+	}
+	//添加冲抵记录
+	public int insertRechargededuction(Rechargededuction r) {
+		return mp.insertRechargededuction(r);
+	}
+	//冲抵成功后清空会员积分
+	public int updateMemberJf(int id) {
+		return mp.updateMemberJf(id);
+	}
+	//查新所有冲抵记录
+	public List<Rechargededuction> selectRechargededuction(){
+		return mp.selectRechargededuction();
+	}
+	//按条件查询冲抵记录
+	public List<Rechargededuction> selectRechargedeductionBytime(String a){
+		return mp.selectRechargedeductionBytime(a);
+	}
+	//积分情况
+	public Integer selectJf() {
+		return mp.selectJf();
 	}
 }

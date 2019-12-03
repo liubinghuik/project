@@ -3,7 +3,39 @@ package com.accp.domain;
 import java.util.Date;
 
 public class Member {
-    private Integer mid;
+	
+    public Member(Integer mid, Float mbalance) {
+		super();
+		this.mid = mid;
+		this.mbalance = mbalance;
+	}
+
+	public Member() {
+		super();
+	}
+
+	public Member(Integer mid, String mname, String mpassword, String mphone, Float mmoney, Float mbalance,
+			Float mintegral, String wechatid, String provincename, String cityname, String regionname, String street,
+			Date createtime, Integer mcid, Memberclass mb) {
+		super();
+		this.mid = mid;
+		this.mname = mname;
+		this.mpassword = mpassword;
+		this.mphone = mphone;
+		this.mmoney = mmoney;
+		this.mbalance = mbalance;
+		this.mintegral = mintegral;
+		this.wechatid = wechatid;
+		this.provincename = provincename;
+		this.cityname = cityname;
+		this.regionname = regionname;
+		this.street = street;
+		this.createtime = createtime;
+		this.mcid = mcid;
+		this.mb = mb;
+	}
+
+	private Integer mid;
 
     private String mname;
 
