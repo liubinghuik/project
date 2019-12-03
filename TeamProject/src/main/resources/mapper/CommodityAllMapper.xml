@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.CommodityAllMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.CommodityAll" >
+  	<!-- 用户表 -->
+  	<id column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="uaccount" property="uaccount" jdbcType="VARCHAR" />
+    <!--   店铺表 -->
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+     <!-- 员工表 -->
+    <result column="stid" property="stid" jdbcType="INTEGER" />
+    <result column="jobnumber" property="jobnumber" jdbcType="VARCHAR" />
+    <!-- 商品类别表 -->
+    <result column="csid" property="csid" jdbcType="INTEGER" />
+    <result column="csname" property="csname" jdbcType="VARCHAR" />
+   	<!--  商品表 -->
+    <result column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="cname" property="cname" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="articleno" property="articleno" jdbcType="VARCHAR" />
+    <result column="sell" property="sell" jdbcType="REAL" />
+    <result column="cost" property="cost" jdbcType="REAL" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <!-- 商品详情表 -->
+    <result column="cdid" property="cdid" jdbcType="INTEGER" />
+    <result column="shapecode" property="shapecode" jdbcType="VARCHAR" />
+    <result column="sizeid" property="sizeid" jdbcType="INTEGER" />
+    <result column="colorid" property="colorid" jdbcType="INTEGER" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- 查询所有商品 -->
+  <select id="selectcommodityByAllqmn" parameterType="String" resultMap="BaseResultMap">
+  	SELECT c.*,cs.csname  FROM USER u,staff s,shop sh,shopcommodity sc,commodity c,commoditysort cs
+	WHERE u.uaccount=s.jobnumber AND s.sid=sh.sid AND s.sid=sc.sid AND sc.cid=c.cid AND cs.csid=c.csid
+	AND u.uaccount=#{0}
+	GROUP BY  c.csid
+  </select>
+  <!-- 根据类别查询商品 -->
+  <select id="selectcommodityBycsnameqmn" parameterType="com.accp.domain.CommodityAll" resultMap="BaseResultMap">
+  	SELECT c.*,cd.cdid,cd.inventory  FROM USER u,staff s,shop sh,shopcommodity sc,commodity c,commoditysort cs, commoditydetails cd
+	WHERE u.uaccount=s.jobnumber AND s.sid=sh.sid AND s.sid=sc.sid AND sc.cid=c.cid AND cs.csid=c.csid
+	AND c.cid=cd.cid AND u.uaccount=#{uaccount} 
+	<if test="csname!=null and csname!='全部'">
+			and cs.csname=#{csname}
+	</if> 
+	GROUP BY c.cid
+  </select>
+  <update id="updatecommoditydetailskc" parameterType="com.accp.domain.CommodityAll">
+  	UPDATE commoditydetails SET inventory=inventory-#{inventory}
+	WHERE cdid=#{cdid}
+  </update>
+</mapper>
