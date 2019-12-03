@@ -27,6 +27,19 @@ public interface ShopMapper {
     int updateByPrimaryKeySelective(Shop record);
 
     int updateByPrimaryKey(Shop record);
-    
-    List<Shop> selectshopByuaccount(String account);
+
+	/* 新增门店 */
+    int insertShop(Shop shop);
+
+	/* 根据id查询对应的门店信息 */
+    Shop selectShopBysid(int sid);
+
+	/* 修改门店信息 */
+    int updateShop(Shop shop);
+
+	/* 删除门店 */
+    int updateShopBydelete(int sid);
+
+	/* 查询所有店铺 */
+    List<Shop> selectShopAll(String account);
 }

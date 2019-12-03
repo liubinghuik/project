@@ -36,6 +36,12 @@ public class PurchaseVO {
     /*供应商表*/
     private String suname;
     
+    private String company;
+    
+    private String linkman;
+    
+    private String telephone;
+    
     /*商品表*/
     private Integer cid;
 
@@ -174,6 +180,30 @@ public class PurchaseVO {
 
 	public void setSuname(String suname) {
 		this.suname = suname;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getLinkman() {
+		return linkman;
+	}
+
+	public void setLinkman(String linkman) {
+		this.linkman = linkman;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
 	}
 
 	public Integer getCid() {

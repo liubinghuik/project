@@ -27,4 +27,12 @@ public interface PositionMapper {
     int updateByPrimaryKeySelective(Position record);
 
     int updateByPrimaryKey(Position record);
+    //查询所有职位
+    List<Position> selectPositionAll();
+    int insertpositionBypname(String name);
+    Position selectpositionBypname(String name);
+    Position selectpositionBypid(int pid);
+    int updatepositionBypid(Position position);
+    int deletepositionBypid(int pid);
+
 }

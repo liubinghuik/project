@@ -27,4 +27,10 @@ public interface StaffMapper {
     int updateByPrimaryKeySelective(Staff record);
 
     int updateByPrimaryKey(Staff record);
+    
+    Staff selectstaffByjobnumber(String gh);
+    Staff selectstaffBystid(int stid);
+    int insertstaff(Staff staff);
+    int updatestaff(Staff staff);
+    int updatestaffdelete(int stid);
 }

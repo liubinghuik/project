@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.accp.mapper.MemberAllMapper" >
+  <resultMap id="BaseResultMap" type="com.accp.domain.MemberAll" >
+  	<!-- 会员表 -->
+    <id column="mid" property="mid" jdbcType="INTEGER" />
+    <result column="mname" property="mname" jdbcType="VARCHAR" />
+    <result column="mpassword" property="mpassword" jdbcType="VARCHAR" />
+    <result column="mphone" property="mphone" jdbcType="VARCHAR" />
+    <result column="mmoney" property="mmoney" jdbcType="REAL" />
+    <result column="mbalance" property="mbalance" jdbcType="REAL" />
+    <result column="mintegral" property="mintegral" jdbcType="REAL" />
+    <result column="wechatid" property="wechatid" jdbcType="VARCHAR" />
+    <result column="provincename" property="provincename" jdbcType="VARCHAR" />
+    <result column="cityname" property="cityname" jdbcType="VARCHAR" />
+    <result column="regionname" property="regionname" jdbcType="VARCHAR" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <!-- 等级表 -->
+    <result column="mcid" property="mcid" jdbcType="INTEGER" />
+    <result column="mcname" property="mcname" jdbcType="VARCHAR" />
+    <result column="require" property="require" jdbcType="REAL" />
+    <result column="discount" property="discount" jdbcType="REAL" />
+    <result column="mstate" property="mstate" jdbcType="INTEGER" />
+    <!-- record(成交记录表) -->
+    <result column="rdid" property="rdid" jdbcType="INTEGER" />
+    <result column="rdorder" property="rdorder" jdbcType="VARCHAR" />
+    <result column="client" property="client" jdbcType="INTEGER" />
+    <result column="total" property="total" jdbcType="REAL" />
+    <result column="rdiscount" property="discount" jdbcType="REAL" />
+    <result column="actualincome" property="actualincome" jdbcType="REAL" />
+    <result column="notincome" property="notincome" jdbcType="REAL" />
+    <result column="rdpay" property="rdpay" jdbcType="VARCHAR" />
+    <result column="sid" property="sid" jdbcType="INTEGER" />
+    <result column="cashier" property="cashier" jdbcType="VARCHAR" />
+    <result column="shopassistant" property="shopassistant" jdbcType="VARCHAR" />
+    <result column="rstate" property="state" jdbcType="INTEGER" />
+    <result column="rcreatetime" property="createtime" jdbcType="TIMESTAMP" />
+   <!--  rddetails(成交记录详情表) -->
+    <result column="did" property="did" jdbcType="INTEGER" />
+    <result column="cdid" property="cdid" jdbcType="INTEGER" />
+    <result column="articleno" property="articleno" jdbcType="INTEGER" />
+    <result column="dage" property="dage" jdbcType="INTEGER" />
+    <result column="originalcost" property="originalcost" jdbcType="REAL" />
+    <result column="rddiscount" property="discount" jdbcType="REAL" />
+    <result column="totalprice" property="totalprice" jdbcType="REAL" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- 查询所有会员 -->
+  <select id="selectmember" resultMap="BaseResultMap">
+  	SELECT * FROM member m,memberclass mc
+	WHERE m.mcid=mc.mcid
+  </select >
+  <!-- 新增成交记录 -->
+  <insert id="insertrecord" parameterType="com.accp.domain.MemberAll" >
+    insert into record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rdid != null" >
+        rdid,
+      </if>
+      <if test="rdorder != null" >
+        rdorder,
+      </if>
+      <if test="client != null" >
+        client,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="actualincome != null" >
+        actualincome,
+      </if>
+      <if test="notincome != null" >
+        notincome,
+      </if>
+      <if test="rdpay != null" >
+        rdpay,
+      </if>
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="cashier != null" >
+        cashier,
+      </if>
+      <if test="shopassistant != null" >
+        shopassistant,
+      </if>
+      <if test="rstate != null" >
+        state,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rdid != null" >
+        #{rdid,jdbcType=INTEGER},
+      </if>
+      <if test="rdorder != null" >
+        #{rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="client != null" >
+        #{client,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=REAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="actualincome != null" >
+        #{actualincome,jdbcType=REAL},
+      </if>
+      <if test="notincome != null" >
+        #{notincome,jdbcType=REAL},
+      </if>
+      <if test="rdpay != null" >
+        #{rdpay,jdbcType=VARCHAR},
+      </if>
+      <if test="sid != null" >
+        #{sid,jdbcType=INTEGER},
+      </if>
+      <if test="cashier != null" >
+        #{cashier,jdbcType=VARCHAR},
+      </if>
+      <if test="shopassistant != null" >
+        #{shopassistant,jdbcType=VARCHAR},
+      </if>
+      <if test="rstate != null" >
+        #{rstate,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insert" parameterType="com.accp.domain.MemberAll">
+  	INSERT INTO record(rdorder,`client`,total,discount,actualincome,notincome,rdpay,sid,cashier,shopassistant,state)
+	VALUES(#{rdorder},#{client},#{total},#{discount},#{actualincome},#{notincome},#{rdpay},#{sid},#{cashier},#{shopassistant},#{state});
+  </insert>
+  
+  
+  <!-- 修改成交记录表 -->
+  <update id="updaterecord" parameterType="String">
+  	UPDATE record SET state=0
+	WHERE rdorder=#{ddh}
+  </update>
+  
+ 
+  <insert id="inser" parameterType="com.accp.domain.MemberAll">
+  	INSERT INTO rddetails(cdid,articleno,rdorder,dage,originalcost,discount,totalprice,state)
+	VALUES(#{cdid},#{articleno},#{rdorder},#{dage},#{originalcost},#{discount},#{totalprice},#{state});
+  </insert>
+   <!-- 新增成交记录详情表 -->
+  <insert id="insertrddetails" parameterType="com.accp.domain.MemberAll" >
+    insert into rddetails
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        did,
+      </if>
+      <if test="cdid != null" >
+        cdid,
+      </if>
+      <if test="articleno != null" >
+        articleno,
+      </if>
+      <if test="rdorder != null" >
+        rdorder,
+      </if>
+      <if test="dage != null" >
+        dage,
+      </if>
+      <if test="originalcost != null" >
+        originalcost,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="totalprice != null" >
+        totalprice,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="did != null" >
+        #{did,jdbcType=INTEGER},
+      </if>
+      <if test="cdid != null" >
+        #{cdid,jdbcType=INTEGER},
+      </if>
+      <if test="articleno != null" >
+        #{articleno,jdbcType=INTEGER},
+      </if>
+      <if test="rdorder != null" >
+        #{rdorder,jdbcType=VARCHAR},
+      </if>
+      <if test="dage != null" >
+        #{dage,jdbcType=INTEGER},
+      </if>
+      <if test="originalcost != null" >
+        #{originalcost,jdbcType=REAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=REAL},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=REAL},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+ <!--  修改会员积分 -->
+  <update id="updatememberjf" parameterType="com.accp.domain.MemberAll">
+  UPDATE member SET mintegral=mintegral+#{mintegral} ,mbalance=#{mbalance},mmoney=mmoney+#{mmoney}
+	WHERE MID=#{mid}
+  </update>
+</mapper>

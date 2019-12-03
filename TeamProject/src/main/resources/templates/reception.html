@@ -1,234 +1,644 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>收银管理</title>
-  
-  <link rel="stylesheet" href="/fonts/iconfont.css">
-  
-  <link rel="stylesheet" href="/css/element-ui.css">
-  <link rel="stylesheet" href="/css/pos.css">
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>收银管理</title>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+<link rel="stylesheet" href="/fonts/iconfont.css">
+<link rel="stylesheet" href="/css/element-ui.css">
+<link rel="stylesheet" href="/css/pos.css">
+<style>
+.el-row {
+	margin-bottom: 20px;
+	&:
+	last-child
+	{
+	margin-bottom
+	:
+	0;
+}
+
+}
+.el-col {
+	border-radius: 4px;
+}
+
+.bg-purple-dark {
+	background: #99a9bf;
+}
+
+.bg-purple {
+	background: #d3dce6;
+}
+
+.bg-purple-light {
+	background: #e5e9f2;
+}
+
+.grid-content {
+	border-radius: 4px;
+	min-height: 36px;
+}
+
+.row-bg {
+	padding: 10px 0;
+	background-color: #f9fafc;
+}
+.current{
+	
+	background-color: #EDF2FC !important;
+}
+</style>
+<script src="/js/jquery-1.12.4.js" type="text/javascript"
+	charset="utf-8"></script>
+
 </head>
 <body>
 
-  <div id="app">
-    <!-- 收银台 -->
-    <div class="pos">
-      <el-row>
-        <el-col :span="7" class="pos-order">
-          <el-tabs v-model="activeName">
-            <el-tab-pane label="点餐" name="orderIng">
-              <el-table :data="tableData" border>
-                <el-table-column prop="goodsName" label="商品名称" width="114"></el-table-column>
-                <el-table-column prop="count" label="数量" width="65"></el-table-column>
-                <el-table-column prop="price" label="金额" width="65"></el-table-column>
-                <el-table-column label="操作" width="100" fixed="right">
-                  <!-- scope 是模板的作用域，通过scope.row把这一行数据传递到addOrderList()中去 -->
-                  <template slot-scope="scope">
-                    <el-button type="text" size="small" @click="delSingleGoods(scope.row)">删除</el-button>
-                    <el-button type="text" size="small" @click="addOrderList(scope.row)">增加</el-button>
-                  </template> 
-                </el-table-column>
-              </el-table>
-            </el-tab-pane>
-            <el-tab-pane label="挂单" name="entryOrders">挂单</el-tab-pane>
-            <el-tab-pane label="外卖" name="takeOut">外卖</el-tab-pane>
-          </el-tabs>
-          <div class="foot-statistical">
-            <span><small>数量：</small>{{totalCount}}</span>
-            <span><small>金额：</small>{{totalMoney}}元</span>
-          </div>
-          <div class="foot-btn">
-            <el-button type="warning" >挂单</el-button>
-            <el-button type="danger" @click="delAllGoods">删除</el-button>
-            <el-button type="success" @click="checkout">结账</el-button>
-          </div>
-        </el-col>
-        <el-col :span="17">
-          <div class="often-goods">
-            <div class="title">常用商品</div>
-            <div class="often-goods-list">
-              <ul>
-                <li v-for="goods in oftenGoods" @click="addOrderList(goods)">
-                  <span>{{goods.goodsName}}</span>
-                  <span class="o-price">￥{{goods.price}}元</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="goods-type">
-            <el-tabs>
-              <el-tab-pane label="蛋糕">
-                <ul class='cookList'>
-                  <li v-for="goods in type0Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="/images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg" width="100%"></span>
-                    <div class="food-content">
-                      <span class="foodName">{{goods.goodsName}}</span>
-                      <span class="foodPrice">￥{{goods.price}}元</span>
-                    </div> 
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="小食">
-                <ul class='cookList'>
-                  <li v-for="goods in type1Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="/images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg" width="100%"></span>
-                    <div class="food-content">
-                      <span class="foodName">{{goods.goodsName}}</span>
-                      <span class="foodPrice">￥{{goods.price}}元</span>
-                    </div>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="饮料">
-                <ul class='cookList'>
-                  <li v-for="goods in type2Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" width="100%"></span>
-                    <div class="food-content">
-                      <span class="foodName">{{goods.goodsName}}</span>
-                      <span class="foodPrice">￥{{goods.price}}元</span>
-                    </div>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="套餐">
-                <ul class='cookList'>
-                  <li v-for="goods in type3Goods" @click="addOrderList(goods)">
-                    <span class="foodImg"><img src="/images/9001737541544ee9ad7b9eb3ef6a651c!400x400.jpg" width="100%"></span>
-                    <div class="food-content">
-                      <span class="foodName">{{goods.goodsName}}</span>
-                      <span class="foodPrice">￥{{goods.price}}元</span>
-                    </div>
-                  </li>
-                </ul>
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </el-col>
-      </el-row>
-    </div>
-  </div>
+	<div id="app">
+		<!-- 收银台 -->
+		<div class="pos">
+			<el-row> <el-col :span="7" class="pos-order"> <el-tabs
+				v-model="activeName"> <el-tab-pane label="结算"
+				name="orderIng"> <el-table :data="tableData" border>
+			<el-table-column prop="goodsName" label="商品名称" width="114"></el-table-column>
+			<el-table-column prop="dage" label="数量" width="65"></el-table-column>
+			<el-table-column prop="totalprice" label="金额" width="65"></el-table-column>
+			<el-table-column prop="discount" label="折扣" width="65"></el-table-column>
+			<el-table-column label="操作" width="90" fixed="right">
+			<!-- scope 是模板的作用域，通过scope.row把这一行数据传递到addOrderList()中去 --> <template
+				slot-scope="scope"> <el-button type="text" size="small"
+				@click="delSingleGoods(scope.row)">删除</el-button> <!-- <el-button
+				type="text" size="small" @click="addOrderList(scope.row)">增加</el-button> -->
+			</template> </el-table-column> </el-table>
+			<div class="foot-statistical">
+				<span><small>数量：</small>{{totalCount}}</span> <span><small>金额：</small>{{totalMoney|
+					keepdiscount}}</span> <span><small>实收：</small>{{totalReceipts
+					|keepdiscount}}</span>
+			</div>
+			<div class="foot-btn">
+				<el-button type="warning" @click="guaGoods">挂单</el-button>
+				<el-button type="danger" @click="delAllGoods">删除</el-button>
+				<el-button type="success" @click="checkout" id="jz">结账</el-button>
+			</div>
+			</el-tab-pane> <el-tab-pane label="挂单" name="entryOrders"> <el-table
+				:data="tablegua" border @row-click="handleRowClick"><el-table-column
+				prop="gtotalName" label="商品名" width="69"></el-table-column> <el-table-column
+				prop="gtotalcount" label="数量" width="80"></el-table-column> <el-table-column
+				prop="gtotalprice" label="金额" width="80"></el-table-column> <el-table-column
+				prop="gtotalreceipts" label="实收" width="80"></el-table-column> <el-table-column
+				label="操作" width="100" fixed="right"> <!-- scope 是模板的作用域，通过scope.row把这一行数据传递到addOrderList()中去 -->
+			<template slot-scope="scope"> <el-button type="text"
+				size="small" @click.stop="delSingleGoods2(scope.row)">删除</el-button> </template> </el-table-column> </el-table>
+			<div class="foot-statistical">
+				<span><small>数量：</small>{{gtotalCount}}</span> <span><small>金额：</small>{{gtotalMoney|
+					keepdiscount}}</span> <span><small>实收：</small>{{gtotalReceipts
+					|keepdiscount}}</span>
+			</div>
+			<div class="foot-btn">
+				<el-button type="danger" @click="delAllGoods2">删除</el-button>
+				<el-button type="success" @click="checkout2">结账</el-button>
+			</div>
+			</el-tab-pane> </el-tabs> </el-col> <el-col :span="17">
+			<div class="often-goods">
+				<div class="title" style="height: 55px;">
+					<button type="button" class="btn btn-default" name="spgl"
+						style="width: 13%">商品</button>
+					<button type="button" class="btn btn-default" name="hygl"
+						style="margin-left: 10px; width: 13%">会员</button>
+				</div>
+			</div>
+			<div class="goods-type" id="splb">
+				<el-tabs @tab-click="selectBycommodity"> <el-tab-pane
+					label="全部" name="全部">
+				<ul class='cookList'>
+					<li v-for="goods in type0Goods" @click="addOrderList(goods)">
+						<span class="foodImg"><img
+							:src="'/images/'+goods.picture"
+							width="100%"></span>
+						<div class="food-content">
+							<input type="hidden" class="foodId" v-model="goods.cid">
+							<input type="hidden" class="foodoriginalcost" v-model="goods.cost">
+							<input type="hidden" class="foodcdid" v-model="goods.cdid">
+							<input type="hidden" class="foodarticleno" v-model="goods.articleno">
+							<input type="hidden" class="foodinventory" v-model="goods.inventory">
+							<span class="foodName">{{goods.cname}}</span> <span
+								class="foodPrice">￥{{goods.sell}}元</span>
+						</div>
+					</li>
+				</ul>
+				</el-tab-pane> <el-tab-pane v-for="m in zcdlb" :label="m.csname" :name="m.csname">
+				<ul class='cookList'>
+					<li v-for="goods in type0Goods" @click="addOrderList(goods)">
+						<span class="foodImg"><img
+							src="/images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg"
+							width="100%"></span>
+						<div class="food-content">
+							<input type="hidden" class="foodId" v-model="goods.cid">
+							<input type="hidden" class="foodoriginalcost" v-model="goods.cost">
+							<input type="hidden" class="foodcdid" v-model="goods.cdid">
+							<input type="hidden" class="foodarticleno" v-model="goods.articleno">
+							<input type="hidden" class="foodinventory" v-model="goods.inventory">
+							<span class="foodName">{{goods.cname}}</span> <span
+								class="foodPrice">￥{{goods.sell}}元</span>
+						</div>
+					</li>
+				</ul>
+				</el-tab-pane> </el-tabs>
+			</div>
+			<div id="hylb">
+				<div class="row" style="margin: 25px 5px 0;">
+					<table class="table table-bordered table-hover">
+						<thead align="center">
+							<tr class="active">
+								<td width="4%">序号</td>
+								<td width="6%">会员姓名</td>
+								<td width="6%">等级</td>
+								<td width="4%">余额</td>
+								<td width="5%">成交</td>
+								<td width="6%">手机</td>
+							</tr>
+						</thead>
+						<tbody align="center" v-for="h,i in hylb">
+							<tr class="active" @click="addhuiyuanzk(h)">
+								<td width="4%">{{i+1}}</td>
+								<td width="6%">{{h.mname}}</td>
+								<td width="6%">{{h.mcname}}</td>
+								<td width="4%">{{h.mbalance}}</td>
+								<td width="5%">{{h.mmoney}}</td>
+								<td width="6%">{{h.mphone}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			</el-col> </el-row>
+			<el-dialog title="结算中心" :visible.sync="offen" width="50%">
+			<form>
+				<el-row :gutter="20"> <el-col :span="12"> <span><small>总额：</small></span>
+				<el-input  v-model="totalMoney" id="zsze"></el-input> </el-col> <el-col
+					:span="12"> <span><small>折扣：</small></span>
+				<el-input v-model="totalReceipts" id="zszk"></el-input> </el-col> </el-row>
+				<el-row :gutter="20"> <el-col :span="12"> <span><small>实收：</small></span>
+				<el-input v-model="jsss" id="zsss"></el-input> </el-col> <el-col
+					:span="12"> <span><small>未收：</small></span>
+				<el-input v-model="jsws" id="zsws"></el-input> </el-col> </el-row>
+				<el-row :gutter="20"> <el-col :span="24">
+				<template>
+					 <span><small>结算方式：</small></span>
+					 <div>
+					    <el-radio v-model="checkedValue" label="现金" @click.native="xj" checkedValue>现金</el-radio>
+					    <el-radio v-model="checkedValue" label="微信" @click.native="wx">微信</el-radio>
+					  </div>
+				</template>
+				 </el-col> </el-row>
+				<el-row :gutter="20"> <el-col :span="24"> 
+				<template>
+					 <span>营业员：</span>
+					 <div v-for="sy in syry">
+					 	<input type="hidden" v-model="sy.sid" class="dpsid">
+					    <el-radio v-model="checkedValue2" :label="sy.stname"  checkedValue2>{{sy.stname}}</el-radio>
+					  </div>
+				</template>
+				</el-col> 
+				</el-row>
+			</form>
+			<span slot="footer" class="dialog-footer"> <el-button
+					@click="cc()">取 消</el-button> <el-button type="primary"
+					@click="qdsy(0)">确 定</el-button>
+			</span> </el-dialog>
+			
+			
+			<el-dialog title="结算中心" :visible.sync="offen2" width="50%">
+			<form>
+				<el-row :gutter="20"> <el-col :span="12"> <span><small>总额：</small></span>
+				<el-input  v-model="totalMoney" id="zsze"></el-input> </el-col> <el-col
+					:span="12"> <span><small>折扣：</small></span>
+				<el-input v-model="totalReceipts" id="zszk"></el-input> </el-col> </el-row>
+				<el-row :gutter="20"> <el-col :span="12"> <span><small>实收：</small></span>
+				<el-input v-model="jsss" id="zsss"></el-input> </el-col> <el-col
+					:span="12"> <span><small>未收：</small></span>
+				<el-input v-model="jsws" id="zsws"></el-input> </el-col> </el-row>
+				<el-row :gutter="20"> <el-col :span="24">
+				<template>
+					 <span><small>结算方式：</small></span>
+					 <div>
+					    <el-radio v-model="checkedValue" label="现金" @click.native="xj" checkedValue>现金</el-radio>
+					    <el-radio v-model="checkedValue" label="微信" @click.native="wx">微信</el-radio>
+					  </div>
+				</template>
+				 </el-col> </el-row>
+				<el-row :gutter="20"> <el-col :span="24"> 
+				<template>
+					 <span>营业员：</span>
+					 <div v-for="sy in syry">
+					 	<input type="hidden" v-model="sy.sid" class="dpsid">
+					    <el-radio v-model="checkedValue2" :label="sy.stname"  checkedValue2>{{sy.stname}}</el-radio>
+					  </div>
+				</template>
+				</el-col> 
+				</el-row>
+			</form>
+			<span slot="footer" class="dialog-footer"> <el-button
+					@click="cc()">取 消</el-button> <el-button type="primary"
+					@click="qdsy(2)">确 定</el-button>
+			</span> </el-dialog>
+		</div>
+	</div>
 </body>
-  <!-- 先引入 Vue -->
-  <script src="/js/vue.js"></script>
-  <!-- 引入组件库 -->
-  <script src="/js/index.js"></script>
-  <!-- 引入axios -->
-  <script src="/js/axios.min.js"></script>
-  <script>
-    new Vue({
+<!-- 先引入 Vue -->
+<script src="/js/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="/js/index.js"></script>
+<!-- 引入axios -->
+<script src="/js/axios.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#hylb").hide();
+	$("[name=spgl]").click(function(){
+		$("#splb").show();
+		$("#hylb").hide();
+	});
+	$("[name=hygl]").click(function(){
+		$("#hylb").show();
+		$("#splb").hide();
+	});
+});
+</script>
+<script>
+	var qjdiscount=0;
+	var ddh="";
+   var app = new Vue({
       el: '#app',
       data: function() {
         return { 
+          input:'',
+          //营业员
+          checkedValue2:'',
+          //结算方式
+          checkedValue: '',
+          //模态框
+          offen:false,
+          offen2:false,
           activeName: 'orderIng',
+          //购物车
           tableData: [],
+          //挂单
+          tablegua:[],
           oftenGoods: [],
+          //主列表
+          zcdlb:[],
+          //会员列表
+          hylb:[],
+          //会员账户
+          hyzh:[],
+          //收银人员
+          syry:[],
+          //商品
           type0Goods:[],
-          type1Goods: [],
-          type2Goods: [],
-          type3Goods: [],
+          //挂单数量
+          gtotalCount: 0,
+          //挂单实收
+          gtotalReceipts:0,
+          //挂单总额
+          gtotalMoney: 0,
+          //结算数量
           totalCount: 0,
-          totalMoney: 0
+          //结算实收
+          totalReceipts:0,
+          //结算总额
+          totalMoney: 0,
+          //结算实收
+          jsss:0,
+         // 结算未收
+          jsws:0
         }
       },
       methods: {
+    	  //关闭弹窗
+    	  cc(){
+    		  this.offen=false;  
+    	  },
+    	  //微信支付弹窗
+    	  wx(){
+    		  this.$alert('<div class="qr-code"><img src="/images/code.png"></div>', '结账成功,觉得OK就打赏一下', {
+                  dangerouslyUseHTMLString: true
+                });
+    	  },
+    	  //现金支付弹窗
+    	  xj(){
+    		  this.$alert('<div class="qr-code"><span>输入支付金额：</span><input type=text v-value="+{{this.jsss}}+"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,欢迎下次光临!', {
+                  dangerouslyUseHTMLString: true
+                });
+    	  },
+    	  //添加会员折扣
+    	  addhuiyuanzk(h){
+    		  this.hyzh=h;
+    		  qjdiscount=h.discount/100;
+    		  for(var i = 0; i < this.tableData.length; i++){
+    			  this.tableData[i].discount = h.discount/100;
+    		  } 
+    		  this.getAllMoney();
+    	  },
+    	  //查询全部会员
+    	  selectByAllmember(dqy){
+    		  var this_=this;
+    		  $.ajax({
+    			 url:"[[@{/memberall/toselectmember}]]",
+    			 type:"get",
+    			 data:{
+    				 pageNum:dqy 
+    			 },
+    			 dataType:"json",
+    			 success:function(res){
+    				 this_.hylb=res.list;
+    			 }
+    		  });
+    	  },
+    	  //挂单结算
+    	  handleRowClick(row){
+        		  this.gtotalCount= row.gtotalcount;
+        		  this.gtotalMoney=row.gtotalprice;
+        		  this.gtotalReceipts=row.gtotalreceipts;
+    	  },
+    	  //根据csid查询
+    	  selectBycommodity(tab){
+    		  var this_=this;
+    		  $.ajax({
+    			  url:"[[@{/commodityAll/toseleectBycsid}]]",
+    			  type:"get",
+    			  data:{
+    				  pageNum:1,
+    				  csname:tab.name,
+    				  uaccount : $("#uaccount", parent.document).text()
+    			  },
+    			  dataType:"json",
+    			  success:function(res){
+    				  this_.type0Goods=res.list;
+    			  }
+    		  }); 
+    	  },
+    	 //初始化加载收银人员
+    	 chushihuajzsyry(){
+    		  var this_=this;
+    		  $.ajax({
+    			  url:"[[@{/commodityAll/toselectyyy}]]",
+    			  type:"get",
+    			  dataType:"json",
+    			  success:function(res){
+    				  this_.syry=res;
+    			  }
+    		  });
+    	  },
+    	//初始化加载商品
+    	  chushihuajz(){
+    		  var this_=this;
+    		  $.ajax({
+    			  url:"[[@{/commodityAll/toseleectBycsid}]]",
+    			  type:"get",
+    			  data:{
+    				  pageNum:1,
+    				  csname:"全部",
+    				  uaccount : $("#uaccount", parent.document).text()
+    			  },
+    			  dataType:"json",
+    			  success:function(res){
+    				  this_.type0Goods=res.list;
+    				  $("#tab-全部").click();
+    			  }
+    		  }); 
+    	  },
+    	  //查询种类
+    	  selectByAllcommodity(dqy){
+    		  var this_=this;
+    		  $.ajax({
+    			  url:"[[@{/commodityAll/toselectall}]]",
+    			  type:"get",
+    			  data:{
+    				  pageNum:dqy,
+    				  uaccount : $("#uaccount", parent.document).text()
+    			  },
+    			  dataType:"json",
+    			  success:function(res){
+    				  this_.zcdlb=res.list;
+    				  this_.chushihuajz();
+    			  }
+    		  });
+    	  },
         // 点击右边商品，添加到左边
         addOrderList(goods){
-          // 每次添加都清零，防止重复添加
-          this.totalCount=0;
-          this.totalMoney=0;
-          // 定义isHave判断这个商品是否已经存在于订单列表
-          let isHave=false;
-          // tableData循环
-          for (let i=0; i<this.tableData.length; i++){
-            // console.log(this.tableData[i].goodsId);
-            if(this.tableData[i].goodsId==goods.goodsId){
-              isHave=true;
-            }
-          }
-          // 根据判断的值写业务逻辑
-          if(isHave){
-            // 改变列表中的商品数量
-            // 通过filter过滤tableData
-            let arr = this.tableData.filter(o=>o.goodsId == goods.goodsId);
-            arr[0].count++;
-          } else {
-            // 构造一个newGoods
-            let newGoods={goodsId:goods.goodsId,goodsName:goods.goodsName,price:goods.price,count:1}
-            this.tableData.push(newGoods);
-          }
-          this.getAllMoney();
+    		  if(goods.inventory>0){
+   			  // 每次添加都清零，防止重复添加
+   	          this.totalCount=0;
+   	          this.totalMoney=0;
+   	          // 定义isHave判断这个商品是否已经存在于订单列表
+   	          let isHave=false;
+   	          // tableData循环
+   	          for (let i=0; i<this.tableData.length; i++){
+   	             /* console.log(this.tableData[i].cid); */
+    	            if(this.tableData[i].cid==goods.cid){
+    	              isHave=true;
+    	            }
+   	          }
+   	          // 根据判断的值写业务逻辑
+   	          if(isHave){
+   	            // 改变列表中的商品数量
+   	            // 通过filter过滤tableData
+   	            let arr = this.tableData.filter(o=>o.cid == goods.cid);
+   	            if(goods.inventory==arr[0].dage ){
+   	            	alert("该商品已售罄，请选购其他商品！");
+   	            }else{
+   	             arr[0].dage++;
+   	    		}
+   	          } else {
+   	            // 构造一个newGoods
+   	            if(qjdiscount==0){
+   	            	let newGoods={cid:goods.cid,goodsName:goods.cname,totalprice:goods.sell,discount:0,dage:1,cdid:goods.cdid,originalcost:goods.cost,articleno:goods.articleno}
+   	                this.tableData.push(newGoods);
+   	            }else{
+   	            	let newGoods={cid:goods.cid,goodsName:goods.cname,totalprice:goods.sell,discount:qjdiscount,dage:1,cdid:goods.cdid,originalcost:goods.cost,articleno:goods.articleno}
+   	                this.tableData.push(newGoods);
+   	            }
+  	          	  }
+  	          this.getAllMoney();
+    		  }else{
+    			  alert("该商品已售罄，请选购其他商品！");
+    		  }
+        },
+        //删除单个挂单商品
+        delSingleGoods2(goods){
+        	this.gtotalCount= 0;
+	   		this.gtotalReceipts=0;
+	   		this.gtotalMoney=0;
+        	this.tablegua=this.tablegua.filter(o => o.gtotalName !=goods.gtotalName);
         },
         // 删除单个商品
         delSingleGoods(goods){
-          // console.log(goods);
-          this.tableData=this.tableData.filter(o => o.goodsId !=goods.goodsId);
+          this.tableData=this.tableData.filter(o => o.cid !=goods.cid);
           this.getAllMoney();
+        },
+        //删除所有挂单商品
+        delAllGoods2(){
+        	this.tablegua=[];
+            this.gtotalCount=0;
+            this.gtotalMoney=0;
+            this.gtotalReceipts=0;
         },
         // 删除所有商品
         delAllGoods(){
+          qjdiscount=0;
           this.tableData=[];
           this.totalCount=0;
           this.totalMoney=0;
+          this.totalReceipts=0;
+          this.jsss=0;
+          this.jsws=0;
         },
         // 因为删除，增加后都要重新汇总，所以汇总方法要复用
         getAllMoney(){
+          var this_ = this;
           this.totalCount=0;
           this.totalMoney=0;
+          this.totalReceipts=0;
           // 订单列表有数据的时候才进行汇总
           if(this.tableData){
             // 进行数量和价格的汇总计算
             // element表示tableData中的单个元素
             this.tableData.forEach((element) => {
-              this.totalCount+=element.count;
-              this.totalMoney=this.totalMoney+(element.price*element.count);
+              this.totalCount+=element.dage;
+              this.totalMoney=this.totalMoney+(element.totalprice*element.dage);
+              if(element.discount==0){
+            	  this.totalReceipts= this.totalMoney;
+              }else{
+            	  this.totalReceipts=this.totalReceipts+(element.totalprice*element.dage*element.discount);
+              }
             });
           }
         },
+        //挂单
+        guaGoods(){
+        	this.offen2=true;
+        	if (this.totalCount!=0) {
+            	if(this.hyzh.mbalance != null){
+            		this.jsws=this.hyzh.mbalance;
+            	}
+            	this.jsss=(this.totalReceipts-this.jsws).toFixed(2);
+              } else {
+                this.$message.error('请先选购商品！');
+             }  
+        	 
+        },
+        //挂单结账
+        checkout2(goods){
+        	var this_=this;
+            if (this.gtotalCount!=0) {
+	        	$.ajax({
+	        		url:"[[@{/memberall/toupdate}]]",
+	        		type:"post",
+	        		data:{
+	        			ddh:ddh
+	        		},
+	        		dataType:"json",
+	        		success:function(res){
+	        			if(res=="0"){
+	        				 this_.tablegua.forEach((element) => {
+	        					  if(element.gddh==ddh){
+	        						  this_.gtotalCount= 0;
+	        						  this_.gtotalReceipts=0;
+	        						  this_.gtotalMoney=0;
+	        						  this_.tablegua=this_.tablegua.filter(o => o.gtotalName !=element.gtotalName);
+	        					  }
+	        				  });  
+	        				  
+	        			}
+	        		}  
+	        	});
+          } else {
+            this.$message.error('请先选购商品！');
+          }  
+        },
+        //确定收银
+        qdsy(state){
+        	alert(state);
+        	var hyzk=0;
+    		var hyid=0;
+       		if(this.hyzh.discount!=null){
+       			hyzk=this.hyzh.discount;
+       			hyid=this.hyzh.mid;
+       		}
+        		var obj={
+        				client:hyid,
+            			total:this.totalMoney,
+            			discount:hyzk,
+            			actualincome:this.jsss,
+            			notincome:this.jsws,
+            			rdpay:this.checkedValue,
+            			sid:$(".dpsid").val(),
+            			cashier:this.checkedValue2,
+            			shopassistant:$("#uaccount", parent.document).text(),
+            			rstate:state,
+            			tabledata: this.tableData
+        		};
+        		var this_=this;
+        		$.ajax({
+            		url:"[[@{/memberall/toinsertcjjl}]]",
+            		type:"post",
+            		data:JSON.stringify(obj),
+            		dataType:"text",
+            		contentType : "application/json;charset=utf-8",
+            		success:function(res){
+            			if(res!="1"){
+            				ddh=res;
+            				if(state==2){
+                    			this_.xzgd();
+                    			this_.offen=false;  
+                    			this_.offen2=false;  
+                    			this_.tableData = [];
+                	        	qjdiscount=0;
+                	        	this_.hyzh=[];
+                	        	this_.totalCount = 0;
+                	        	this_.totalMoney = 0;
+                	        	this_.totalReceipts=0;
+                    		}
+            			}
+            		}
+            	});
+        },
+        xzgd(){
+        	let gname = '';
+            this.tableData.forEach((element) => {
+           	  gname+=element.goodsName+",";
+            });   
+            gname = gname.substring(0,gname.length-1);
+            let newGoods={gtotalName:gname,gtotalcount:this.totalCount,gtotalprice:this.totalMoney,gtotalreceipts:this.totalReceipts.toFixed(2),gddh:ddh}
+            this.tablegua.push(newGoods);
+        },
         // 结账
         checkout() {
-          if (this.totalCount!=0) {
-            this.tableData = [];
-            this.totalCount = 0;
-            this.totalMoney = 0;
-            this.$alert('<div class="qr-code"><img src="/images/code.png"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,觉得OK就打赏一下', {
-              dangerouslyUseHTMLString: true
-            });
+        	this.offen=true;
+            if (this.totalCount!=0) {
+        	if(this.hyzh.mbalance != null){
+        		this.jsws=this.hyzh.mbalance;
+        	}
+        	this.jsss=(this.totalReceipts-this.jsws).toFixed(2);
           } else {
-            this.$message.error('你都没点餐，我要上空气给你吃吗？');
-          }
+            this.$message.error('请先选购商品！');
+          }  
         }
       },
       created(){
-        // 抓取常用商品
-        axios.get('/json/hotGoods.json')
-        .then(response=>{
-         /*  console.log(response); */
-          this.oftenGoods=response.data;
-
-        })
-        .catch(error=>{
-          console.log(error);
-          alert('网络错误，不能访问');
-        })
-        
-        // 抓取商品分类
-        axios.get('/json/inGoods.json')
-        .then(response=>{
-         /*  console.log(response); */
-          // this.oftenGoods=response.data;
-          this.type0Goods=response.data[0];
-          this.type1Goods=response.data[1];
-          this.type2Goods=response.data[2];
-          this.type3Goods=response.data[3];
-        })
-        .catch(error=>{
-          console.log(error);
-          alert('网络错误，不能访问');
-        })
+    	this.selectByAllcommodity(1);
+    	this.selectByAllmember(1);  
+    	this.chushihuajzsyry();
+      },
+      filters:{
+    	keepdiscount:function(value){
+    		value=Number(value);
+    		return value.toFixed(2);
+    	}  
       }
     })
   </script>

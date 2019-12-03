@@ -48,6 +48,7 @@
 							<div style="padding-bottom: 10px;width: 100%;overflow:hidden;margin-left: 4px;">
 								<div style="float: left;width: 25%;">
 									<label>单 号</label>
+									<input type="hidden" name="puid">
 									<input type="text" name="odd" class="form-control" style="display: inline-block; width: 78%;">
 								</div>
 								<div style="float: left;width: 25%;">
@@ -110,6 +111,7 @@
 						<div style="text-align: right;">
 							<button type="reset" class="btn btn-default" style="width: 8%;">清空</button>
 							<button type="button" class="btn btn-success" style="width: 8%;"id="submit">提交</button>
+							<button type="button" class="btn btn-success" style="width: 8%;" id="up">修改</button>
 						</div>
 					</div>
 				</div>
@@ -161,21 +163,122 @@
 		<script src="/js/jquery-1.8.3.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">	
 			
+			var odd = window.sessionStorage.getItem("odd");
+			
 			$(function(){
 				init() ;
-
-				var odd = window.sessionStorage.getItem("odd");
-				$.getJSON(`/rest/purchase/getSupplierByOdd/${odd}`,function(data){
-					console.info(data)
-					if(data[0].remark == "-"){
-						data[0].remark = "";
+				
+				$("#up").hide();
+				
+				//修改
+				$("#up").click(function(){
+					var purchase = {
+						puid : $("[name='puid']").val(),
+						odd : $("[name='odd']").val(),
+						deliverydate : $("[name='deliverydate']").val(),
+						auditstate : 0,
+						suid : $("[name='suname']").val(),
+						sid : 1,
+						uaccount : $("[name='uaccount']").val(),	
+						remark : $("[name='remark']").val(),
+						createtime : $("[name='deliverydate']").val(),
+						details:[
+							
+						]
 					}
-					$("[name=odd]").val(data[0].odd);
-					$("[name=deliverydate]").val(data[0].deliverydate);
-					$("[name=suname]").val(data[0].suname);
-					$("[name=remark]").val(data[0].remark);
-					$("[name=uaccount]").val(data[0].uaccount);
+					$("#tbody2 tr").each(function(){
+						//console.info(this);
+						let del={
+								amount : $(this).find("[name='num']").val(),
+								moeny : $(this).find("[name='sum']").html(),
+								cdid : $(this).find("[name='cdid']").html()
+							}
+						purchase.details.push(del)
+					});
+					//console.info(JSON.stringify(purchase));
+						
+					//修改采购单
+					$.ajax({
+						url:"[[@{/rest/purchase/updateByPrimaryKeySelective}]]",
+						type:"post",
+						data:JSON.stringify(purchase),
+						dataType:"json",
+						contentType:"application/json;charset=utf-8",
+						success:function(data){
+							if(data.code == "200"){
+								alert(data.message);
+								window.location.href="/page/purchase";
+							} else{
+								alert(data.message)
+							}
+						}
+					});
+				});
+				
+				//提交
+				$("#submit").click(function(){
+					if($("#tbody2 tr").length == 0){
+						alert("至少添加一条商品!");
+						return;
+					}
+					var purchase = {
+						odd : $("[name='odd']").val(),
+						deliverydate : $("[name='deliverydate']").val(),
+						auditstate : 0,
+						suid : $("[name='suname']").val(),
+						sid : 1,
+						uaccount : $("[name='uaccount']").val(),	
+						remark : $("[name='remark']").val(),
+						createtime : $("[name='deliverydate']").val(),
+						details:[
+							
+						]
+					}
+					$("#tbody2 tr").each(function(){
+						//console.info(this);
+						let del={
+								amount : $(this).find("[name='num']").val(),
+								moeny : $(this).find("[name='sum']").html(),
+								cdid : $(this).find("[name='cdid']").html()
+							}
+						purchase.details.push(del)
+					});
+					//console.info(JSON.stringify(purchase));
 					
+					//新建采购单
+					$.ajax({
+						url:"[[@{/rest/purchase/insertPurchase}]]",
+						type:"post",
+						data:JSON.stringify(purchase),
+						dataType:"json",
+						contentType:"application/json;charset=utf-8",
+						success:function(data){
+							if(data.code == "200"){
+								alert(data.message);
+								window.location.href="/page/purchase";
+							} else{
+								alert(data.message)
+							}
+						}
+					});
+				});		
+					
+				//当ood不为空的时候，进来修改传值
+				if(odd != "" && odd != null){
+					$("#submit").hide();
+					$("#up").show();
+					$.getJSON(`/rest/purchase/getSupplierByOdd/${odd}`,function(data){
+						//console.info(data)
+						if(data[0].remark == "-"){
+							data[0].remark = "";
+						}
+						$("[name=puid]").val(data[0].puid);
+						$("[name=odd]").val(data[0].odd);
+						$("[name=deliverydate]").val(data[0].deliverydate);
+						$("[name=suname]").val(data[0].suname);
+						$("[name=remark]").val(data[0].remark);
+						$("[name=uaccount]").val(data[0].uaccount);
+						
 						$("#tbody2").html("");
 						$.each(data,function(i,obj){
 							var tr = $("<tr>"+
@@ -183,11 +286,12 @@
 											"<td>"+obj.shapecode+"</td>"+
 											"<td>"+obj.cname+"</td>"+
 											"<td>"+
+												"<span name='cdid' style='display: none;'>"+obj.cdid+"</span>"+
 												"<span style='display: block;'>"+obj.colorname+"</span>"+
 												"<span style='display: block;'>"+obj.sizename+"</span>"+
 											"</td>"+
 											"<td name='sell'>"+obj.sell+"</td>"+
-											"<td><input type='text' onchange='changeNum(this)' name='num' value='1' class='form-control' style='width:80%;padding-left:35px'></td>"+
+											"<td><input type='text' onchange='changeNum(this)' name='num' value='"+obj.amount+"' class='form-control' style='width:80%;padding-left:35px'></td>"+
 											"<td>"+
 												"<div style='position: relative;'>"+
 													"<span>￥</span>"+
@@ -197,21 +301,11 @@
 											"</td>"+
 										"</tr>");
 	       					$("#tbody2").append(tr);
+						});
+						setTotal();
 					});
-				});
-				
-				//提交
-				$("#submit").click(function(){
-					var obj = {
-						odd : $("[name='odd']").val(),
-						deliverydate : $("[name='deliverydate']").val(),
-						suname : $("[name='suname']").val(),
-						remark : $("[name='remark']").val(),
-						uaccount : $("[name='uaccount']").val()
-					}
-					console.info(obj);
-				});
-				
+				}
+
 				//查询所有供应商
 				$.ajax({
 					url:"[[@{/rest/purchase/getSupplierAll}]]",
@@ -241,6 +335,7 @@
 							var tr = $("<tr>"+
 											"<td><input type='checkbox' name='ck' /></td>"+
 											"<td>"+
+												"<span name='cdid' style='display: none;'>"+obj.cdid+"</span>"+
 												"<span name='articleno' style='display: block;'>"+obj.articleno+"</span>"+
 												"<span name='shapecode' style='display: block;'>"+obj.shapecode+"</span>"+
 											"</td>"+
@@ -273,13 +368,15 @@
 		       		}
 		        });
 
+		       	//添加商品
 		       	$("#ok").live("click",function(){
-
+					
 		       		var check = $("input[name='ck']:checked");	//选中的复选框	
 		       		var selectedData = [];
 		       		check.each(function(){	
 		       			var row= $(this).parent("td").parent("tr");	
-		       			
+		       			//alert(row.html());
+		       			var cdid = row.find("[name='cdid']").html();
 		       			var articleno = row.find("[name='articleno']").html();
 		       			var shapecode = row.find("[name='shapecode']").html();
 		       			var cname = row.find("[name='cname']").html();
@@ -288,33 +385,41 @@
 		       			var sell = row.find("[name='sell']").html();
 		       			var inventory = row.find("[name='inventory']").html();
 		       			
-		       			selectedData.push({articleno:articleno,shapecode:shapecode,cname:cname,colorname:colorname,
+		       			selectedData.push({cdid:cdid,articleno:articleno,shapecode:shapecode,cname:cname,colorname:colorname,
 		       				sizename:sizename,sell:sell,inventory:inventory})
 		       		}); 
 		       		//console.info(selectedData)
-					
-		       		$("#tbody2").html("");
 		       		
 		       		$.each(selectedData,function(i,obj){
-		       			var tr = $("<tr>"+
-										"<td>"+obj.articleno+"</td>"+
-										"<td>"+obj.shapecode+"</td>"+
-										"<td>"+obj.cname+"</td>"+
-										"<td>"+
-											"<span style='display: block;'>"+obj.colorname+"</span>"+
-											"<span style='display: block;'>"+obj.sizename+"</span>"+
-										"</td>"+
-										"<td name='sell'>"+obj.sell+"</td>"+
-										"<td><input type='text' onchange='changeNum(this)' name='num' value='1' class='form-control' style='width:80%;padding-left:35px'></td>"+
-										"<td>"+
-											"<div style='position: relative;'>"+
-												"<span>￥</span>"+
-												"<span name='sum'>"+obj.sell+"</span>"+
-												"<span onclick='removeTr(this)' style='position: absolute;right:5px;top:3px;' class='glyphicon glyphicon-remove'></span>"+
-											"</div>"+
-										"</td>"+
-									"</tr>");
-		       			$("#tbody2").append(tr);
+		       			let flag = false;
+		       			$("#tbody2 tr").each(function(){
+		       				let exno=$(this).find("[name='articleno']").html();
+		       				if(obj.articleno==exno){
+		       					flag = true;
+		       				}
+		       			})
+		       			if(!flag){
+			       			var tr = $("<tr>"+
+											"<td name='articleno'>"+obj.articleno+"</td>"+
+											"<td>"+obj.shapecode+"</td>"+
+											"<td>"+obj.cname+"</td>"+
+											"<td>"+
+												"<span name='cdid' style='display: none;'>"+obj.cdid+"</span>"+
+												"<span style='display: block;'>"+obj.colorname+"</span>"+
+												"<span style='display: block;'>"+obj.sizename+"</span>"+
+											"</td>"+
+											"<td name='sell'>"+obj.sell+"</td>"+
+											"<td><input type='text' onchange='changeNum(this)' name='num' value='1' class='form-control' style='width:80%;padding-left:35px'></td>"+
+											"<td>"+
+												"<div style='position: relative;'>"+
+													"<span>￥</span>"+
+													"<span name='sum'>"+obj.sell+"</span>"+
+													"<span onclick='removeTr(this)' style='position: absolute;right:5px;top:3px;' class='glyphicon glyphicon-remove'></span>"+
+												"</div>"+
+											"</td>"+
+										"</tr>");
+			       			$("#tbody2").append(tr);		       				
+		       			}
 		       		});		
 		       		setTotal();
 		       	});

@@ -5,7 +5,20 @@ public class Position {
 
     private String pname;
 
-    public Integer getPid() {
+
+   
+
+	public Position() {
+		super();
+	}
+
+	public Position(Integer pid, String pname) {
+		super();
+		this.pid = pid;
+		this.pname = pname;
+	}
+
+	public Integer getPid() {
         return pid;
     }
 

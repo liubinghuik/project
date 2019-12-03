@@ -2,8 +2,10 @@ package com.accp.mapper;
 
 import com.accp.domain.Color;
 import com.accp.domain.ColorExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface ColorMapper {
     int countByExample(ColorExample example);
@@ -27,4 +29,7 @@ public interface ColorMapper {
     int updateByPrimaryKeySelective(Color record);
 
     int updateByPrimaryKey(Color record);
+    
+    @Select("select * from color where colorname = #{name}")
+    Color queryColorByName(@Param("name")String name);
 }

@@ -169,7 +169,6 @@
 	 						data:{currentPage:currentPage,pageSize:10},
 	 						dataType:"json",
 	 						success:function(data){
-	 							console.info(data)
 	 							$("#pageNum").html(data.pageNum)
 	 							$("#pages").html(data.pages);
 	 							that.page = data;

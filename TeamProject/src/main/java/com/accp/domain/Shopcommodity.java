@@ -20,4 +20,13 @@ public class Shopcommodity {
     public void setCid(Integer cid) {
         this.cid = cid;
     }
+
+	public Shopcommodity(Integer sid, Integer cid) {
+		this.sid = sid;
+		this.cid = cid;
+	}
+
+	public Shopcommodity() {
+	}
+
 }

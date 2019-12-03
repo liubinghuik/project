@@ -23,6 +23,15 @@ public class Shop {
 
     private Integer state;
 
+    @Override
+	public String toString() {
+		return "Shop [sid=" + sid + ", uaccount=" + uaccount + ", sname=" + sname + ", linkman=" + linkman + ", phone="
+				+ phone + ", telephone=" + telephone + ", provincename=" + provincename + ", cityname=" + cityname
+				+ ", regionname=" + regionname + ", street=" + street + ", state=" + state + "]";
+	}
+
+	
+
     public Integer getSid() {
         return sid;
     }
