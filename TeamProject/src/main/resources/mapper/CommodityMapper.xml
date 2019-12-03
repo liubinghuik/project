@@ -102,15 +102,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.accp.domain.Commodity" >
-    insert into commodity (cid, csid, cname, 
+  <insert id="insert" parameterType="com.accp.domain.Commodity" keyProperty="cid" useGeneratedKeys="true">
+    insert into commodity (csid, cname, 
       brand, articleno, sell, 
-      cost, message)
-    values (#{cid,jdbcType=INTEGER}, #{csid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, 
+      cost, message, picture)
+    values (#{csid,jdbcType=INTEGER}, #{cname,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{articleno,jdbcType=VARCHAR}, #{sell,jdbcType=REAL}, 
-      #{cost,jdbcType=REAL}, #{message,jdbcType=VARCHAR})
+      #{cost,jdbcType=REAL}, #{message,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Commodity" >
+  <insert id="insertSelective" parameterType="com.accp.domain.Commodity" keyProperty="cid" useGeneratedKeys="true">
     insert into commodity
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="cid != null" >

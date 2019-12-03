@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<title>商品管理</title>
@@ -10,7 +10,9 @@
 			padding: 0;
 			margin: 0;
 		}
-		
+		.table > tbody > tr > td{
+			vertical-align: middle;
+		}
 	</style>
 	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
@@ -23,6 +25,7 @@
         	时间：2019-11-12
         	描述：商品管理
         -->
+        <div id="goodstd">
 		<div class="col-md-10" style="width: 100%;">
 			<div class="row">
 				<div id="tab_spgl">					
@@ -30,22 +33,25 @@
 						<div style="padding-left: 0;float: left;">商品管理</div>
 						<div style="float: right;width: 80%;text-align: right;">
 							<form action="" method="post">
-								<select class="form-control" style="width: 15.66%; display: inline-block;">
-								  <option>莱米琪</option>
+								<select name="goodsonline" class="form-control" style="width: 15.66%; display: inline-block;">
+								 <option value="全部店铺">全部商铺</option>
+								 <template v-for="stu in goodsonline">
+								 	<option :value="stu.sname">{{stu.sname}}</option>
+								 </template>
 								</select>
 								
-								<select class="form-control" style="width: 15.66%; display: inline-block;">
-								  <option>全部类别</option>
-								  <option>羽绒服</option>
-								  <option>衬衣</option>
-								  <option>毛衣</option>
+								<select name="goodstype" class="form-control" style="width: 15.66%; display: inline-block;">
+								  <option value="全部类别">全部类别</option>
+									<template v-for="stu in goodstype">
+								 	<option :value="stu.csname">{{stu.csname}}</option>
+								 </template>
 								</select>
 								
-								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 20.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
-								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;">导出商品</button>
+								<input type="text"  class="form-control" id="inputEmail3" placeholder="查找" style="width: 20.50%; display: inline-block;">
+								<a @click="select" class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;" @click="daochu">导出商品</button>
 								<button type="button" class="btn btn-default" style="margin-left: 5; margin-top: -4px;" data-toggle="modal" data-target="#myModal">批量导入</button>
-								<button type="button" class="btn btn-success" style="margin-left: 5px; margin-top: -4px;" onclick="goToPage2('/page/shopUpload')">商品上传</button>
+								<button type="button" class="btn btn-success" style="margin-left: 5px; margin-top: -4px;" onclick="goToPage2('shopUpload.html')">商品上传</button>
 							</form>
 						</div>
 					</div>
@@ -53,9 +59,8 @@
 						<table class="table table-bordered table-hover table-striped">
 							<thead align="center">
 								<tr class="info">
-									<td width="6%">选择</td>
-									<td width="6%">序号</td>
-									<td width="10%">类别</td>
+									<td width="8%">序号</td>
+									<td width="12%">类别</td>
 									<td width="15%">品名</td>
 									<td width="10%">货号/条码</td>
 									<td width="8%">规格</td>
@@ -67,20 +72,25 @@
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr>
-									<td><input type="checkbox" name="" /></td>
-									<td>1</td>
-									<td>衬衣</td>
-									<td>格子衬衣</td>
-									<td>612660832</td>
-									<td>--</td>
-									<td>19</td>
-									<td>192.00</td>
-									<td>0.00</td>
-									<td>--</td>
+								<tr v-for="stu,index in goodslist">
+									<td>{{stu.cid}}</td>
+									<td>{{stu.csname}}</td>
+									<td><img :src="'/images/'+stu.picture" width="40" height="40"><span style="margin-left: 5px;">{{stu.cname}}</span></td>
 									<td>
-										<a href="JavaScript:;" onclick="goToPage2('/page/shopUpload')">修改</a>
-										<a href="JavaScript:;" style="padding-left: 10px;">删除</a>
+										<span style="display: block;">{{stu.articleno}}</span>
+										<span style="display: block;">{{stu.shapecode}}</span>
+									</td>
+									<td>
+										<span style="display: block;">{{stu.colorname}}</span>
+										<span style="display: block;">{{stu.sizename}}</span>
+									</td>
+									<td>{{stu.inventory}}</td>
+									<td>{{stu.sell}}</td>
+									<td>{{stu.cost}}</td>
+									<td>{{stu.message}}</td>
+									<td>
+										<a :href="'/rest/commodity/updategoods?id='+stu.cid">修改</a>
+										<a href="Javascript:;" @click="del(stu.cid,index)" style="padding-left: 10px;">删除</a>
 									</td>
 								</tr>
 							</tbody>
@@ -98,24 +108,31 @@
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		                <h4 class="modal-title" id="myModalLabel">批量导入</h4>
 		            </div>
-		            <div class="modal-body" style="padding:50px">
-		            	<form class="form-horizontal">
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-3 control-label">选择店铺:</label>
-						    <div class="col-sm-9">
-						       <select style="width: 50%;display: inline-block;" name="check" class="form-control">
-						      	<option value="">莱米琪</option>
-						      </select>
-						    </div>
-						  </div>
-						</form>
-		            </div>
-		            <div class="modal-footer" style="text-align: center;">
-		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">Excel导入</button>
-		                <button type="button" class="btn btn-success" style="width: 16.66%;">下载范本</button>
-		            </div>
+		            <!-- th:action="@{/rest/file/excelUpload}" name="refer"  -->
+		             <form method="post" enctype="multipart/form-data">
+			            <div class="modal-body" style="padding:50px">
+			            	
+							  <div class="form-group">
+							    <label for="inputEmail3" class="col-sm-3 control-label">选择店铺:</label>
+							    <div class="col-sm-9">
+							       <select style="width: 50%;display: inline-block;" name="check" class="form-control">
+							     	<template v-for="stu in goodsonline">
+									 	<option :value="stu.sname">{{stu.sname}}</option>
+									 </template>
+							      </select>
+							    </div>
+							  </div>
+							
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">		         
+							<input style="display: inline-block;" name="file" type="file">
+							<button @click="refer"  class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">Excel导入</button>
+		                	<button type="button" @click="xzfb" class="btn btn-success" style="width: 16.66%;">下载范本</button>
+			            </div>
+		            </form>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
+		</div>
 		</div>
 		<script type="text/javascript">
 			//带参数函数--商品管理 
@@ -124,6 +141,87 @@
 				window.parent.$("#spsc").addClass("current2")
 				window.parent.goToPage2(param);
 			}
-		</script>
+			var goodsvue = new Vue({
+				el:'#goodstd',
+				data(){
+					return{
+						goodslist:[],
+						goodstype:[],
+						goodsonline:[]
+					}
+				},
+				methods:{
+					select:function(){				//查询所有商品
+						var that=this;
+						let sname=$("[name=goodsonline]").val();
+						let csname=$("[name=goodstype]").val();
+						let cname=$("#inputEmail3").val();
+
+						$.ajax({
+							url:"[[@{/rest/commodity/getCommodityAll}]]",
+							type:"get",
+							data:{sname:sname,csname:csname,cname:cname},
+							dataType:"json",
+							success:function(res){
+								that.goodslist=res;
+							}
+						})
+					},del:function(id,index){		//根据id查询商品
+						 $.ajax({
+							url:"[[@{/rest/commodity/deleteCommodity}]]",
+							data:{id:id},
+							success:function(){
+							 goodsvue.goodslist.splice(index,1);
+							}
+						});
+					} ,
+					daochu:function(){				//导出商品
+						let sname=$("[name=goodsonline]").val();
+						let csname=$("[name=goodstype]").val();
+						let cname=$("#inputEmail3").val();
+						location.href="[[@{/rest/file/exportExcel}]]?sname="+sname+"&csname="+csname+"&cname="+cname;
+					},
+					xzfb:function(){				//下载范本
+						location.href="[[@{/rest/file/download}]]";
+					},
+					refer:function(){				//提交
+						//$("[name=refer]").submit();
+						var that = this;				
+						var formData = new FormData($("form")[1]);
+						console.info($("form"));
+						console.info(formData)
+						$.ajax({
+							url:"[[@{/rest/file/excelUpload}]]",
+							data:formData,
+							type:"post",
+							processData:false,
+							contentType:false,
+							success:function(result){
+								console.info(result);
+								that.select();
+							}
+						});
+					}
+				},created:function(){
+					var that=this;
+					this.select();
+					//查询所有类别
+					$.ajax({
+						url:"[[@{/rest/commodity/getCommoditysortAll}]]",
+						success:function(res){
+							that.goodstype=res;
+						}
+					});
+					
+					//查询所有店铺
+					$.ajax({
+						url:"[[@{/rest/commodity/getShoptAll}]]",
+						success:function(res){
+							that.goodsonline=res;
+						}
+					})
+				}
+			})
+		</script>		
 	</body>
 </html>
