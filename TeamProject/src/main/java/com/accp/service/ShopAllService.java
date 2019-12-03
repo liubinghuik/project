@@ -37,4 +37,7 @@ public class ShopAllService {
 	public List<ShopAll> selectShopAllByjobnumber(String account){
 		return shopallmapper.selectShopAllByjobnumber(account);
 	}
+	public List<ShopAll> selectstaffByreception(){
+		return shopallmapper.selectstaffByreception();
+	}
 }

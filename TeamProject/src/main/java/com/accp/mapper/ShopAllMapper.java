@@ -15,4 +15,6 @@ public interface ShopAllMapper {
 	List<ShopAll> selectpositionBypid(int pid);
 	
 	List<ShopAll> selectShopAllByjobnumber(String account);
+	
+	List<ShopAll> selectstaffByreception();
 }

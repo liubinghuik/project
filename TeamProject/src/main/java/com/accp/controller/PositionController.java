@@ -76,10 +76,20 @@ public class PositionController {
 		//首先修改名称
 		boolean f=false;
 		Position po=new Position(pid,pname);
+		System.out.println(po);
 		if(positionservice.updatepositionBypid(po)>0) {
 			/*然后删除职位权限表*/
 			if(ModelpositionService.deletemodelposition(pid)>0) {
 				/* 再新增职位权限表 */
+				for(String s:arr) {
+	    			int moid=Integer.parseInt(s);
+	    			Modelposition mm=new Modelposition(moid,pid);
+	    			if(ModelpositionService.insertmodelposition(mm)>0) {
+	    				f=true;
+	    			}
+	    		}
+				/* 也有可能一开始啥权限都没有直接新增*/
+			}else {
 				for(String s:arr) {
 	    			int moid=Integer.parseInt(s);
 	    			Modelposition mm=new Modelposition(moid,pid);

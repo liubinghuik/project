@@ -90,4 +90,10 @@
 	WHERE mp.moid=m.moid AND p.pid=mp.pid AND s.`pid`=p.`pid`
 	AND s.jobnumber=#{0}
   </select>
+  <!-- 查询有谁可以收银 -->
+  <select id="selectstaffByreception" resultMap="BaseResultMap">
+  	SELECT s.stname,m.*,s.sid FROM staff s,POSITION p,modelposition mp,model m
+	WHERE s.pid=p.pid AND p.pid=mp.pid AND mp.moid=m.moid
+	AND m.moid= 58 
+  </select>
 </mapper>

@@ -14,8 +14,8 @@ public class Modelposition {
 		this.pid = pid;
 	}
 
-	
-    public Modelposition() {
+
+	public Modelposition() {
 		super();
 	}
 

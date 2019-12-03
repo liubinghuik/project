@@ -37,9 +37,15 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         // 添加拦截的请求，并排除几个不拦截的请求
         registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
                 .excludePathPatterns("/", "/page/login","/js/**","/css/**","/images/**","/user/GetImage","/user/logins");
+        //权限
         registry.addInterceptor(new MyInterceptor()).addPathPatterns("/shop/**","/staff/**}","/shopall/**","/position/**","/model/**")
-        .excludePathPatterns("/shop/toselectBysid","/js/**","/css/**","/images/**","/staff/toselectBysid","/staff/tozjdp","/staff/tozjzw")
-        .excludePathPatterns("/model/toselectmodel","/position/topositionselect","/position/toselectpositionByid");
+        .excludePathPatterns("/js/**","/css/**","/images/**","/shop/toselectBysid","/staff/toselectBysid","/staff/tozjdp","/staff/tozjzw")
+        .excludePathPatterns("/model/toselectmodel","/position/topositionselect","/position/toselectpositionByid")
+        .addPathPatterns("/rest/commoditysort/getAll","/rest/commoditysort/updateByPrimaryKeySelective","/rest/commoditysort/insertSelective","/rest/commoditysort/deleteByPrimaryKey"
+        		,"/rest/commodity/getCommodityAll","/rest/commodity/insertCommodity","/rest/commodity/updategoods","/rest/commodity/deleteCommodity"
+        		,"/rest/supplier/getAll","/rest/supplier/updateByPrimaryKeySelective","/rest/supplier/insertSelective","/rest/supplier/deleteByPrimaryKey"
+        		,"/rest/purchase/getAll/**","/rest/purchase/insertPurchase","/rest/purchase/updateByPrimaryKeySelective","/rest/purchase/deletePurchaseAndDetails")
+        .excludePathPatterns("");
     }
 	
 }
