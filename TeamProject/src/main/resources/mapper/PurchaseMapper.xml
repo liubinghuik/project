@@ -230,9 +230,64 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchase" >
+
+
+  <!-- ========================================================== -->
+  
+  <select id="getAll" resultType="com.accp.vo.PurchaseVO">
+   	SELECT p.`puid`,p.odd,p.`deliverydate`,p.auditstate,s.`suname`,SUM(d.`amount`) as amount,SUM(d.`moeny`) as moeny,p.`remark` FROM purchase p 
+	JOIN purchasedetails d ON p.puid = d.puid 
+	JOIN supplier s ON p.suid = s.suid WHERE 1=1
+	<if test="startDate != null and startDate !='null'">
+		and p.deliverydate &gt;= #{startDate}
+	</if>
+	<if test="endDate != null and endDate !='null'">
+		and p.deliverydate &lt;= #{endDate}
+	</if>
+	<if test="suname != null and suname !='null'">
+		and s.suname like '%${suname}%'
+	</if>
+	 GROUP BY p.odd 
+  </select>
+  
+  <select id="getMaxOdd" parameterType="String" resultType="int">
+  	select count(*) from purchase where odd like '${date}%'
+  </select>
+  
+  <select id="getSupplierAll" resultType="com.accp.vo.PurchaseVO">
+  	select suid,suname from supplier
+  </select>
+  
+  <select id="getSupplierByOdd" parameterType="String" resultType="com.accp.vo.PurchaseVO">
+  	SELECT * FROM purchase p 
+	JOIN purchasedetails d ON p.puid = d.puid 
+	JOIN supplier s ON p.suid = s.suid
+	JOIN commoditydetails t ON t.cdid = d.cdid
+	JOIN commodity m ON t.`cid` = m.`cid`
+	JOIN size z ON t.`sizeid` = z.`sizeid`
+	JOIN color c ON t.`colorid` =c.`colorid`
+	WHERE p.odd = #{odd}
+  </select>
+
+  <insert id="insertPurchase" parameterType="com.accp.domain.Purchase" keyProperty="puid" useGeneratedKeys="true">
+   insert into purchase (odd, auditstate, 
+      deliverydate, suid, sid, uaccount, remark, createtime)
+    values (#{odd,jdbcType=VARCHAR}, #{auditstate,jdbcType=VARCHAR}, 
+      #{deliverydate,jdbcType=TIMESTAMP}, #{suid,jdbcType=INTEGER}, #{sid,jdbcType=INTEGER}, 
+      #{uaccount,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertPurchasedetails" parameterType="com.accp.domain.Purchasedetails">
+     insert into purchasedetails (puid, amount, moeny, cdid) values
+    <foreach collection="details" item="td" separator=",">
+     ( #{puid,jdbcType=INTEGER}, #{td.amount,jdbcType=INTEGER}, 
+      #{td.moeny,jdbcType=DOUBLE},#{td.cdid,jdbcType=INTEGER})
+    </foreach>;
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.accp.domain.Purchase">
     update purchase
-    <set >
+    <set>
       <if test="odd != null" >
         odd = #{odd,jdbcType=VARCHAR},
       </if>
@@ -272,40 +327,19 @@
       createtime = #{createtime,jdbcType=TIMESTAMP}
     where puid = #{puid,jdbcType=INTEGER}
   </update>
-  
-  <!-- ========================================================== -->
-   <select id="getAll" resultType="com.accp.vo.PurchaseVO">
-    SELECT * FROM purchase p 
-	JOIN purchasedetails d ON p.puid = d.puid 
-	JOIN supplier s ON p.suid = s.suid where 1 = 1
-	<if test="startDate != null and startDate !='null'">
-		and p.deliverydate &gt;= #{startDate}
-	</if>
-	<if test="endDate != null and endDate !='null'">
-		and p.deliverydate &lt;= #{endDate}
-	</if>
-	<if test="suname != null and suname !='null'">
-		and s.suname like '%${suname}%'
-	</if>
-  </select>
-  
-  <select id="getMaxOdd" parameterType="String" resultType="int">
-  	select count(*) from purchase where odd like '${date}%'
-  </select>
-  
-  <select id="getSupplierAll" resultType="com.accp.vo.PurchaseVO">
-  	select suid,suname from supplier
-  </select>
-  
-  <select id="getSupplierByOdd" parameterType="String" resultType="com.accp.vo.PurchaseVO">
-  	SELECT * FROM purchase p 
-	JOIN purchasedetails d ON p.puid = d.puid 
-	JOIN supplier s ON p.suid = s.suid
-	JOIN commoditydetails t ON t.cdid = d.cdid
-	JOIN commodity m ON t.`cid` = m.`cid`
-	JOIN size z ON t.`sizeid` = z.`sizeid`
-	JOIN color c ON t.`colorid` =c.`colorid`
-	WHERE p.odd = #{odd}
-  </select>
+  <delete id="delPurchasedetails" parameterType="java.lang.Integer">
+  	 delete from purchasedetails where puid = #{puid,jdbcType=INTEGER};
+  </delete>
 
+  <update id="updateInventory" parameterType="java.lang.Integer">
+  	UPDATE commoditydetails SET inventory = inventory + #{num} WHERE cdid = #{cdid}
+  </update>
+  
+  <delete id="deletePurchase" parameterType="java.lang.Integer">
+  	delete from purchase where puid = #{puid};
+  </delete>
+
+   <update id="updateAuditState" parameterType="java.lang.String">
+  	UPDATE purchase SET auditstate = 1 WHERE odd = #{odd}
+  </update>
 </mapper>

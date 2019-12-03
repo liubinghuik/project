@@ -8,6 +8,7 @@
      <result column="moeny" property="moeny" jdbcType="DOUBLE" />
     <result column="cdid" property="cdid" jdbcType="INTEGER" />
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -100,7 +101,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.accp.domain.Purchasedetails" >
-    insert into purchasedetails (pudid, puid, amount, moeny
+    insert into purchasedetails (pudid, puid, amount, moeny,
       cdid)
     values (#{pudid,jdbcType=INTEGER}, #{puid,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, 
       #{moeny,jdbcType=DOUBLE},#{cdid,jdbcType=INTEGER})

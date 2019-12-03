@@ -22,6 +22,9 @@
 		    background: url(http://www.poso2o.com/EntityStore/style/img/edit_16_16.gif) no-repeat 0 1.5px;
 		    color:#000; 
 		}
+		.table > tbody > tr > td{
+			vertical-align: middle;
+		}
 	</style>
 	<script src="/js/jQuery-2.2.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
@@ -60,31 +63,102 @@
 					</div>
 					<div class="row" style="margin-right: 15px;margin-left:5px;">
 						<table id="table" class="table table-bordered table-hover table-striped">
-							<!-- <thead align="center">
+							<thead align="center">
 								<tr class="info">
 									<td width="4%">序号</td>
-									<td width="5%">审核</td>
+									<td width="7%">审核</td>
 									<td width="10%">采购单号</td>
 									<td width="8%">交货期</td>
-									<td width="12%">供应商</td>
+									<td width="10%">供应商</td>
 									<td width="6%">数量</td>
 									<td width="6%">金额</td>
-									<td width="10%">备注</td>
+									<td width="8%">备注</td>
 									<td width="8%">操作</td>
 								</tr>
 							</thead>
 							<tbody align="center">
 								
-							</tbody> -->
+							</tbody>
 						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">是否通过审核单?</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px">
+		            	<div style="text-align: center;">
+		            		<p>
+		            			<span>采购单号：</span>
+		            			<span id="odd"></span>
+		            		</p>
+		            	</div>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		                <button type="button" class="btn btn-success" style="width: 16.66%;" id="ok">确认</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+		
+		<!-- 模态框（Modal）查询 -->
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div style="width: 76.66%;" class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">采购单</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px;overflow: hidden;">
+		            	<div style="float: left;">
+		            		<p>供应商：<span name="suname"></span></p>
+		            		<p>联系人：<span name="linkman"></span>&nbsp;&nbsp;&nbsp;&nbsp;电话：<span name="telephone"></span></p>
+		            	</div>
+		            	<div style="float: right;">
+		            		<p>订单号：<span name="odd"></span></p>
+		            		<p>交货期：<span name="deliverydate"></span></p>
+		            	</div>
+		            	<table class="table table-bordered table-hover">
+						  	<thead>
+						  		<tr class="info">
+									<td width="4%">序号</td>
+									<td width="5%">条码</td>
+									<td width="12%">品名</td>
+									<td width="10%">规格</td>
+									<td width="8%">单价</td>
+									<td width="6%">数量</td>
+									<td width="6%">金额</td>
+								</tr>
+						  	</thead>
+						  	<tbody id="tbody2" align="center">
+								
+							</tbody>
+						</table>
+						<div style="float: left;">
+		            		<p>备注：<span name="remark"></span></p>
+		            	</div>
+		            	<div style="float: right;">
+		            		<p>公司名称：<span name="company"></span></p>
+		            	</div>
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
+		
 		<script type="text/javascript">
 			//带参数函数-商品管理 
 			function goToPage2(param){ 
-				window.sessionStorage.setItem("odd",null);
+				window.sessionStorage.setItem("odd","");
 				window.parent.goToPage2(param);
 			}
 			
@@ -97,13 +171,92 @@
 				});
 			});
 			
+			//查看详情
+			function purchaseDetail(odd){
+				$('#myModal2').modal('show');
+				$.getJSON(`/rest/purchase/getSupplierByOdd/${odd}`,function(data){
+					console.info(data)
+					if(data[0].remark == "-"){
+						data[0].remark = "";
+					}
+				
+					$("[name=suname]").html(data[0].suname);
+					$("[name=linkman]").html(data[0].linkman);
+					$("[name=telephone]").html(data[0].telephone);
+					$("[name=odd]").html(data[0].odd);
+					$("[name=deliverydate]").html(data[0].deliverydate);
+					
+					$("[name=remark]").html(data[0].remark);
+					$("[name=company]").html(data[0].company);
+					
+					$("#tbody2").html("");
+					$.each(data,function(i,obj){
+						var tr = $("<tr>"+
+										"<td>"+obj.articleno+"</td>"+
+										"<td>"+obj.shapecode+"</td>"+
+										"<td>"+obj.cname+"</td>"+
+										"<td>"+
+											"<span name='cdid' style='display: none;'>"+obj.cdid+"</span>"+
+											"<span style='display: block;'>"+obj.colorname+"</span>"+
+											"<span style='display: block;'>"+obj.sizename+"</span>"+
+										"</td>"+
+										"<td name='sell'>"+obj.sell+"</td>"+
+										"<td>"+obj.amount+"</td>"+
+										"<td>"+
+											"<div style='position: relative;'>"+
+												"<span name='sum'>"+obj.sell+"</span>"+
+											"</div>"+
+										"</td>"+
+									"</tr>");
+       					$("#tbody2").append(tr);
+					});
+				});
+			}
+			
+			//审核
+			function audit(odd){
+				$('#myModal').modal('show');
+				$("#odd").html(odd)
+				$("#ok").click(function(){
+					$.ajax({
+						url:"[[@{/rest/purchase/updateAuditState}]]",
+						type:"post",
+						data:{odd:odd},
+						dataType:"json",
+						success:function(data){
+							window.location.href="/page/purchase";
+						}
+					});
+				})				
+			}
+			
+			//修改
 			function modify(odd){
 				window.sessionStorage.setItem("odd",odd);
 				window.location.href="/page/addPuchase";
 			}
 			
+			//删除
+			function remove(puid){
+				$.ajax({
+					url:"[[@{/rest/purchase/deletePurchaseAndDetails}]]",
+					type:"post",
+					data:{puid:puid},
+					dataType:"json",
+					success:function(data){
+						if(data.code == "200"){
+							alert(data.message);
+							window.location.href="/page/purchase";
+						} else{
+							alert(data.message)
+						}
+					}
+				});
+			}
+			
 			function load(){
-				 $('#table').bootstrapTable({
+				
+				$('#table').bootstrapTable({
 			        method: "get",
 			        striped: true,
 			        singleSelect: false,			/* $("#startDate").val()   $("#endDate").val()    $("#endDate").val()==""?null:$("#startDate").val()     $("#startDate").val()==""?null:$("#startDate").val()*/
@@ -134,7 +287,7 @@
 			                valign: 'middle',
 			                formatter: function (value, row) {
 			                	if(row.auditstate == "0"){
-			                		return "<a href='javascript:;' class='examineTd'>待审核</a>"
+			                		return "<a href='javascript:;' onclick='audit("+row.odd+")' class='examineTd'>待审核</a>"
 			                	}
 			                	else if(row.auditstate == "1"){
 			                		return "通过"
@@ -187,18 +340,18 @@
 			                valign: 'middle',
 			                formatter: function (value, row) {
 			                	if(row.auditstate == "0"){
-			                		var e ='<a href=\"javascript:void(0)\" title="修改" onclick="modify('+value+')"><img src="/images/edit.gif" width=\"16\" height=\"16\"></a>'+
-			                				'<a href=\"javascript:void(0)\" title="查看详情" onclick="purchaseDetail('+value+')"><img src="/images/search.gif" width=\"16\" height=\"16\"></a>'+
-		                					'<a href=\"javascript:void(0)\" title="删除" onclick="remove('+value+')"><img src="/images/delete.gif" width=\"16\" height=\"16\"></a>';
+			                		var e ='<a href=\"javascript:void(0)\" title="修改" onclick="modify('+value+')">修改</a>'+
+			                				'<a href=\"javascript:void(0)\" title="查看" onclick="purchaseDetail('+value+')">查看</a>'+
+		                					'<a href=\"javascript:void(0)\" title="删除" onclick="remove('+row.puid+')">删除</a>';
 	                    			return e ;
 			                	} else if(row.auditstate == "1"){
-			                		var e ='<a href=\"javascript:void(0)\" title="查看详情" onclick="purchaseDetail('+value+')"><img src="/images/search.gif" width=\"16\" height=\"16\"></a>'+
-                							'<a href=\"javascript:void(0)\" title="删除" onclick="remove('+value+')"><img src="/images/delete.gif" width=\"16\" height=\"16\"></a>';
+			                		var e ='<a href=\"javascript:void(0)\" title="删除" onclick="remove('+row.puid+')">删除</a>'+
+			                				'<a href=\"javascript:void(0)\" title="查看" onclick="purchaseDetail('+value+')">查看</a>';
 		                			return e ;
-			                	} else {
-			                		var e ='<a href=\"javascript:void(0)\" title="查看详情" onclick="purchaseDetail('+value+')"><img src="/images/search.gif" width=\"16\" height=\"16\"></a>'
+			                	} /* else {
+			                		var e ='<a href=\"javascript:void(0)\" title="查看" onclick="purchaseDetail('+value+')">查看</a>'
 		                			return e ;
-			                	} 	                		
+			                	} */ 	                		
 			                }
 			            }
 			        ],

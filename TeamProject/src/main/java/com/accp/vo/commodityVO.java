@@ -1,5 +1,9 @@
 package com.accp.vo;
 
+import java.util.List;
+
+import com.accp.domain.Commoditydetails;
+
 public class commodityVO {
 
 	/*商品类别*/
@@ -11,14 +15,22 @@ public class commodityVO {
     private Integer csid;
 
     private String cname;
+    
+    private String brand;
 
     private String articleno;
 
     private Float sell;
 
     private Float cost;
+    
+    private String picture;
+    
+    private String message;
 
     /*商品详情*/
+    private Integer cdid;
+    
     private String shapecode;
 
     private Integer sizeid;
@@ -36,6 +48,29 @@ public class commodityVO {
     private String colorpicture;
 
     private Integer fatherid;
+
+    /*店铺商品表*/
+    private Integer sid;
+    
+    /*店铺表*/
+    private String sname;
+    
+
+	public Integer getSid() {
+		return sid;
+	}
+
+	public void setSid(Integer sid) {
+		this.sid = sid;
+	}
+
+	public String getSname() {
+		return sname;
+	}
+
+	public void setSname(String sname) {
+		this.sname = sname;
+	}
 
 	public String getCsname() {
 		return csname;
@@ -68,6 +103,14 @@ public class commodityVO {
 	public void setCname(String cname) {
 		this.cname = cname;
 	}
+	
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
 
 	public String getArticleno() {
 		return articleno;
@@ -91,6 +134,30 @@ public class commodityVO {
 
 	public void setCost(Float cost) {
 		this.cost = cost;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Integer getCdid() {
+		return cdid;
+	}
+
+	public void setCdid(Integer cdid) {
+		this.cdid = cdid;
 	}
 
 	public String getShapecode() {

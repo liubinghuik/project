@@ -1,5 +1,7 @@
 package com.accp.domain;
 
+import java.util.List;
+
 public class Commodity {
     private Integer cid;
 
@@ -16,8 +18,22 @@ public class Commodity {
     private Float cost;
 
     private String message;
+    
+    private String picture;
+    
+    private List<Commoditydetails> details;
+    
+    
 
-    public Integer getCid() {
+    public List<Commoditydetails> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<Commoditydetails> details) {
+		this.details = details;
+	}
+
+	public Integer getCid() {
         return cid;
     }
 
@@ -80,4 +96,30 @@ public class Commodity {
     public void setMessage(String message) {
         this.message = message;
     }
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+	public Commodity(Integer cid, Integer csid, String cname, String brand, String articleno, Float sell, Float cost,
+			String message, String picture) {
+		this.cid = cid;
+		this.csid = csid;
+		this.cname = cname;
+		this.brand = brand;
+		this.articleno = articleno;
+		this.sell = sell;
+		this.cost = cost;
+		this.message = message;
+		this.picture = picture;
+	}
+
+	public Commodity() {
+		
+	}
+	
 }

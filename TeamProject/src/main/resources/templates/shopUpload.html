@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<title>商品上传</title>
@@ -22,13 +22,17 @@
             height: 440px;
             max-height: 500px;
         }
+        a:hover{
+        	text-decoration: none;
+        }
 		.fpsize li{
 			display: inline-block;
 			vertical-align: middle;
 			margin-top: 6px;
+			margin-left:5px;
 			border: 1px solid #e2e1e3;
 			text-align: center;
-			width: 24.3%;
+			width: 23.3%;
 			line-height: 32px;
 			border-radius: 2px;
 		}
@@ -58,12 +62,8 @@
 	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
 	
 	<body>
-		<!--
-        	作者：offline
-        	时间：2019-11-12
-        	描述：商品上传
-        -->
-		<div class="col-md-10" style="width: 100%;">
+	<div id="shopgoods">
+   		<div class="col-md-10" style="width: 100%;">
 			<div class="row">
 				<div id="tab_yggl" class="tal_none2">
 					<div class="row" style="line-height:52px;margin-bottom:10px;margin-left: 5px;margin-right:15px;border-bottom: 1px solid #e7e7eb;">
@@ -73,24 +73,24 @@
 						<div class="col-md-4" style="padding-left:0;margin-right: 20px;">
 							<div class="con-FangDa" id="fangdajing" style="border: 1px solid gainsboro;">
 								<div class="con-fangDaIMg">
-								  	<!-- 正常显示的图片-->
-								  	<img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg">
-								    <!-- 滑块-->  
+								 
+								  	<img :src="'/images/'+goods.picture">
+								    
 								    <div class="magnifyingBegin"></div>
-								    <!-- 放大镜显示的图片 -->
-								    <div class="magnifyingShow"><img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg"></div>
+								   
+								    <div class="magnifyingShow"><img :src="'/images/'+goods.picture"></div>
 								</div>
 								<ul class="con-FangDa-ImgList">
-								    <!-- 图片显示列表 -->
-								    <li><img src="/images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg" data-bigimg="images/75518dbba09e4bb796f7a22a3fe594a2!400x400.jpg"></li>
-								    <li><img src="/images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg" data-bigimg="images/093557866bee4d27a30dfdc0a2cf3e47!400x400.jpg"></li>
-								    <li><img src="/images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg" data-bigimg="images/6cf3e7c7b3dc4cbcb42e36a0434fcb58!400x400.jpg"></li>
+									<li><img :src="'/images/'+goods.picture"></li>
 								    <li class="addProductPicBtn">
-								    	<input type="file" class="file uploadImgFile"/>
+								   	 <form action="" method="post" name="wjsc" enctype="multipart/form-data">
+								    	<input multiple name="files" type="file" class="file uploadImgFile"/>
 								    	<a style="display: block;">
 								    		<img src="/images/index.png" style="width: 32px;height: 32px;margin-top: 5.5px;cursor: pointer;">
 								    	</a>
+								    	</form>
 								    </li>
+								    <li style="border:1px solid #fff;margin-top: 5px;"><button type="button" id="fabuya" class="btn btn-default">上传图片</button></li>
 								</ul>
 							</div>
 						</div>
@@ -99,40 +99,48 @@
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品货号</label>
 								    <div class="col-sm-4">
-								      <input type="text" class="form-control" id="inputEmail3">
+								      <input type="text" class="form-control" v-model="goods.articleno" id="inputEmail3">
 								    </div>
 								    
 								    <label for="inputEmail3" class="col-sm-2">商品品牌</label>
 								    <div class="col-sm-4">
-								      <input type="text" class="form-control" id="inputEmail3">
+								      <input type="text" v-model="goods.brand" class="form-control" id="inputEmail3">
 								    </div>
 							    </div>
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品名称</label>
 								    <div class="col-sm-10">
-								      <input type="text" class="form-control" id="inputEmail3">
+								      <input type="text" v-model="goods.cname" class="form-control" id="inputEmail3">
 								    </div>
 								</div>
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>吊牌价格</label>
 								    <div class="col-sm-4">
-								      <input type="text" class="form-control" id="inputEmail3">
+								      <input type="text" v-model="goods.sell" class="form-control" id="inputEmail3">
 								    </div>
 								    
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>成本价格</label>
 								    <div class="col-sm-4">
-								      <input type="text" class="form-control" id="inputEmail3">
+								      <input type="text" v-model="goods.cost" class="form-control" id="inputEmail3">
 								    </div>
 								</div>
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品类别</label>
 								    <div class="col-sm-4">
-								      <select class="form-control">
-										<option>请选择类别</option>
-										<option>羽绒服</option>
+								      <select name="leibie" class="form-control">
+										<option>请选择类别</option>																
+										<template v-for="stu in goodstype">
+											<template v-if="stu.csname==goods.csname">
+												<option :value="stu.csname" selected="selected">{{stu.csname}}</option>
+											</template>
+											<template v-else>
+										 		<option :value="stu.csname">{{stu.csname}}</option>
+										 	</template>
+										 </template>
 									  </select>
 								    </div>
 								</div>
+								<div name="colorbao">
 								<div class="form-group" style="line-height: 34px;margin-bottom: 0px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品颜色</label>
 								    <div class="col-sm-10">
@@ -148,26 +156,27 @@
 										 <tbody>
 											 <tr>
 											 	<td>
+											 	
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #000000;">
 											 				
 											 			</span>
-											 			黑色
+											 			<span>黑色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #666666;">
 											 				
 											 			</span>
-											 			深灰色
+											 			<span>深灰色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #E4E4E4;">
 											 				
 											 			</span>
-											 			浅灰色
+											 			<span>浅灰色</span>
 											 		</a>
 											 	</td>
 											 	<td>
@@ -176,21 +185,21 @@
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFFFFF;border: 1px solid #F8F8F8;">
 											 				
 											 			</span>
-											 			白色
+											 			<span>白色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A47E3C;">
 											 				
 											 			</span>
-											 			透明
+											 			<span>透明</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A4DA89;">
 											 				
 											 			</span>
-											 			花色
+											 			<span>花色</span>
 											 		</a>
 											 	</td>										 	
 											 	<td>
@@ -199,21 +208,21 @@
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #990000;">
 											 				
 											 			</span>
-											 			酒红色
+											 			<span>酒红色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FF0000;">
 											 				
 											 			</span>
-											 			红色
+											 			<span>红色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFB6C1;">
 											 				
 											 			</span>
-											 			粉红色
+											 			<span>粉红色</span>
 											 		</a>
 											 	</td>
 												<td>
@@ -222,21 +231,21 @@
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #041690;">
 											 				
 											 			</span>
-											 			深蓝色
+											 			<span>深蓝色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #0000FF;">
 											 				
 											 			</span>
-											 			蓝色
+											 			<span>蓝色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
 											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #1EDDFF;">
 											 				
 											 			</span>
-											 			天蓝色
+											 			<span>天蓝色</span>
 											 		</a>
 												</td>
 											 </tr>
@@ -249,10 +258,10 @@
 								      <table class="table table-bordered">
 								      	<thead align="center">
 											 <tr class="active">
-											 	<td>黑色系</td>
-											 	<td>白色系</td>										 	
-											 	<td>红色系</td>
-												<td>蓝色系</td>
+											 	<td>黄色系</td>
+											 	<td>绿色系</td>										 	
+											 	<td>紫色系</td>
+												<td>其他色系</td>
 											 </tr>
 										</thead>
 										<tbody>
@@ -260,93 +269,93 @@
 											 	<td>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #000000;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #E1E100;">
 											 				
 											 			</span>
-											 			黑色
+											 			<span>橘色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #666666;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFFF37;">
 											 				
 											 			</span>
-											 			深灰色
+											 			<span>黄色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #E4E4E4;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFE66F;">
 											 				
 											 			</span>
-											 			浅灰色
+											 			<span>浅黄色</span>
 											 		</a>
 											 	</td>
 											 	<td>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFFFFF;border: 1px solid #F8F8F8;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #02DF82;border: 1px solid #F8F8F8;">
 											 				
 											 			</span>
-											 			白色
+											 			<span>军绿色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A47E3C;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #28FF28;">
 											 				
 											 			</span>
-											 			透明
+											 			<span>绿色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #A4DA89;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #CEFFCE;">
 											 				
 											 			</span>
-											 			花色
+											 			<span>浅绿色</span>
 											 		</a>
 											 	</td>										 	
 											 	<td>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #990000;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #7E3D76;">
 											 				
 											 			</span>
-											 			酒红色
+											 			<span>紫色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FF0000;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #C07AB8;">
 											 				
 											 			</span>
-											 			红色
+											 			<span>深紫色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FFB6C1;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #EBD3E8;">
 											 				
 											 			</span>
-											 			粉红色
+											 			<span>浅紫色</span>
 											 		</a>
 											 	</td>
 												<td>
 													<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #041690;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #3A006F;">
 											 				
 											 			</span>
-											 			深蓝色
+											 			<span>褐色</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #0000FF;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #CA8EFF;">
 											 				
 											 			</span>
-											 			蓝色
+											 			<span>巧克力</span>
 											 		</a><br/>
 											 		<input type="checkbox" style="float: left;margin: 4px 0px 0px 8px;"/>
 											 		<a href="javascript:;">
-											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #1EDDFF;">
+											 			<span style="float:left;margin:1px 2px 0px 2px;width: 14px;height: 14px;background-color: #FF44FF;">
 											 				
 											 			</span>
-											 			天蓝色
+											 			<span>卡其色</span>
 											 		</a>
 												</td>
 											 </tr>
@@ -354,11 +363,10 @@
 									  </table>
 								    </div>
 								</div>
-								
-								
+								</div>
 								
 								<div class="form-group" style="line-height: 34px;margin-bottom: 0;">
-								    <div id="tab_none" class="col-sm-10 col-md-offset-2">
+								    <div style="display: none;" id="tab_none" class="col-sm-10 col-md-offset-2">
 								      <table class="table table-bordered">
 								      	<thead align="center">
 											 <tr class="active">
@@ -367,75 +375,67 @@
 											 </tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td>
-													<span style="margin-left: 4px;">1</span>
-													<span>.</span>
-													<span style="margin-left: 4px;"><input type="checkbox" /></span>
-													<span style="display: inline-block;margin-left: 4px;width: 50%;"><input type="text" class="form-control" placeholder="请输入颜色"  /></span>
-													<span id="delColor" style="margin-left: 9px;" class="glyphicon glyphicon-remove"></span>
-												</td>
-												<td>
-													<span style="display: inline-block;width: 50%"><input type="text" class="form-control" disabled="disabled" /></span>
-													<span><button type="button" class="btn btn-primary active">上传图片</button></span>
-												</td>
-											</tr>
-										
+											
 										</tbody>
 									  </table>
 								    </div>
 								
-								  	<div id="addColor" class="col-md-offset-10" style="cursor:pointer;color: #44b549;">
+								  	<div onclick="coloradd(this)" id="addColor" class="col-md-offset-10" style="cursor:pointer;color: #44b549;">
 								  		 <span>+ 添加颜色 </span>
 								  	</div>
 								</div>
 								
-								
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>商品尺码</label>
-								    <div class="col-sm-10">
+								    <div name="chimaya" class="col-sm-10">
 								     	<ul class="fpsize">
-								     		<li><a href="javascript:;">均码</a></li>
-								     		<li><a href="javascript:;">26</a></li>
-								     		<li><a href="javascript:;">27</a></li>
-								     		<li><a href="javascript:;">28</a></li>
-								     		<li><a href="javascript:;">25</a></li>
-								     		<li><a href="javascript:;">L</a></li>
-								     		<li><a href="javascript:;">M</a></li>
-								     		<li><a href="javascript:;">S</a></li>
-								     		<li><a href="javascript:;">XL</a></li>
-								     		<li><a href="javascript:;">29</a></li>
-								     		<li><a href="javascript:;">30</a></li>
-								     		<li><a href="javascript:;">XXL</a></li>
-								     		<li><a href="javascript:;">XML</a></li>
-								     		<li><a href="javascript:;">-</a></li>
+									     	<template v-for="stu in goodssize">
+									     		<template v-if="stu.sizename==goods.sizename">
+									     			<li style="border:1px solid red">
+									     				<a href="javascript:void(0);" name="noundefined" style="color:red;">{{stu.sizename}}</a>
+									     				<span style="float: right;position:relative;top:8px;right:10px;display: none" name="chima" @click="del(stu.cid)" class="glyphicon glyphicon-remove"  onclick="sc(this)"></span>
+									     			</li>
+												</template>
+												<template v-else>
+									     			<li>
+									     				<a href="javascript:void(0);">{{stu.sizename}}</a><span style="float: right;position:relative;top:8px;right:10px;display: none" name="chima" class="glyphicon glyphicon-remove" @click="del(stu.cid)" onclick="sc(this)"></span>
+									     			</li>
+												</template>
+									     	</template>	
 								     	</ul>
 								    </div>
-								    <div class="col-md-offset-10" style="color: #44b549;">
-								  		<span>编辑尺码</span>
+								    <div class="col-md-offset-10" style="color: #44b549;cursor: pointer;">
+								  		<span name="bjcm" onclick="enen()">编辑尺码</span>
 								  	</div>
 								</div>
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>库存总数</label>
 								    <div class="col-sm-3">
-								      <input type="text" class="form-control" id="inputEmail3">
+								      <input name="goodkuchun" v-model="goods.inventory" onblur="cnmd()" type="text" class="form-control" id="inputEmail3">
 								    </div>
 								    <div class="col-sm-7">
 								      <i style="color: red;">请勿随意修改库存，以免影响库存准确性。</i>
 								    </div>
 								</div>
+								
 								<div class="form-group" style="line-height: 34px;margin-bottom: 0;">
-								    <div class="col-sm-10 col-md-offset-2">
+								    <div name="goodskc" class="col-sm-10 col-md-offset-2">
 								      <table class="table table-bordered">
 										 <thead align="center">
 										 	<tr class="active">
 											 	<td>规格</td>
 											 	<td>数量</td>										 	
 											 	<td>条形码</td>
-											 </tr>
+											</tr>
 										 </thead>
 										 <tbody>
-										 	
+										 	<template v-if="goods.colorname!=''">										 	
+										 		<tr>
+										 			<td><span>{{goods.colorname}}</span><span>/</span><span>{{goods.sizename}}</span></td>
+										 			<td>{{goods.inventory}}</td>
+										 			<td>{{goods.shapecode}}</td>
+										 		</tr>										 	
+										 	</template>	
 										 </tbody>
 									  </table>
 								    </div>
@@ -445,35 +445,169 @@
 					</div>
 				</div>
 			</div>
+			
 			<div style="margin-bottom: 20px;width: 100%;">
 		        <div id="editor-trigger">
-		            <p>请输入内容...</p>
+		            <p>{{goods.message}}</p>
 		        </div>
+		        
 		   </div>
 		   <div style="text-align: right;margin-bottom: 20px;">
-		   	<button type="button" class="btn btn-default" style="width: 8%;">取消发布</button>
-			<button type="button" class="btn btn-success" style="width: 8%;">发布商品</button>
+		    <button type="button" @click="cancel" class="btn btn-default" style="width: 8%;">取消发布</button>
+			<button type="button" id="fabu" class="btn btn-success" style="width: 8%;">发布商品</button>
 		   </div>
 		</div>
+		</div>
 		<script src="/js/jquery-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
-   	 	<script src="/js/wangEditor.js" type="text/javascript" charset="utf-8"></script>
+   	 	<script src="/js/wangEditor.js" type="text/javascript" charset="utf-8"></script> 	 
 		<script type="text/javascript">
-			
-			$("#tab_none").hide();
-			$("#addColor").click(function(){
-				$("#tab_none").show();
+		
+		var shopgoodsvue = new Vue({
+			el:'#shopgoods',
+			data(){
+				return {
+					goods:{
+						cid:"",
+						articleno:"",
+						cname:"",
+						inventory:"",
+						csname:"",
+						sell:"",
+						cost:"",
+						picture:"zxj.png",
+						brand:"",
+						colorname:"",
+						sizename:"",
+						message:""
+						
+					},
+					goodstype:[],
+					goodssize:[]
+				}
+			},methods:{
+				del:function(id){
+					$.ajax({
+						url:"[[@{/delsize}]]",
+						data:{id:id},
+						success:function(res){
+							
+						}
+					})
+				},
+				cancel:function(){
+					window.location.href="/page/shopUpload";
+				}
+			},created:function(){
+				var that=this;		
+				var id="[[${id}]]";
+				if(id>0){
+					$.ajax({
+						url:"[[@{/rest/commodity/queryCommodityById}]]",
+						data:{id:id},
+						success:function(res){
+							that.goods=res;
+							$("[name=colorbao] input").each(function(a,b){
+								var color=$(this).next().find("span").eq(0).attr("style");
+								var colorname=$(this).next().find("span").eq(1).html();
+								if($(b).next().find("span").eq(1).html()==shopgoodsvue.goods.colorname){
+									$("#tab_none tbody").append(`
+											<tr>
+												<td>
+													<span style="margin-left: 4px;">1</span>
+													<span>.</span>
+													<span style="margin-left: 4px;"><input type="checkbox" /></span>
+													<span style="display: inline-block;margin-left: 4px;width: 50%;"><input type="text" onblur="cnmd()" class="form-control" placeholder="请输入颜色" value="${colorname}"  /></span>
+													<span style="margin-left: 9px;" class="glyphicon glyphicon-remove" onclick="yichu(this)"></span>
+												</td>
+												<td>
+													<span style="display: inline-block;width: 50%"><input style="${color}" type="text" class="form-control" disabled="disabled" /></span>
+													<span><button type="button" class="btn btn-primary active">上传图片</button></span>
+												</td>
+											</tr>
+										`);
+									$("#tab_none").show();
+									$(this).attr("checked","checked");
+								}
+							})
+						}
+					})
+				}
+				
+				$.ajax({
+					url:"[[@{/rest/commodity/getCommoditysortAll}]]",
+					success:function(res){
+						that.goodstype=res;
+					}
+				})
+				
+				$.ajax({
+					url:"[[@{/rest/commodity/getSizeAll}]]",
+					success:function(res){
+						that.goodssize=res;
+					}
+				})					
+			}
+		})
+		
+		$("#fabuya").click(function(){
+			var formData = new FormData($("[name=wjsc]")[0]);	
+			$.ajax({
+				url:"[[@{/rest/file/uploadAjax}]]",
+				data:formData,
+				type:"post",
+				processData:false,
+				contentType:false,
+				success:function(result){
+					if(result=="success"){
+						var name1=$("[name=files]").val();
+						var name=name1.substring(name1.lastIndexOf("\\")+1);
+						shopgoodsvue.goods.picture=name;	
+					}
+				}
 			});
-			$("#delColor").click(function(){
-				$("#tab_none").hide();
-			});
+				
+		})
+		
+		$("#fabu").click(function(){
+			shopgoodsvue.goods.message=$("#editor-trigger").find("p").html();
+			shopgoodsvue.goods.csname=$("[name=leibie]").val();
+			$("[name=goodskc] tbody tr").each(function(){
+				
+				shopgoodsvue.goods.colorname=$(this).find("span").eq(0).html();
+				shopgoodsvue.goods.sizename=$(this).find("span").eq(2).html();
+				shopgoodsvue.goods.shapecode=$(this).find("td").eq(2).html();
+				var str=JSON.stringify(shopgoodsvue.goods);
+				console.log(str);
+				$.ajax({
+					url:"[[@{/rest/commodity/insertCommodity}]]",
+					async:false,
+					type:"post",
+					contentType:"application/json;charset=utf-8",
+					data:str,
+					success:function(res){
+						//console.info(res);
+						window.location.href="/page/shopManage";
+					}
+				});
+			})
 			
-	        // 阻止输出log
-	        var editor = new wangEditor('editor-trigger');
+			if(shopgoodsvue.goods.cid != ""){
+				$.ajax({
+					url:"[[@{/rest/commodity/deleteCommodity}]]",
+					data:{id:shopgoodsvue.goods.cid},
+					success:function(res){
+						//console.info(res);
+					}
+				})
+			}	
+		}) 
+  
+	    var editor = new wangEditor('editor-trigger');
 	
-	        // 上传图片
-	        editor.config.uploadImgUrl = '/upload';
+	    editor.config.uploadImgUrl = '/upload';
 	        
-	        editor.create();
+	    editor.create();
     	</script>
+    	<script src="/js/shop.js"></script>
 	</body>
 </html>

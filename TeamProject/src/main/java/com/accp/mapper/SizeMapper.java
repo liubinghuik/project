@@ -2,8 +2,10 @@ package com.accp.mapper;
 
 import com.accp.domain.Size;
 import com.accp.domain.SizeExample;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 public interface SizeMapper {
     int countByExample(SizeExample example);
@@ -27,4 +29,7 @@ public interface SizeMapper {
     int updateByPrimaryKeySelective(Size record);
 
     int updateByPrimaryKey(Size record);
+    
+    @Select("select * from size where sizename = #{name}")
+    Size querySizeByName(@Param("name")String name);
 }
