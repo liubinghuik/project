@@ -12,7 +12,7 @@ public class Commoditydetails {
     private Integer colorid;
 
     private Integer inventory;
-
+    
     public Integer getCdid() {
         return cdid;
     }
@@ -60,4 +60,19 @@ public class Commoditydetails {
     public void setInventory(Integer inventory) {
         this.inventory = inventory;
     }
+
+	
+    
+	public Commoditydetails(Integer cid, String shapecode, Integer sizeid, Integer colorid,
+			Integer inventory) {
+		this.cid = cid;
+		this.shapecode = shapecode;
+		this.sizeid = sizeid;
+		this.colorid = colorid;
+		this.inventory = inventory;
+	}
+
+	public Commoditydetails() {
+		
+	}
 }

@@ -225,4 +225,14 @@
       inventory = #{inventory,jdbcType=INTEGER}
     where cdid = #{cdid,jdbcType=INTEGER}
   </update>
+  
+  
+   <insert id="insertCommodityDetails" parameterType="com.accp.domain.Commoditydetails">
+      insert into commoditydetails (cid, shapecode, 
+      sizeid, colorid, inventory) values
+    <foreach collection="details" item="td" separator=",">
+     ( #{td.cid,jdbcType=INTEGER}, #{td.shapecode,jdbcType=VARCHAR}, 
+      #{td.sizeid,jdbcType=INTEGER}, #{td.colorid,jdbcType=INTEGER}, #{td.inventory,jdbcType=INTEGER})
+    </foreach>;
+  </insert>
 </mapper>

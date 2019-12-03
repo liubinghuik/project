@@ -100,7 +100,7 @@
     insert into commoditysort (csid, csname)
     values (#{csid,jdbcType=INTEGER}, #{csname,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Commoditysort" >
+  <insert id="insertSelective" parameterType="com.accp.domain.Commoditysort" keyProperty="csid" useGeneratedKeys="true">
     insert into commoditysort
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="csid != null" >

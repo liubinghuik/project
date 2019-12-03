@@ -104,7 +104,7 @@
     values (#{colorid,jdbcType=INTEGER}, #{colorname,jdbcType=VARCHAR}, #{colorpicture,jdbcType=VARCHAR}, 
       #{fatherid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Color" >
+  <insert id="insertSelective" parameterType="com.accp.domain.Color" keyProperty="colorid" useGeneratedKeys="true" >
     insert into color
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="colorid != null" >

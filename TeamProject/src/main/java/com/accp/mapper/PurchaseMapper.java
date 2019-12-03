@@ -2,6 +2,7 @@ package com.accp.mapper;
 
 import com.accp.domain.Purchase;
 import com.accp.domain.PurchaseExample;
+import com.accp.domain.Purchasedetails;
 import com.accp.vo.PurchaseVO;
 
 import java.util.List;
@@ -25,10 +26,15 @@ public interface PurchaseMapper {
     int updateByExampleSelective(@Param("record") Purchase record, @Param("example") PurchaseExample example);
 
     int updateByExample(@Param("record") Purchase record, @Param("example") PurchaseExample example);
-
-    int updateByPrimaryKeySelective(Purchase record);
-
+    
     int updateByPrimaryKey(Purchase record);
+    
+	/**
+	 * 修改采购单
+	 * @param purchase
+	 * @return
+	 */
+    int updateByPrimaryKeySelective(Purchase purchase);
     
     /**
      * 查询所有采购单
@@ -54,5 +60,50 @@ public interface PurchaseMapper {
 	 * @return
 	 */
 	List<PurchaseVO> getSupplierByOdd(String odd);
-    
+	
+	/**
+	 * 新建采购单--主表
+	 * @param purchase
+	 * @return
+	 */
+	int insertPurchase(Purchase purchase);   
+	
+	/**
+	 * 新建采购单--详表
+	 * @param list
+	 * @param puid
+	 * @return
+	 */
+	int insertPurchasedetails(@Param("details") List<Purchasedetails> details,
+								@Param("puid") Integer puid);
+	
+	/**
+	 * 删除采购单详表信息
+	 * @param puid
+	 * @return
+	 */
+	int delPurchasedetails(Integer puid);
+	
+	/**
+	 * 修改商品库存数量
+	 * @param num
+	 * @param cdid
+	 * @return
+	 */
+	int updateInventory(@Param("num")Integer num, @Param("cdid")Integer cdid);
+	
+	/**
+	 * 删除采购单
+	 * @param puid
+	 * @return
+	 */
+	int deletePurchase(Integer puid);
+	
+	/**
+	 * 修改采购单状态
+	 * @param puid
+	 * @return
+	 */
+	int updateAuditState(String odd);
+	
 }

@@ -100,7 +100,7 @@
     insert into size (sizeid, sizename)
     values (#{sizeid,jdbcType=INTEGER}, #{sizename,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.accp.domain.Size" >
+  <insert id="insertSelective" parameterType="com.accp.domain.Size" keyProperty="sizeid" useGeneratedKeys="true">
     insert into size
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="sizeid != null" >

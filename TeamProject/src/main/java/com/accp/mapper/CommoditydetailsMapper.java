@@ -1,9 +1,11 @@
 package com.accp.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.accp.domain.Commoditydetails;
 import com.accp.domain.CommoditydetailsExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
 public interface CommoditydetailsMapper {
     int countByExample(CommoditydetailsExample example);
@@ -27,4 +29,6 @@ public interface CommoditydetailsMapper {
     int updateByPrimaryKeySelective(Commoditydetails record);
 
     int updateByPrimaryKey(Commoditydetails record);
+    
+    int insertCommodityDetails(@Param("details")List<Commoditydetails> details);
 }
