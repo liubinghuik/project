@@ -93,7 +93,7 @@ li {
 			</div>
 			<div class="col-md-3" style="text-align: right;">
 				<a href="#"> <span style="width: 38px; height: 38px;"> <img
-						th:src="'/'+${session.user.userpic}"
+						th:src="'/images/'+${session.user.userpic}"
 						class="img-rounded tpxgh" width="38" height="38px"  />
 				</span> <span th:text=" ${session.user.uaccount}">15678541254</span>
 				</a> <a th:href="@{/user/tologout}"
@@ -132,7 +132,7 @@ li {
 								<div style="position: relative; border: 1px solid #DDD;">
 									<div style="width: 220px; height: 220px;">
 										<img class="img img-rounded tpxgh"
-											th:src="'/'+${session.user.userpic}"
+											th:src="'/images/'+${session.user.userpic}"
 											width="220px" />
 									</div>
 									<a href="#"
