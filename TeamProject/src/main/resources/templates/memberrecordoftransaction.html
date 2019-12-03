@@ -31,22 +31,22 @@
 						<div style="float: right;width: 80%;text-align: right;">
 							<form action="" method="post">
 								
-								<input type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
+								<input type="checkbox" id="blankCheckbox" value="option1" aria-label="..."name="dindan">
 								<span style="margin:0px 1px;"></span>
 								按订单
 								<span style="margin:0px 10px;"></span>
-								<input type="checkbox" id="blankCheckbox" value="option1" aria-label="...">
+								<input type="checkbox" id="blankCheckbox" value="option1" aria-label="..."name="huiyuan">
 								<span style="margin:0px 1px;"></span>
-								按商品
+								按会员
 								<span style="margin:0px 10px;"></span>
 								
-								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">					
+								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;"name="shi">					
 								至
-								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">
+								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;"name="zhong">
 								
 								
-								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="position:absolute;right: 25px;top: 20px;cursor: pointer;"></a>
+								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;"name="txt">
+								<a class="glyphicon glyphicon-search" style="position:absolute;right: 25px;top: 20px;cursor: pointer;"onclick="ById()"></a>
 								
 							</form>
 						</div>
@@ -66,7 +66,7 @@
 									
 								</tr>
 							</thead>
-							<tbody align="center">
+							<tbody align="center" class="tbody">
 								<tr>
 									<td>1</td>
 									<td>1121312312312312</td>
@@ -90,9 +90,9 @@
 									
 								
 									<td style="text-align: right;"colspan="3">
-										<span style="margin:0px 10px;">1/5</span>
-										<input type="text"name=""style="border:1px solid #ddd;background:white;padding:5px 20px;border-radius: 3px;margin:0px 10px;width:150px;">
-										<input type="button"name=""value="跳转"style="border:1px solid #ddd;background:white;padding:5px 20px;border-radius: 3px;">
+										<span class="shou">1</span>/<span style="margin-right:10px;"class="wei">5</span>
+										<input type="text"name="ye"style="border:1px solid #ddd;background:white;padding:5px 20px;border-radius: 3px;margin:0px 10px;width:150px;"value="1">
+										<input type="button"name="tiao"value="跳转"style="border:1px solid #ddd;background:white;padding:5px 20px;border-radius: 3px;">
 									</td>
 									
 								</tr>
@@ -103,7 +103,142 @@
 			</div>
 		</div>
 		<script type="text/javascript">
+		var pageNum=1;
+		$(function(){
+			cjjl();
+			$("[name=tiao]").click(function(){
+				tiao();
+			})
+		})
+		function cjjl(){
+			 $.ajax({
+					url:"[[@{/member/selectRecord}]]",
+					data:{"pageNum":pageNum,"pageSize":1},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						$(".tbody").html("");
+						$.each(result.list,function(i,obj){
+							var tr=$("<tr></tr>");
+							tr.append("<td>"+(i+1)+"</td>");
+							tr.append("<td>"+obj.rdorder+"</td>");
+							tr.append("<td>"+obj.mem.mname+"</td>");
+							tr.append("<td>"+obj.mem.mphone+"</td>");
+							tr.append("<td>0</td>");
+							tr.append("<td>"+obj.total+"</td>");
+							tr.append("<td>"+obj.rdpay+"</td>");
+							tr.append("<td>"+obj.createtime+"</td>");
+							$(".tbody").append(tr);
+							
+						})
+						$(".shou").text(result.pageNum);
+						$(".wei").text(result.lastPage);
+						
+					}
+				}) 
+		} 
+		function tiao(){
 			
+			var ye=$("[name=ye]").val();
+			if(ye==null){
+				
+			}else{
+				if(ye<=0){
+					ye=1;
+				}else if(ye>$(".wei").text()){
+					ye=$(".wei").text();
+				}else{
+					
+				}
+			}
+			$.ajax({
+				url:"[[@{/member/selectRecord}]]",
+				data:{"pageNum":ye,"pageSize":1},
+				dataType:"json",
+				type:"get",
+				success:function(result){
+					$(".tbody").html("");
+					$.each(result.list,function(i,obj){
+						var tr=$("<tr></tr>");
+						tr.append("<td>"+(i+1)+"</td>");
+						tr.append("<td>"+obj.rdorder+"</td>");
+						tr.append("<td>"+obj.mem.mname+"</td>");
+						tr.append("<td>"+obj.mem.mphone+"</td>");
+						tr.append("<td>0</td>");
+						tr.append("<td>"+obj.total+"</td>");
+						tr.append("<td>"+obj.rdpay+"</td>");
+						tr.append("<td>"+obj.createtime+"</td>");
+						$(".tbody").append(tr);
+						
+					})
+					$(".shou").text(result.pageNum);
+					$(".wei").text(result.lastPage);
+					
+				}
+			}) 
+			
+			
+			
+			
+		}
+		function ById(){
+			var dindan=$("[name=dindan]").prop("checked");
+			var huiyuan=$("[name=huiyuan]").prop("checked");
+			var txt=$("[name=txt]").val();
+			var shi=$("[name=shi]").val();
+			var zhong=$("[name=zhong]").val();
+			var sql="";
+			
+			if(txt==""&&zhong==""&&shi==""){
+				cjjl();
+			}else{
+				if(dindan==true&&txt!=""){
+					sql+=" a.rdorder="+txt;
+				}
+				if(huiyuan==true&&txt!=""){
+					if(dindan==true){
+						sql+=" and";
+					}
+					sql+=" b.mname="+"\'"+txt+"\'";
+				}
+				if(shi!=""&&zhong!=""){
+					if(dindan==true||huiyuan==true&&txt!=""){
+						sql+=" and";
+					}
+					sql+=" a.createtime between \'"+shi+"\' and \'"+zhong+"\'";
+					
+				}
+				fuzhi(sql);
+			}
+			
+		}
+		function fuzhi(sql){
+			$.ajax({
+				url:"[[@{/member/selectRecordByIdAndDatetime}]]",
+				data:{"a":sql},
+				dataType:"json",
+				type:"get",
+				success:function(result){
+					$(".tbody").html("");
+					$.each(result,function(i,obj){
+						var tr=$("<tr></tr>");
+						tr.append("<td>"+(i+1)+"</td>");
+						tr.append("<td>"+obj.rdorder+"</td>");
+						tr.append("<td>"+obj.mem.mname+"</td>");
+						tr.append("<td>"+obj.mem.mphone+"</td>");
+						tr.append("<td>0</td>");
+						tr.append("<td>"+obj.total+"</td>");
+						tr.append("<td>"+obj.rdpay+"</td>");
+						tr.append("<td>"+obj.createtime+"</td>");
+						$(".tbody").append(tr);
+						
+					})
+					$(".shou").text("---");
+					$(".wei").text("---");
+					
+				}
+			}) 
+		}
 		</script>
 	</body>
 </html>

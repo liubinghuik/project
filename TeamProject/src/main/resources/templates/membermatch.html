@@ -30,13 +30,13 @@
 						<div style="padding-left: 0;float: left;">冲抵抵扣</div>
 						<div style="float: right;width: 80%;text-align: right;">
 							<form action="" method="post">
-								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">					
+								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;"name="shi">					
 								至
-								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;">
+								<input type="date" class="form-control" id="inputEmail3" style="width: 18.55%; display: inline-block;"name="zhong">
 								
 								
-								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;">
-								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<input type="text" class="form-control" id="inputEmail3" placeholder="查找" style="width: 24.50%; display: inline-block;"name="xname">
+								<a class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"onclick="chazhao()"></a>
 								<button type="button" class="btn btn-success" style="margin-left: 10px; margin-top: -4px;" data-toggle="modal" data-target="#myModal"> 充值 </button>
 							</form>
 						</div>
@@ -46,39 +46,23 @@
 							<thead align="center">
 								<tr class="info">
 									<td width="4%">序号</td>
-									<td width="5%">时间</td>
-									<td width="6%">微信号</td>
-									<td width="8%">姓名</td>
-									<td width="10%">手机</td>
-									<td width="6%">充值</td>
-									<td width="6%">赠送</td>
-									<td width="10%">消费</td>
-									<td width="8%">余额</td>
+									<td width="10%">时间</td>
+									<td width="6%">充值方式</td>
+									<td width="8%">冲抵会员</td>
+									<td width="10%">使用积分</td>
+									<td width="10%">抵扣金额</td>
 									<td width="6%">备注</td>
 								</tr>
 							</thead>
-							<tbody align="center">
+							<tbody align="center"class="tbody">
 								<tr>
-									<td colspan="10">对不起没有找到响应信息。</td>
+									<td colspan="7">对不起没有找到响应信息。</td>
 									
 								</tr>
 							</tbody>
 							
 						</table>
-						<table class="table  table-hover table-striped"style="margin-top:-20px;">
-							<tfoot align="center"class="table-bordered">
-								<tr>
-									<td colspan="2"></td>
-									<td colspan="2">合计:0</td>
-									<td></td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>0.00</td>
-									<td>-</td>
-									<td>-</td>
-								</tr>
-							</tfoot>
-						</table>
+						
 					</div>
 				</div>
 			</div>
@@ -102,6 +86,16 @@
 		            			<select name="huiyuan" style="margin-left:4px ;height:36px;width:220px;">
 		            				<option value="">张三</option>
 		            			</select>	
+		            		</div>
+		            		
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            	</div>
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            		<div class="col-md-6"style="border:0px solid red" id="df">
+		            		
+		        				<span style="margin-left:35px ;height:36px;width:220px;display:inline-block;">可用积分<span style="color:red"class="jf">0</span>分，抵扣<span style="color:red"class="dk">0</span>元</span>
+		            		
 		            		</div>
 		            		
 		            		<div class="col-md-3"style="border:0px solid red"></div>
@@ -137,7 +131,14 @@
 		            		
 		            		<div class="col-md-3"style="border:0px solid red"></div>
 		            	</div>
-		            	
+		            	<div class="row"style="margin:20px 0px;">
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            		<div class="col-md-6"style="border:0px solid red;padding-left:40px;"id="tupian">
+		            			
+		            		</div>
+		            		
+		            		<div class="col-md-3"style="border:0px solid red"></div>
+		            	</div>
 		            </div>
 		            <div class="modal-footer"style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal"style="width:90px">取消</button>
@@ -148,9 +149,62 @@
 		    </div><!-- /.modal -->
 		</div>
 		<script type="text/javascript">
+		var yong=0.00;
+		var jf=0;
 			$(function(){
+				selectJf();
+				selectAll();
 				selectAllMember();
+				if(jf==-1){$("#df").html("");}
+				$("select[name='huiyuan']").change(function () {
+					if(jf==-1){
+						
+					}else{
+						chajf();
+					}
+					
+	        	 });
+				$("[name=czje]").change(function(){
+					$("#tupian").html("");
+					if(jf==-1){
+						var je=$("[name=czje]").val();
+						$("#tupian").append("<img src='/images/QQ.jpg' width='150px'height='150px'>");
+						$("#tupian").append("<div style='color:red'>需支付："+je+"元</div>");
+						
+						
+					}else{
+						var je=$("[name=czje]").val();
+						$("#tupian").append("<img src='/images/QQ.jpg' width='150px'height='150px'>");
+						$("#tupian").append("<div style='color:red'>需支付："+(je-yong)+"元</div>");
+					}
+					
+				})
 			})
+			function selectAll(){
+				$.ajax({
+					url:"[[@{/member/selectRechargededuction}]]",
+					data:{},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						/* console.info(result); */
+						$(".tbody").html("");
+						$.each(result,function(i,obj){
+							var tr=$("<tr></tr>");
+							tr.append("<td>"+(i+1)+"</td>");
+							tr.append("<td>"+obj.time+"</td>");
+							tr.append("<td>"+obj.colunm1+"</td>");
+							tr.append("<td>"+obj.m.mname+"</td>");
+							tr.append("<td>"+obj.point+"</td>");
+							tr.append("<td>"+obj.colunm2+"</td>");
+							tr.append("<td>"+obj.remark+"</td>");
+							$(".tbody").append(tr);
+							
+						})
+						
+					}
+				})
+			}
 			function selectAllMember(){
 				$.ajax({
 					url:"[[@{/member/SelectMemberInfo}]]",
@@ -162,11 +216,19 @@
 						$.each(result,function(i,obj){
 							var option=$("<option value="+obj.mid+">"+obj.mname+"</option>");
 							$("[name=huiyuan]").append(option);
+							
 						})
+						if(jf==-1){
+							
+						}else{
+							chajf();
+						}
+						
 					}
 				})
 			}
 			function xiu(){
+			
 			var m={
 					reid:1,
 					mid:$("[name=huiyuan]").val(),
@@ -186,15 +248,59 @@
 					success:function(result){
 						if(result>0){
 							alert("充值成功！");
-							insertRecharge();
+							selectAll();
 						}else{
 							alert("充值失败！");
 						}
 					}
 			})
+			if(jf==-1||yong==0){
+				
+			}else{
+				var r={
+						rid:1,
+						time:new Date(),
+						mid:$("[name=huiyuan]").val(),
+						point:$(".jf").text(),
+						remark:$("[name=bz]").val(),
+						colunm1:$("[name=czfs]").val(),
+						colunm2:$(".dk").text()
+					}
+					$.ajax({
+						url:"[[@{/member/insertRechargededuction}]]",
+						data:JSON.stringify(r),
+						dataType:"json",
+						type:"post",
+						contentType : 'application/json;charset=UTF-8',
+						success:function(result){
+							/* if(result>0){
+								alert("冲抵成功！");
+								updateJf();
+							}else{
+								alert("冲抵失败！");
+							} */
+						}
+					})
+			}
+			
 			
 		} 
-		function insertRecharge(){
+		function updateJf(){
+			$.ajax({
+				url:"[[@{/member/updateMemberJf}]]",
+				data:{"id":$("[name=huiyuan]").val()},
+				dataType:"json",
+				type:"get",
+				success:function(result){
+					/* if(result>0){
+						alert("清空积分成功！");
+					}else{
+						alert("清空积分失败！");
+					} */
+				}
+			})
+		}
+		/* function insertRecharge(){
 			var m={
 					reid:1,
 					mid:$("[name=huiyuan]").val(),
@@ -216,7 +322,76 @@
 					}
 			})
 			
-		} 
+		}  */
+		function chajf(){
+			var id=$("[name=huiyuan]").val();
+			 $.ajax({
+					url:"[[@{/member/selectMemberById}]]",
+					data:{"id":id},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						if(result.mintegral==0){
+							$(".jf").text("0");
+							
+							$(".dk").text("0");
+						}else{
+							$(".jf").text(result.mintegral);
+							
+							yong=((result.mintegral)/jf).toFixed(0);
+							$(".dk").text(yong);
+						}
+						
+					}
+			})
+		}
+		function chazhao(){
+			var xname=$("[name=xname]").val();
+			var shi=$("[name=shi]").val();
+			var zhong=$("[name=zhong]").val();
+			var sql="";
+			if(shi!=null&&zhong&&zhong!=null){
+				sql+=" time between \'"+shi+"\' and \'"+zhong+"\'";
+			}
+			 $.ajax({
+					url:"[[@{/member/selectRechargedeductionBytime}]]",
+					data:{"a":sql},
+					dataType:"json",
+					type:"get",
+					success:function(result){
+						console.info(result);
+						$(".tbody").html("");
+						$.each(result,function(i,obj){
+							var tr=$("<tr></tr>");
+							tr.append("<td>"+(i+1)+"</td>");
+							tr.append("<td>"+obj.time+"</td>");
+							tr.append("<td>"+obj.colunm1+"</td>");
+							tr.append("<td>"+obj.m.mname+"</td>");
+							tr.append("<td>"+obj.point+"</td>");
+							tr.append("<td>"+obj.colunm2+"</td>");
+							tr.append("<td>"+obj.remark+"</td>");
+							$(".tbody").append(tr);
+							
+						})
+					}
+			})
+		}
+		function selectJf(){
+			 $.ajax({
+					url:"[[@{/member/selectJf}]]",
+					data:{},
+					dataType:"json",
+					type:"get",
+					async: false,
+					success:function(result){
+						if(result.key=="关闭"){
+							jf=-1;
+						}else{
+							jf=result.key;
+						}
+					}
+			})
+		}
 		</script>
 	</body>
 </html>

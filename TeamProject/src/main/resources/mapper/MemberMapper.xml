@@ -101,7 +101,41 @@
 	INSERT INTO recharge(`mid`,remoney,reway,rejf,rebalance,remark,createtime)
 	VALUES(#{mid},#{remoney},#{reway},#{rejf},#{rebalance},#{remark},#{createtime})
 	</insert>
-
+	<!-- 交易记录查询 -->
+	<select id="selectRecord" resultType="com.accp.domain.Record">
+		SELECT * FROM `record`
+	</select>
+	<!-- 条件查询交易记录 -->
+	<select id="selectRecordByIdAndDatetime" resultType="com.accp.domain.Record" parameterType="String">
+		SELECT a.rdid,a.rdorder,a.client,a.total,a.discount,a.actualincome,a.notincome,a.rdpay,a.sid,a.cashier,a.shopassistant,a.state,a.createtime FROM record  AS a INNER JOIN member AS b ON a.client =b.mid where ${a}
+	</select>
+	<!-- 添加冲抵记录 -->
+	<insert id="insertRechargededuction" parameterType="com.accp.domain.Rechargededuction">
+		INSERT INTO rechargededuction(`time`,`mid`,`point`,remark,colunm1,colunm2)
+		VALUE(#{time},#{mid},#{point},#{remark},#{colunm1},#{colunm2})
+	</insert>	
+	<!-- 冲抵成功后清空积分 -->
+	<update id="updateMemberJf" parameterType="int">
+		UPDATE member 
+		SET mintegral=0
+		WHERE `mid`=#{mid}
+	</update>
+	<!-- 查看所有冲抵记录 -->
+	<select id="selectRechargededuction" resultType="com.accp.domain.Rechargededuction">
+		select * from rechargededuction
+	</select>
+	<!-- 按时间查询冲抵记录 -->
+	<select id="selectRechargedeductionBytime" resultType="com.accp.domain.Rechargededuction" parameterType="String">
+		select * from rechargededuction where ${a}
+	</select>
+	<!-- 查询积分情况 -->
+	<select id="selectJf" resultType="Integer">
+		SELECT jf FROM deduction WHERE wtd=1
+	</select>
+	
+	
+	
+	
   <resultMap id="BaseResultMap" type="com.accp.domain.Member" >
     <id column="mid" property="mid" jdbcType="INTEGER" />
     <result column="mname" property="mname" jdbcType="VARCHAR" />

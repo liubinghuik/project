@@ -493,7 +493,7 @@
              StrNumber=StrNumber+$(this).find("input[id=hide]").val()+",";
           });
 			StrNumber=StrNumber.substring(0,StrNumber.length-1);
-			$.ajax({
+			/* $.ajax({
 				url:"[[@{/member/exportExcel}]]",
 				data:{"ids":StrNumber},
 				dataType:"json",
@@ -502,7 +502,8 @@
 				success:function(result){
 					alert(result);
 				}
-		})
+			}) */
+			location.href="[[@{/member/exportExcel}]]?ids="+StrNumber;
 		}
 		</script>
 	</body>
