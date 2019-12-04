@@ -94,6 +94,6 @@
   <select id="selectstaffByreception" resultMap="BaseResultMap">
   	SELECT s.stname,m.*,s.sid FROM staff s,POSITION p,modelposition mp,model m
 	WHERE s.pid=p.pid AND p.pid=mp.pid AND mp.moid=m.moid
-	AND m.moid= 58 
+	AND m.moid= 54 
   </select>
 </mapper>
