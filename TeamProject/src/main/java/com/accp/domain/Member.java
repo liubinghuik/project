@@ -2,6 +2,8 @@ package com.accp.domain;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Member {
 	
     public Member(Integer mid, Float mbalance) {
@@ -58,7 +60,7 @@ public class Member {
     private String regionname;
 
     private String street;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createtime;
 
     private Integer mcid;

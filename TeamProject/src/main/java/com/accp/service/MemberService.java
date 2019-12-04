@@ -126,4 +126,8 @@ public class MemberService {
 	public Integer selectJf() {
 		return mp.selectJf();
 	}
+	//查询某个会员是否存在
+	public Integer selectByNameCount(String name) {
+		return mp.selectByNameCount(name);
+	}
 }

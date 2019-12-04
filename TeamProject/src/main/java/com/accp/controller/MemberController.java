@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +27,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.accp.domain.Color;
+import com.accp.domain.ColorExample;
+import com.accp.domain.Commodity;
+import com.accp.domain.Commoditysort;
+import com.accp.domain.CommoditysortExample;
 import com.accp.domain.Member;
 import com.accp.domain.Memberclass;
 import com.accp.domain.Recharge;
 import com.accp.domain.Rechargededuction;
 import com.accp.domain.Record;
+import com.accp.domain.Size;
+import com.accp.domain.SizeExample;
 import com.accp.service.MemberService;
 import com.github.pagehelper.PageInfo;
 
@@ -136,23 +145,22 @@ public class MemberController {
 	public int updateMember(@RequestBody Member m) {
 		return ms.updateMember(m);
 	}
-	//导入Excel所有会员信息到数据库
-	@RequestMapping("/download")
-	@ResponseBody
-	public ResponseEntity<byte []> download(){
-		try {
-			FileInputStream is = new FileInputStream("/Users/tangyong/upload/template.xlsx");
-			byte[] bytes = new byte[is.available()];
-			is.read(bytes);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentDispositionFormData("attachment", new String("学生导入模版.xlsx".getBytes("utf-8"),"iso-8859-1"));
-			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-			return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+
+	/*
+	 * //导入Excel所有会员信息到数据库
+	 * 
+	 * @RequestMapping("/download")
+	 * 
+	 * @ResponseBody public ResponseEntity<byte []> download(){ try {
+	 * FileInputStream is = new
+	 * FileInputStream("/Users/tangyong/upload/template.xlsx"); byte[] bytes = new
+	 * byte[is.available()]; is.read(bytes); HttpHeaders headers = new
+	 * HttpHeaders(); headers.setContentDispositionFormData("attachment", new
+	 * String("学生导入模版.xlsx".getBytes("utf-8"),"iso-8859-1"));
+	 * headers.setContentType(MediaType.APPLICATION_OCTET_STREAM); return new
+	 * ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK); } catch (Exception e)
+	 * { e.printStackTrace(); } return null; }
+	 */
 	//导出所有会员信息到Excel
 	@RequestMapping("/exportExcel")
 	public ResponseEntity<byte []> exportExcel(String ids){
@@ -422,5 +430,104 @@ public class MemberController {
 		}
 		return map;
 	}
+	//下载范本
+	@RequestMapping("/download")
+	@ResponseBody
+	public ResponseEntity<byte []> download(){
+		try {
+			FileInputStream is = new FileInputStream("C:/Users/范本/FanBen.xlsx");
+			byte[] bytes = new byte[is.available()];
+			is.read(bytes);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentDispositionFormData("attachment", new String("商品模板.xlsx".getBytes("utf-8"),"iso-8859-1"));
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			return new ResponseEntity<byte[]>(bytes, headers, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	//导入excel
+	@RequestMapping("/excelUpload")
+	@ResponseBody
+	public int excelUpload(MultipartFile file) {
+		int in=0;
+		try {
+			//将传入的文件转换成excel
+			Workbook wb = new XSSFWorkbook(file.getInputStream());
+			
+			//获取sheet业的个数
+			int sheets = wb.getNumberOfSheets();
+			for(int i = 0;i < sheets;i++) {
+				//根据下标获取sheet页
+				Sheet sheet = wb.getSheetAt(i);
+				//获取当前sheet页的行数
+				int rows = sheet.getPhysicalNumberOfRows();
+				//要新增的商品
+				Member member = new Member();
+				
+				for(int j = 1;j < rows;j++) {
+					//根据下标获取行
+					Row row = sheet.getRow(j);
+					
+					Cell ACell = row.getCell(0);			//会员编号
+					Cell BCell = row.getCell(1);			//会员姓名
+					Cell CCell = row.getCell(2);				//会员密码
+					Cell DCell = row.getCell(3);				//会员电话
+					Cell ECell = row.getCell(4);				//成交金额
+					Cell FCell = row.getCell(5);					//余额
+					Cell GCell = row.getCell(6);					//会员积分
+					Cell HCell = row.getCell(7);			//微信号
+					Cell ICell = row.getCell(8);				//省份
+					Cell JCell = row.getCell(9);			//城市
+					Cell KCell = row.getCell(10);			//地区
+					Cell LCell = row.getCell(11);			//街道
+					Cell MCell = row.getCell(12);			//创建时间
+					Cell NCell = row.getCell(13);			//会员类型编号
+					//获取值
+					Integer A = (int) ACell.getNumericCellValue();
+					String B = BCell.getStringCellValue().toString().trim();
+					String C =CCell.getStringCellValue().toString().trim();
+					String D = DCell.getStringCellValue().toString().trim();
+					Float E = (float)ECell.getNumericCellValue();
+					Float F = (float) FCell.getNumericCellValue();
+					Float G = (float) GCell.getNumericCellValue();
+					String H = HCell.getStringCellValue().toString().trim();
+					String I = ICell.getStringCellValue().toString().trim();		
+					String J = JCell.getStringCellValue().toString().trim();
+					String K = KCell.getStringCellValue().toString().trim();
+					String L = LCell.getStringCellValue().toString().trim();
+					/* Date M = (Date)MCell.getDateCellValue(); */
+					Integer N = (int) NCell.getNumericCellValue();
+					
+					Integer count=ms.selectByNameCount(B);
+					if(count>0) {
+						continue;
+					}
+					member.setMid(A);
+					member.setMname(B);
+					member.setMpassword(C);
+					member.setMphone(D);
+					member.setMmoney(E);
+					member.setMbalance(F);
+					member.setMintegral(G);
+					member.setWechatid(H);
+					member.setProvincename(I);
+					member.setCityname(J);
+					member.setRegionname(K);
+					member.setStreet(L);
+					member.setCreatetime(null);
+					member.setMcid(N);
+					
+					
+					ms.insertMember(member);
+				}				
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return in;
+	}
+	
 	
 }

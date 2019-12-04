@@ -236,6 +236,7 @@
         	描述：模态框（Modal）
 			 批量导入
         -->
+		<!-- 模态框（Modal） -->
 		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    <div class="modal-dialog">
 		        <div class="modal-content">
@@ -243,18 +244,23 @@
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		                <h4 class="modal-title" id="myModalLabel">批量导入</h4>
 		            </div>
-		            <div class="modal-body" style="padding:50px">
-		            	<div class="row" style="text-align: center;">
-		            		<button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">Excel导入</button>
-		                 	<button type="button" class="btn btn-success" style="width: 16.66%;">下载范本</button>
-		            	</div>
-		            </div>
-		            <div class="modal-footer" style="text-align: center;">
-		               
-		            </div>
+		            <!-- th:action="@{/rest/file/excelUpload}" name="refer"  -->
+		             <form method="post" enctype="multipart/form-data">
+			            <div class="modal-body" style="padding:50px">
+			            	
+							  
+							
+			            </div>
+			            <div class="modal-footer" style="text-align: center;">		         
+							<input style="display: inline-block;" name="file" type="file">
+							<button onclick="TiJiao()"  class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">Excel导入</button>
+		                	<button type="button" onclick="FanBen()" class="btn btn-success" style="width: 16.66%;">下载范本</button>
+			            </div>
+		            </form>
 		        </div><!-- /.modal-content -->
 		    </div><!-- /.modal -->
 		</div>
+		
 		<script src="/js/distpicker.data.js"></script>
 		<script src="/js/distpicker.js"></script>
 		<script src="/js/main.js"></script>
@@ -504,6 +510,27 @@
 				}
 			}) */
 			location.href="[[@{/member/exportExcel}]]?ids="+StrNumber;
+		}
+		function FanBen(){
+			location.href="[[@{/member/download}]]";
+		}
+		function TiJiao(){
+			//$("[name=refer]").submit();
+			var that = this;				
+			var formData = new FormData($("form")[3]);
+			console.info($("form"));
+			console.info(formData)
+			$.ajax({
+				url:"[[@{/member/excelUpload}]]",
+				data:formData,
+				type:"post",
+				processData:false,
+				contentType:false,
+				success:function(result){
+					console.info(result);
+					function1();
+				}
+			});
 		}
 		</script>
 	</body>

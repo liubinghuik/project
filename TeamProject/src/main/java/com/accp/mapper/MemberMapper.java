@@ -60,6 +60,8 @@ public interface MemberMapper {
 	List<Rechargededuction> selectRechargedeductionBytime(String a);
 	//积分情况
 	Integer selectJf();
+	//查询某个会员是否存在
+	Integer selectByNameCount(String name);
 	
     int countByExample(MemberExample example);
 

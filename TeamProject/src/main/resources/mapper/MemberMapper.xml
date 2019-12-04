@@ -132,6 +132,12 @@
 	<select id="selectJf" resultType="Integer">
 		SELECT jf FROM deduction WHERE wtd=1
 	</select>
+	<!-- 查询是否拥有某个会员 -->
+	<select id="selectByNameCount" parameterType="String" resultType="Integer">
+		SELECT COUNT(*) FROM member
+		WHERE mname=#{mname}
+	</select>
+	
 	
 	
 	
