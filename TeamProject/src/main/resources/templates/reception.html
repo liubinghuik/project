@@ -51,6 +51,12 @@
 	
 	background-color: #EDF2FC !important;
 }
+.first{
+	display: inline-block;
+	margin-left: 30px;	
+}
+
+
 </style>
 <script src="/js/jquery-1.12.4.js" type="text/javascript"
 	charset="utf-8"></script>
@@ -188,8 +194,8 @@
 				<el-input v-model="jsws" id="zsws"></el-input> </el-col> </el-row>
 				<el-row :gutter="20"> <el-col :span="24">
 				<template>
-					 <span><small>结算方式：</small></span>
-					 <div>
+					 <span>结算方式：</span>
+					 <div style="margin-left: 30px;">
 					    <el-radio v-model="checkedValue" label="现金" @click.native="xj" checkedValue>现金</el-radio>
 					    <el-radio v-model="checkedValue" label="微信" @click.native="wx">微信</el-radio>
 					  </div>
@@ -197,8 +203,8 @@
 				 </el-col> </el-row>
 				<el-row :gutter="20"> <el-col :span="24"> 
 				<template>
-					 <span>营业员：</span>
-					 <div v-for="sy in syry">
+					 <p>营业员：</p>
+					 <div v-for="sy in syry" class="first">
 					 	<input type="hidden" v-model="sy.sid" class="dpsid">
 					    <el-radio v-model="checkedValue2" :label="sy.stname"  checkedValue2>{{sy.stname}}</el-radio>
 					  </div>
@@ -224,8 +230,8 @@
 				<el-input v-model="jsws" id="zsws"></el-input> </el-col> </el-row>
 				<el-row :gutter="20"> <el-col :span="24">
 				<template>
-					 <span><small>结算方式：</small></span>
-					 <div>
+					  <span>结算方式：</span>
+					 <div style="margin-left: 30px;">
 					    <el-radio v-model="checkedValue" label="现金" @click.native="xj" checkedValue>现金</el-radio>
 					    <el-radio v-model="checkedValue" label="微信" @click.native="wx">微信</el-radio>
 					  </div>
@@ -233,8 +239,8 @@
 				 </el-col> </el-row>
 				<el-row :gutter="20"> <el-col :span="24"> 
 				<template>
-					 <span>营业员：</span>
-					 <div v-for="sy in syry">
+					  <p>营业员：</p>
+					 <div v-for="sy in syry" class="first">
 					 	<input type="hidden" v-model="sy.sid" class="dpsid">
 					    <el-radio v-model="checkedValue2" :label="sy.stname"  checkedValue2>{{sy.stname}}</el-radio>
 					  </div>
@@ -390,6 +396,7 @@ $(function(){
     			  dataType:"json",
     			  success:function(res){
     				  this_.syry=res;
+    				  console.log( this_.syry+"初始化收银");
     			  }
     		  });
     	  },
@@ -562,7 +569,6 @@ $(function(){
         },
         //确定收银
         qdsy(state){
-        	alert(state);
         	var hyzk=0;
     		var hyid=0;
        		if(this.hyzh.discount!=null){
@@ -602,10 +608,20 @@ $(function(){
                 	        	this_.totalCount = 0;
                 	        	this_.totalMoney = 0;
                 	        	this_.totalReceipts=0;
+                    		}else{
+                    			this_.offen=false;  
+                    			this_.offen2=false;  
+                    			this_.tableData = [];
+                	        	qjdiscount=0;
+                	        	this_.hyzh=[];
+                	        	this_.totalCount = 0;
+                	        	this_.totalMoney = 0;
+                	        	this_.totalReceipts=0;
                     		}
             			}
             		}
             	});
+        		
         },
         xzgd(){
         	let gname = '';

@@ -172,13 +172,13 @@ public class MemberController {
 	        
 			lm.add(ms.selectMemberById(x));
 		}
-		for(Member m:lm) {
-			/* System.out.println(m.getMname()); */
-		}
-		/*Workbook wb = new XSSFWorkbook();
+		
+		//导出学生信息为excel
+		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();
-		 
+		
 		Row titleRow = sheet.createRow(0);
+		
 		titleRow.createCell(0).setCellValue("会员编号");
 		titleRow.createCell(1).setCellValue("会员姓名");
 		titleRow.createCell(2).setCellValue("会员密码");
@@ -190,13 +190,13 @@ public class MemberController {
 		titleRow.createCell(8).setCellValue("省份");
 		titleRow.createCell(9).setCellValue("城市");
 		titleRow.createCell(10).setCellValue("地区");
-		titleRow.createCell(1).setCellValue("街道");
+		titleRow.createCell(11).setCellValue("街道");
 		titleRow.createCell(12).setCellValue("创建时间");
 		titleRow.createCell(13).setCellValue("会员编号");
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
 		for(int i=0;i<lm.size();i++) {
-			Row row = sheet.createRow(i+1);
 			
+			Row row = sheet.createRow(i+1);
 			
 			Cell MidCell = row.createCell(0);
 			MidCell.setCellValue(lm.get(i).getMid());
@@ -224,16 +224,12 @@ public class MemberController {
 			StreetCell.setCellValue(lm.get(i).getStreet());
 			
 			
-			
-			
-			
 			Cell CreatetimeCell = row.createCell(12);
 			if(lm.get(i).getCreatetime()!=null) {
 				CreatetimeCell.setCellValue(f.format(lm.get(i).getCreatetime()));
 			}
 			Cell McidCell = row.createCell(13);
 			McidCell.setCellValue(lm.get(i).getMcid());
-			
 		}
 		HttpHeaders headers = new HttpHeaders();
 		ByteArrayOutputStream bot = new ByteArrayOutputStream();
@@ -241,81 +237,12 @@ public class MemberController {
 			wb.write(bot);
 			headers.setContentDispositionFormData("attachment", new String("导出的信息.xlsx".getBytes("utf-8"),"iso-8859-1"));
 			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);*/
-		//导出学生信息为excel
-				Workbook wb = new XSSFWorkbook();
-				Sheet sheet = wb.createSheet();
-				
-				Row titleRow = sheet.createRow(0);
-				
-				titleRow.createCell(0).setCellValue("会员编号");
-				titleRow.createCell(1).setCellValue("会员姓名");
-				titleRow.createCell(2).setCellValue("会员密码");
-				titleRow.createCell(3).setCellValue("会员电话");
-				titleRow.createCell(4).setCellValue("成交金额");
-				titleRow.createCell(5).setCellValue("余额");
-				titleRow.createCell(6).setCellValue("会员积分");
-				titleRow.createCell(7).setCellValue("微信号");
-				titleRow.createCell(8).setCellValue("省份");
-				titleRow.createCell(9).setCellValue("城市");
-				titleRow.createCell(10).setCellValue("地区");
-				titleRow.createCell(11).setCellValue("街道");
-				titleRow.createCell(12).setCellValue("创建时间");
-				titleRow.createCell(13).setCellValue("会员编号");
-				SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-				for(int i=0;i<lm.size();i++) {
-					
-					Row row = sheet.createRow(i+1);
-					
-					Cell MidCell = row.createCell(0);
-					MidCell.setCellValue(lm.get(i).getMid());
-					Cell MnameCell = row.createCell(1);
-					MnameCell.setCellValue(lm.get(i).getMname());
-					Cell MpasswordCell = row.createCell(2);
-					MpasswordCell.setCellValue(lm.get(i).getMpassword());
-					Cell MphoneCell = row.createCell(3);
-					MphoneCell.setCellValue(lm.get(i).getMphone());
-					Cell MmoneyCell = row.createCell(4);
-					MmoneyCell.setCellValue(lm.get(i).getMmoney());
-					Cell MbalanceCell = row.createCell(5);
-					MbalanceCell.setCellValue(lm.get(i).getMbalance());
-					Cell MintegralCell = row.createCell(6);
-					MintegralCell.setCellValue(lm.get(i).getMintegral());
-					Cell WechatidCell = row.createCell(7);
-					WechatidCell.setCellValue(lm.get(i).getWechatid());
-					Cell ProvincenameCell = row.createCell(8);
-					ProvincenameCell.setCellValue(lm.get(i).getProvincename());
-					Cell CitynameCell = row.createCell(9);
-					CitynameCell.setCellValue(lm.get(i).getCityname());
-					Cell RegionnameCell = row.createCell(10);
-					RegionnameCell.setCellValue(lm.get(i).getRegionname());
-					Cell StreetCell = row.createCell(11);
-					StreetCell.setCellValue(lm.get(i).getStreet());
-					
-					
-					Cell CreatetimeCell = row.createCell(12);
-					if(lm.get(i).getCreatetime()!=null) {
-						CreatetimeCell.setCellValue(f.format(lm.get(i).getCreatetime()));
-					}
-					Cell McidCell = row.createCell(13);
-					McidCell.setCellValue(lm.get(i).getMcid());
-				}
-				HttpHeaders headers = new HttpHeaders();
-				ByteArrayOutputStream bot = new ByteArrayOutputStream();
-				try {
-					wb.write(bot);
-					headers.setContentDispositionFormData("attachment", new String("导出的信息.xlsx".getBytes("utf-8"),"iso-8859-1"));
-					headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-	
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
+		return new ResponseEntity<byte[]>(bot.toByteArray(), headers, HttpStatus.OK);
 	}
 	//查询积分设置是否关闭
 	@RequestMapping(value = "selectDeduction", method = RequestMethod.GET)

@@ -85,7 +85,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer" style="margin-top: 430px;">
+				<div class="modal-footer" style="margin-top: 450px;">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-success" name="xzscope">确定</button>
 				</div>
@@ -116,7 +116,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer" style="margin-top: 430px;">
+				<div class="modal-footer" style="margin-top: 450px;">
 					<input type="hidden" id="xgpid">
 					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					<button type="button" class="btn btn-danger" name="scscope">删除</button>
@@ -223,13 +223,13 @@
 			  $("[name=scscope]").attr("disabled", "disabled");
 			  $("[name=xgscope]").attr("disabled", "disabled");
 			  $.each(res,function(i,obj){
-				  if(obj.moid==18){
+				  if(obj.moid==19){
 					  $("#tjzwbtn").removeAttr("disabled");
 				  }
-				  if(obj.moid==19){
+				  if(obj.moid==20){
 					  $("[name=xgscope]").removeAttr("disabled");
 				  }
-				  if(obj.moid==20){
+				  if(obj.moid==21){
 					  $("[name=scscope]").removeAttr("disabled");
 				  }
 			  })

@@ -45,6 +45,11 @@ public class MvcConfig extends WebMvcConfigurationSupport {
         		,"/rest/commodity/getCommodityAll","/rest/commodity/insertCommodity","/rest/commodity/updategoods","/rest/commodity/deleteCommodity"
         		,"/rest/supplier/getAll","/rest/supplier/updateByPrimaryKeySelective","/rest/supplier/insertSelective","/rest/supplier/deleteByPrimaryKey"
         		,"/rest/purchase/getAll","/rest/purchase/insertPurchase","/rest/purchase/updateByPrimaryKeySelective","/rest/purchase/deletePurchaseAndDetails")
+        .excludePathPatterns("")
+        .addPathPatterns("/member/SelectMemberInfo","/member/selectMemberClass","/member/insertClass","/member/insertMember"
+        		,"/member/updateClass","/member/deleteClass1","/member/deleteClass2","/member/updateMember"
+        		,"/member/updateDeductionJF","/member/selectDeductionJf","/member/updateMoney","/member/insertRecharge"
+        		,"/member/selectRecord","/member/insertRechargededuction","/member/selectRechargededuction")
         .excludePathPatterns("");
     }
 	
