@@ -33,17 +33,16 @@ $("#shopgoods").mouseover(function(){
 })
 		
 function niubi(){
-	$("[name=chimaya] li").click(function(){		
+	$("[name=chimaya] a").click(function(){		
 		if($(this).attr("name")=="noundefined"){
-			$(this).find("a").attr("name","undefined");
-			$(this).find("a").attr("style","color:black");
-			$(this).attr("style","border:1px solid #e2e1e3");
+			$(this).attr("name","undefined");
+			$(this).attr("style","color:black");
+			$(this).parent().attr("style","border:1px solid #e2e1e3");
 			nimabide();	
 		}else{
-			$(this).find("a").attr("style","color:red");
-			$(this).attr("style","border:1px solid red");
-			
-			$(this).find("a").attr("name","noundefined");
+			$(this).attr("style","color:red");
+			$(this).parent().attr("style","border:1px solid red");			
+			$(this).attr("name","noundefined");
 			nimabide();
 		}
 	});

@@ -67,7 +67,7 @@
       <if test="total != null" >
         total,
       </if>
-      <if test="discount != null" >
+      <if test="rdiscount != null" >
         discount,
       </if>
       <if test="actualincome != null" >
@@ -108,8 +108,8 @@
       <if test="total != null" >
         #{total,jdbcType=REAL},
       </if>
-      <if test="discount != null" >
-        #{discount,jdbcType=REAL},
+      <if test="rdiscount != null" >
+        #{rdiscount,jdbcType=REAL},
       </if>
       <if test="actualincome != null" >
         #{actualincome,jdbcType=REAL},
@@ -177,7 +177,7 @@
       <if test="originalcost != null" >
         originalcost,
       </if>
-      <if test="discount != null" >
+      <if test="rddiscount != null" >
         discount,
       </if>
       <if test="totalprice != null" >
@@ -206,8 +206,8 @@
       <if test="originalcost != null" >
         #{originalcost,jdbcType=REAL},
       </if>
-      <if test="discount != null" >
-        #{discount,jdbcType=REAL},
+      <if test="rddiscount != null" >
+        #{rddiscount,jdbcType=REAL},
       </if>
       <if test="totalprice != null" >
         #{totalprice,jdbcType=REAL},

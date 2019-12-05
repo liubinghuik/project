@@ -59,7 +59,7 @@
 									<td width="5%">订单号</td>
 									<td width="6%">姓名</td>
 									<td width="8%">手机</td>
-									<td width="10%">数量</td>
+									
 									<td width="6%">金额</td>
 									<td width="6%">支付方式</td>
 									<td width="10%">日期</td>
@@ -72,7 +72,7 @@
 									<td>1121312312312312</td>
 									<td>憨憨</td>
 									<td>110</td>
-									<td>1</td>
+									
 									<td>100.00</td>
 									<td>支付宝</td>
 									<td>2001-01-01 12:00:00</td>
@@ -154,22 +154,22 @@
 		function cjjl(){
 			 $.ajax({
 					url:"[[@{/member/selectRecord}]]",
-					data:{"pageNum":pageNum,"pageSize":1},
+					data:{"pageNum":pageNum,"pageSize":10},
 					dataType:"json",
 					type:"get",
 					async: false,
 					success:function(result){
 						$(".tbody").html("");
 						$.each(result.list,function(i,obj){
-							var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi("+obj.rdorder+")'></tr>");
-							tr.append("<td>"+(i+1)+"</td>");
-							tr.append("<td>"+obj.rdorder+"</td>");
-							tr.append("<td>"+obj.mem.mname+"</td>");
-							tr.append("<td>"+obj.mem.mphone+"</td>");
-							tr.append("<td>0</td>");
-							tr.append("<td>"+obj.total+"</td>");
-							tr.append("<td>"+obj.rdpay+"</td>");
-							tr.append("<td>"+obj.createtime+"</td>");
+							
+							var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\")'></tr>");
+								tr.append("<td>"+(i+1)+"</td>");
+								tr.append("<td>"+obj.rdorder+"</td>");
+								tr.append("<td>"+obj.mem.mname+"</td>");
+								tr.append("<td>"+obj.mem.mphone+"</td>");
+								tr.append("<td>"+obj.total+"</td>");
+								tr.append("<td>"+obj.rdpay+"</td>");
+								tr.append("<td>"+obj.createtime+"</td>");
 							$(".tbody").append(tr);
 							
 						})
@@ -180,6 +180,7 @@
 				}) 
 		} 
 		function MTKFuZhi(client){
+			
 			 $.ajax({
 					url:"[[@{/member/selectDinDanXQ}]]",
 					data:{"client":client},
@@ -193,12 +194,17 @@
 							$("#huiyuan8").text(obj.mname);
 							$("#dianpu8").text(obj.sname);
 							var tr=$("<tr></tr>");
-							tr.append("<td>"+(i+1)+"</td>");
-							tr.append("<td>"+obj.cname+"</td>");
-							tr.append("<td>"+obj.dage+"</td>");
-							tr.append("<td>"+obj.originalcost+"</td>");
-							tr.append("<td>"+obj.discount+"</td>");
-							tr.append("<td>"+obj.totalprice+"</td>");
+								tr.append("<td>"+(i+1)+"</td>");
+								tr.append("<td>"+obj.cname+"</td>");
+								tr.append("<td>"+obj.dage+"</td>");
+								tr.append("<td>"+obj.originalcost.toFixed(2)+"</td>");
+								if(obj.discount==null){
+									tr.append("<td>无折扣</td>");
+								}else{
+									tr.append("<td>"+obj.discount+"</td>");
+								}
+								
+								tr.append("<td>"+obj.totalprice.toFixed(2)+"</td>");
 							$("#tbody2").append(tr);
 							
 						})
@@ -221,18 +227,17 @@
 			}
 			$.ajax({
 				url:"[[@{/member/selectRecord}]]",
-				data:{"pageNum":ye,"pageSize":1},
+				data:{"pageNum":ye,"pageSize":10},
 				dataType:"json",
 				type:"get",
 				success:function(result){
 					$(".tbody").html("");
 					$.each(result.list,function(i,obj){
-						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi("+obj.rdorder+")'></tr>");
+						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\")'></tr>");
 						tr.append("<td>"+(i+1)+"</td>");
 						tr.append("<td>"+obj.rdorder+"</td>");
 						tr.append("<td>"+obj.mem.mname+"</td>");
 						tr.append("<td>"+obj.mem.mphone+"</td>");
-						tr.append("<td>0</td>");
 						tr.append("<td>"+obj.total+"</td>");
 						tr.append("<td>"+obj.rdpay+"</td>");
 						tr.append("<td>"+obj.createtime+"</td>");
@@ -289,12 +294,11 @@
 				success:function(result){
 					$(".tbody").html("");
 					$.each(result,function(i,obj){
-						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi("+obj.rdorder+")'></tr>");
+						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\")'></tr>");
 						tr.append("<td>"+(i+1)+"</td>");
 						tr.append("<td>"+obj.rdorder+"</td>");
 						tr.append("<td>"+obj.mem.mname+"</td>");
 						tr.append("<td>"+obj.mem.mphone+"</td>");
-						tr.append("<td>0</td>");
 						tr.append("<td>"+obj.total+"</td>");
 						tr.append("<td>"+obj.rdpay+"</td>");
 						tr.append("<td>"+obj.createtime+"</td>");

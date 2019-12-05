@@ -13,6 +13,34 @@
 		.table > tbody > tr > td{
 			vertical-align: middle;
 		}
+		.file {
+		    position: relative;
+		    background: #D0EEFF;
+		    border: 1px solid #99D3F5;
+		    border-radius: 4px;
+		    padding: 7.5px 12px;
+		    overflow: hidden;
+		    color: #1E88C7;
+		    text-decoration: none;
+		    text-indent: 0;
+		    margin-left: 10px;
+		    left: -10px;
+		}
+		.file input {
+		    position: absolute;
+		    font-size: 100px;
+		    right: 0;
+		    top: 0;
+		    opacity: 0;
+		    width: 85px;
+		    height: 30px;
+		}
+		.file:hover {
+		    background: #AADFFD;
+		    border-color: #78C3F3;
+		    color: #004974;
+		    text-decoration: none;
+		}
 	</style>
 	<script src="/js/jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
@@ -113,7 +141,7 @@
 			            <div class="modal-body" style="padding:50px">
 			            	
 							  <div class="form-group">
-							    <label for="inputEmail3" class="col-sm-3 control-label">选择店铺:</label>
+							    <label for="inputEmail3" class="col-sm-3 control-label" style="margin-top: 7px;">选择店铺:</label>
 							    <div class="col-sm-9">
 							       <select style="width: 50%;display: inline-block;" name="check" class="form-control">
 							     	<template v-for="stu in goodsonline">
@@ -124,8 +152,11 @@
 							  </div>
 							
 			            </div>
-			            <div class="modal-footer" style="text-align: center;">		         
-							<input style="display: inline-block;" name="file" type="file">
+			            <div class="modal-footer" style="text-align: center;">	
+			            	<a href="javascript:;" class="file" onchange="xzwj()">选择文件
+							    <input style="display: inline-block;" name="file" id="fileField" type="file">
+							</a>
+			            	<span class="showFileName"></span>
 							<button @click="refer"  class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">Excel导入</button>
 		                	<button type="button" @click="xzfb" class="btn btn-success" style="width: 16.66%;">下载范本</button>
 			            </div>
@@ -134,6 +165,13 @@
 		    </div><!-- /.modal -->
 		</div>
 		</div>
+		
+		<script type="text/javascript">
+			function xzwj(){
+				var fileName = document.getElementById('fileField').files[0].name;
+				$(".showFileName").html(fileName);
+			}
+		</script>
 		<script type="text/javascript">
 			//带参数函数--商品管理 
 			function goToPage2(param){ 

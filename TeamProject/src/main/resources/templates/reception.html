@@ -72,7 +72,7 @@
 				name="orderIng"> <el-table :data="tableData" border>
 			<el-table-column prop="goodsName" label="商品名称" width="114"></el-table-column>
 			<el-table-column prop="dage" label="数量" width="65"></el-table-column>
-			<el-table-column prop="totalprice" label="金额" width="65"></el-table-column>
+			<el-table-column prop="totalprice" label="金额" width="80"></el-table-column>
 			<el-table-column prop="discount" label="折扣" width="65"></el-table-column>
 			<el-table-column label="操作" width="90" fixed="right">
 			<!-- scope 是模板的作用域，通过scope.row把这一行数据传递到addOrderList()中去 --> <template
@@ -132,7 +132,7 @@
 							<input type="hidden" class="foodarticleno" v-model="goods.articleno">
 							<input type="hidden" class="foodinventory" v-model="goods.inventory">
 							<span class="foodName">{{goods.cname}}</span> <span
-								class="foodPrice">￥{{goods.sell}}元</span>
+								class="foodPrice">￥{{goods.sell |keepdiscount}}元</span>
 						</div>
 					</li>
 				</ul>
@@ -149,7 +149,7 @@
 							<input type="hidden" class="foodarticleno" v-model="goods.articleno">
 							<input type="hidden" class="foodinventory" v-model="goods.inventory">
 							<span class="foodName">{{goods.cname}}</span> <span
-								class="foodPrice">￥{{goods.sell}}元</span>
+								class="foodPrice">￥{{goods.sell | keepdiscount}}元</span>
 						</div>
 					</li>
 				</ul>
@@ -336,7 +336,7 @@ $(function(){
     	  },
     	  //现金支付弹窗
     	  xj(){
-    		  this.$alert('<div class="qr-code"><span>输入支付金额：</span><input type=text v-value="+{{this.jsss}}+"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,欢迎下次光临!', {
+    		  this.$alert('<div class="qr-code"><span>输入支付金额：</span><input type=text value="'+this.jsss+'"><p>你也可以扫码结账!@^_^@</p></div>', '结账成功,欢迎下次光临!', {
                   dangerouslyUseHTMLString: true
                 });
     	  },
@@ -463,10 +463,10 @@ $(function(){
    	          } else {
    	            // 构造一个newGoods
    	            if(qjdiscount==0){
-   	            	let newGoods={cid:goods.cid,goodsName:goods.cname,totalprice:goods.sell,discount:0,dage:1,cdid:goods.cdid,originalcost:goods.cost,articleno:goods.articleno}
+   	            	let newGoods={cid:goods.cid,goodsName:goods.cname,totalprice:goods.sell.toFixed(2),discount:0,dage:1,cdid:goods.cdid,originalcost:goods.cost,articleno:goods.articleno}
    	                this.tableData.push(newGoods);
    	            }else{
-   	            	let newGoods={cid:goods.cid,goodsName:goods.cname,totalprice:goods.sell,discount:qjdiscount,dage:1,cdid:goods.cdid,originalcost:goods.cost,articleno:goods.articleno}
+   	            	let newGoods={cid:goods.cid,goodsName:goods.cname,totalprice:goods.sell.toFixed(2),discount:qjdiscount,dage:1,cdid:goods.cdid,originalcost:goods.cost,articleno:goods.articleno}
    	                this.tableData.push(newGoods);
    	            }
   	          	  }
@@ -532,6 +532,9 @@ $(function(){
             	if(this.hyzh.mbalance != null){
             		this.jsws=this.hyzh.mbalance;
             	}
+            	this.totalMoney=this.totalMoney.toFixed(2);
+            	this.totalReceipts=this.totalReceipts.toFixed(2);
+            	this.jsws=this.jsws.toFixed(2);
             	this.jsss=(this.totalReceipts-this.jsws).toFixed(2);
               } else {
                 this.$message.error('请先选购商品！');
@@ -569,6 +572,7 @@ $(function(){
         },
         //确定收银
         qdsy(state){
+        	
         	var hyzk=0;
     		var hyid=0;
        		if(this.hyzh.discount!=null){
@@ -620,7 +624,7 @@ $(function(){
                     		}
             			}
             		}
-            	});
+            	}); 
         		
         },
         xzgd(){
@@ -639,6 +643,9 @@ $(function(){
         	if(this.hyzh.mbalance != null){
         		this.jsws=this.hyzh.mbalance;
         	}
+        	this.jsws=this.jsws.toFixed(2);
+        	this.totalMoney=this.totalMoney.toFixed(2);
+        	this.totalReceipts=this.totalReceipts.toFixed(2);
         	this.jsss=(this.totalReceipts-this.jsws).toFixed(2);
           } else {
             this.$message.error('请先选购商品！');

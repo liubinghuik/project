@@ -46,12 +46,12 @@
 							<thead align="center">
 								<tr class="info">
 									<td width="4%">序号</td>
-									<td width="10%">时间</td>
-									<td width="6%">充值方式</td>
+									<td width="8%">时间</td>
+									<td width="5%">充值方式</td>
 									<td width="8%">冲抵会员</td>
-									<td width="10%">使用积分</td>
-									<td width="10%">抵扣金额</td>
-									<td width="6%">备注</td>
+									<td width="8%">使用积分</td>
+									<td width="8%">抵扣金额</td>
+									<td width="15%">备注</td>
 								</tr>
 							</thead>
 							<tbody align="center"class="tbody">
@@ -187,7 +187,7 @@
 					dataType:"json",
 					type:"get",
 					success:function(result){
-						/* console.info(result); */
+						console.info(result); 
 						$(".tbody").html("");
 						$.each(result,function(i,obj){
 							var tr=$("<tr></tr>");

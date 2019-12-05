@@ -147,7 +147,7 @@
 		INNER JOIN shop AS d
 		ON b.sid=d.sid
 		INNER JOIN commodity AS e
-		ON a.articleno=e.cid
+		ON a.articleno=e.articleno
 		INNER JOIN commoditydetails AS f
 		ON a.cdid=f.cdid
 		WHERE a.state=0 AND b.rdorder=#{client}

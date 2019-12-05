@@ -363,7 +363,7 @@ public class MemberController {
 	@ResponseBody
 	public ResponseEntity<byte []> download(){
 		try {
-			FileInputStream is = new FileInputStream("C:/Users/范本/FanBen.xlsx");
+			FileInputStream is = new FileInputStream("C:/Users/LiuBingHui/git/project/TeamProject/src/main/resources/static/model/FanBen.xlsx");
 			byte[] bytes = new byte[is.available()];
 			is.read(bytes);
 			HttpHeaders headers = new HttpHeaders();
