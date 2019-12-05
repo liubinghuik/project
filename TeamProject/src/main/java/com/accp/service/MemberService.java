@@ -11,6 +11,7 @@ import com.accp.domain.Memberclass;
 import com.accp.domain.Recharge;
 import com.accp.domain.Rechargededuction;
 import com.accp.domain.Record;
+import com.accp.domain.XiangQing;
 import com.accp.mapper.MemberMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -129,5 +130,9 @@ public class MemberService {
 	//查询某个会员是否存在
 	public Integer selectByNameCount(String name) {
 		return mp.selectByNameCount(name);
+	}
+	//查询订单详情
+	public List<XiangQing> selectDinDanXQ(String client){
+		return mp.selectDinDanXQ(client);
 	}
 }

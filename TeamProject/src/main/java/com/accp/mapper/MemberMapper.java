@@ -6,6 +6,7 @@ import com.accp.domain.Memberclass;
 import com.accp.domain.Recharge;
 import com.accp.domain.Rechargededuction;
 import com.accp.domain.Record;
+import com.accp.domain.XiangQing;
 import com.accp.service.MemberService;
 
 import java.util.List;
@@ -62,6 +63,8 @@ public interface MemberMapper {
 	Integer selectJf();
 	//查询某个会员是否存在
 	Integer selectByNameCount(String name);
+	//查询订单详情
+	List<XiangQing> selectDinDanXQ(String client);
 	
     int countByExample(MemberExample example);
 
