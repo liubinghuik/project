@@ -87,6 +87,6 @@ public interface CommodityMapper {
      * 查询所有店铺
      * @return
      */
-    @Select("SELECT * FROM shop")
+    @Select("SELECT * FROM shop where state=0")
     List<commodityVO> getShoptAll();
 }

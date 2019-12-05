@@ -89,7 +89,7 @@
 	<script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/axios.min.js" type="text/javascript" charset="utf-8"></script>
 	
-	<body>
+	<body class="xs_li_03" style="overflow: hidden;">
 		<div class="container-fluid">
 			<div class="row" style="padding-left:8%;height: 55;line-height: 55px; border-bottom: 1px solid gainsboro;margin-bottom: 20px;">
 			  	<div class="col-md-3"><img src="/images/logo.png"/></div>
@@ -222,9 +222,19 @@
 			</div>
 		</div>
 		
+		<script src="/js/jQuery-2.2.4.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/js/xs.js" type="text/javascript" charset="utf-8"></script>
+		
 		<script src="/js/distpicker.data.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/js/distpicker.js" type="text/javascript" charset="utf-8"></script>
 		<script src="/js/main.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script type="text/javascript">
+	        $(document).ready(function() {
+	            $(".xs_li_03").xs999(3);
+	        });
+	    </script>
+    
 		<script type="text/javascript">
 			//全局变量  
 			var src;
