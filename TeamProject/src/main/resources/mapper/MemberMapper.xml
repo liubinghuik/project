@@ -137,6 +137,21 @@
 		SELECT COUNT(*) FROM member
 		WHERE mname=#{mname}
 	</select>
+	<!-- 查询订单详情 -->
+	<select id="selectDinDanXQ" parameterType="String" resultType="com.accp.domain.XiangQing">
+		SELECT a.did,c.mname,d.sname,e.cname,a.dage,a.originalcost,a.discount,a.totalprice FROM rddetails AS a
+		INNER JOIN record AS b
+		ON a.rdorder=b.rdorder
+		INNER JOIN member AS c
+		ON b.client=c.mid
+		INNER JOIN shop AS d
+		ON b.sid=d.sid
+		INNER JOIN commodity AS e
+		ON a.articleno=e.cid
+		INNER JOIN commoditydetails AS f
+		ON a.cdid=f.cdid
+		WHERE a.state=0 AND b.rdorder=#{client}
+	</select>
 	
 	
 	

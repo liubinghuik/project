@@ -41,6 +41,7 @@ import com.accp.domain.Rechargededuction;
 import com.accp.domain.Record;
 import com.accp.domain.Size;
 import com.accp.domain.SizeExample;
+import com.accp.domain.XiangQing;
 import com.accp.service.MemberService;
 import com.github.pagehelper.PageInfo;
 
@@ -454,6 +455,13 @@ public class MemberController {
 			e.printStackTrace();
 		}
 		return in;
+	}
+	//查询订单详情
+	@RequestMapping(value = "selectDinDanXQ", method = RequestMethod.GET)
+	@ResponseBody
+	List<XiangQing> selectDinDanXQ(String client){
+		System.out.println(client);
+		return ms.selectDinDanXQ(client);
 	}
 	
 	

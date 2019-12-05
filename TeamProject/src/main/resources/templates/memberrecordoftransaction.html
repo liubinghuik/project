@@ -102,6 +102,47 @@
 				</div>
 			</div>
 		</div>
+		<!-- 订单详情 -->
+		<!-- 模态框（Modal）查询 -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    <div style="width: 76.66%;" class="modal-dialog">
+		        <div class="modal-content">
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                <h4 class="modal-title" id="myModalLabel">订单详情</h4>
+		            </div>
+		            <div class="modal-body" style="padding:50px;overflow: hidden;">
+		            	<div style="float: left;">
+		            		<p>会员：<span id="huiyuan8"></span></p>
+		    
+		            	</div>
+		            	<div style="float: right;">
+		            		<p>店铺：<span id="dianpu8"></span></p>
+		            		
+		            	</div>
+		            	<table class="table table-bordered table-hover">
+						  	<thead>
+						  		<tr class="info">
+									<td width="4%">序号</td>
+									<td width="8%">品名</td>
+									<td width="6%">数量</td>
+									<td width="6%">原价</td>
+									<td width="6%">折扣</td>
+									<td width="6%">金额</td>
+								</tr>
+						  	</thead>
+						  	<tbody id="tbody2" align="center">
+								
+							</tbody>
+						</table>
+						
+		            </div>
+		            <div class="modal-footer" style="text-align: center;">
+		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
+		            </div>
+		        </div><!-- /.modal-content -->
+		    </div><!-- /.modal -->
+		</div>
 		<script type="text/javascript">
 		var pageNum=1;
 		$(function(){
@@ -116,10 +157,11 @@
 					data:{"pageNum":pageNum,"pageSize":1},
 					dataType:"json",
 					type:"get",
+					async: false,
 					success:function(result){
 						$(".tbody").html("");
 						$.each(result.list,function(i,obj){
-							var tr=$("<tr></tr>");
+							var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi("+obj.rdorder+")'></tr>");
 							tr.append("<td>"+(i+1)+"</td>");
 							tr.append("<td>"+obj.rdorder+"</td>");
 							tr.append("<td>"+obj.mem.mname+"</td>");
@@ -137,6 +179,32 @@
 					}
 				}) 
 		} 
+		function MTKFuZhi(client){
+			 $.ajax({
+					url:"[[@{/member/selectDinDanXQ}]]",
+					data:{"client":client},
+					dataType:"json",
+					type:"get",
+					async: false,
+					success:function(result){
+						console.info(result);
+						$("#tbody2").html("");
+						$.each(result,function(i,obj){
+							$("#huiyuan8").text(obj.mname);
+							$("#dianpu8").text(obj.sname);
+							var tr=$("<tr></tr>");
+							tr.append("<td>"+(i+1)+"</td>");
+							tr.append("<td>"+obj.cname+"</td>");
+							tr.append("<td>"+obj.dage+"</td>");
+							tr.append("<td>"+obj.originalcost+"</td>");
+							tr.append("<td>"+obj.discount+"</td>");
+							tr.append("<td>"+obj.totalprice+"</td>");
+							$("#tbody2").append(tr);
+							
+						})
+					}
+				}) 
+		}
 		function tiao(){
 			
 			var ye=$("[name=ye]").val();
@@ -159,7 +227,7 @@
 				success:function(result){
 					$(".tbody").html("");
 					$.each(result.list,function(i,obj){
-						var tr=$("<tr></tr>");
+						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi("+obj.rdorder+")'></tr>");
 						tr.append("<td>"+(i+1)+"</td>");
 						tr.append("<td>"+obj.rdorder+"</td>");
 						tr.append("<td>"+obj.mem.mname+"</td>");
@@ -221,7 +289,7 @@
 				success:function(result){
 					$(".tbody").html("");
 					$.each(result,function(i,obj){
-						var tr=$("<tr></tr>");
+						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi("+obj.rdorder+")'></tr>");
 						tr.append("<td>"+(i+1)+"</td>");
 						tr.append("<td>"+obj.rdorder+"</td>");
 						tr.append("<td>"+obj.mem.mname+"</td>");
