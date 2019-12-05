@@ -320,6 +320,6 @@
   </update>
   <!-- 查询所有店铺 -->
   <select id="selectShopAll" parameterType="String" resultMap="BaseResultMap">
-  	SELECT * FROM shop where uaccount=#{0}
+  	SELECT * FROM shop where uaccount=#{0} and state=0
   </select>
 </mapper>
