@@ -55,7 +55,9 @@
 	display: inline-block;
 	margin-left: 30px;	
 }
-
+.el-tabs__content{
+	position: static;
+}
 
 </style>
 <script src="/js/jquery-1.12.4.js" type="text/javascript"
@@ -85,7 +87,7 @@
 					keepdiscount}}</span> <span><small>实收：</small>{{totalReceipts
 					|keepdiscount}}</span>
 			</div>
-			<div class="foot-btn">
+			<div class="foot-btn" style="position: absolute;bottom: 0;left: 55px; ">
 				<el-button type="warning" @click="guaGoods">挂单</el-button>
 				<el-button type="danger" @click="delAllGoods">删除</el-button>
 				<el-button type="success" @click="checkout" id="jz">结账</el-button>
@@ -104,7 +106,7 @@
 					keepdiscount}}</span> <span><small>实收：</small>{{gtotalReceipts
 					|keepdiscount}}</span>
 			</div>
-			<div class="foot-btn">
+			<div class="foot-btn" style="position: absolute;bottom: 0;left: 85px; ">
 				<el-button type="danger" @click="delAllGoods2">删除</el-button>
 				<el-button type="success" @click="checkout2">结账</el-button>
 			</div>
@@ -633,7 +635,7 @@ $(function(){
            	  gname+=element.goodsName+",";
             });   
             gname = gname.substring(0,gname.length-1);
-            let newGoods={gtotalName:gname,gtotalcount:this.totalCount,gtotalprice:this.totalMoney,gtotalreceipts:this.totalReceipts.toFixed(2),gddh:ddh}
+            let newGoods={gtotalName:gname,gtotalcount:this.totalCount,gtotalprice:this.totalMoney,gtotalreceipts:this.totalReceipts,gddh:ddh}
             this.tablegua.push(newGoods);
         },
         // 结账

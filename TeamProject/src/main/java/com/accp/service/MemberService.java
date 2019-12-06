@@ -135,4 +135,8 @@ public class MemberService {
 	public List<XiangQing> selectDinDanXQ(String client){
 		return mp.selectDinDanXQ(client);
 	}
+	//查询不是会员的订单详情
+	public List<XiangQing> selectDinDanXQ2(String client){
+		return mp.selectDinDanXQ2(client);
+	}
 }

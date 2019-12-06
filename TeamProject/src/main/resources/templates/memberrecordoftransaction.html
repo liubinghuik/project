@@ -152,6 +152,7 @@
 			})
 		})
 		function cjjl(){
+			var sf=1;
 			 $.ajax({
 					url:"[[@{/member/selectRecord}]]",
 					data:{"pageNum":pageNum,"pageSize":10},
@@ -159,14 +160,25 @@
 					type:"get",
 					async: false,
 					success:function(result){
+						console.info(result);
 						$(".tbody").html("");
 						$.each(result.list,function(i,obj){
-							
-							var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\")'></tr>");
+							if(obj.mem==null){
+								sf=0;
+							}
+							var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\","+sf+")'></tr>");
 								tr.append("<td>"+(i+1)+"</td>");
 								tr.append("<td>"+obj.rdorder+"</td>");
-								tr.append("<td>"+obj.mem.mname+"</td>");
-								tr.append("<td>"+obj.mem.mphone+"</td>");
+								if(obj.mem==null){
+									tr.append("<td>非会员</td>");
+									tr.append("<td>---</td>");
+									
+								}else{
+									tr.append("<td>"+obj.mem.mname+"</td>");
+									tr.append("<td>"+obj.mem.mphone+"</td>");
+								}
+								
+								
 								tr.append("<td>"+obj.total+"</td>");
 								tr.append("<td>"+obj.rdpay+"</td>");
 								tr.append("<td>"+obj.createtime+"</td>");
@@ -179,40 +191,72 @@
 					}
 				}) 
 		} 
-		function MTKFuZhi(client){
-			
-			 $.ajax({
-					url:"[[@{/member/selectDinDanXQ}]]",
-					data:{"client":client},
-					dataType:"json",
-					type:"get",
-					async: false,
-					success:function(result){
-						console.info(result);
-						$("#tbody2").html("");
-						$.each(result,function(i,obj){
-							$("#huiyuan8").text(obj.mname);
-							$("#dianpu8").text(obj.sname);
-							var tr=$("<tr></tr>");
-								tr.append("<td>"+(i+1)+"</td>");
-								tr.append("<td>"+obj.cname+"</td>");
-								tr.append("<td>"+obj.dage+"</td>");
-								tr.append("<td>"+obj.originalcost.toFixed(2)+"</td>");
-								if(obj.discount==null){
-									tr.append("<td>无折扣</td>");
-								}else{
-									tr.append("<td>"+obj.discount+"</td>");
-								}
+		function MTKFuZhi(client,sf){
+			if(sf==0){
+				 $.ajax({
+						url:"[[@{/member/selectDinDanXQ2}]]",
+						data:{"client":client},
+						dataType:"json",
+						type:"get",
+						async: false,
+						success:function(result){
+							console.info(result);
+							$("#tbody2").html("");
+							$.each(result,function(i,obj){
+								$("#huiyuan8").text("非会员");
+								$("#dianpu8").text(obj.sname);
+								var tr=$("<tr></tr>");
+									tr.append("<td>"+(i+1)+"</td>");
+									tr.append("<td>"+obj.cname+"</td>");
+									tr.append("<td>"+obj.dage+"</td>");
+									tr.append("<td>"+obj.originalcost.toFixed(2)+"</td>");
+									if(obj.discount==null){
+										tr.append("<td>无折扣</td>");
+									}else{
+										tr.append("<td>"+obj.discount+"</td>");
+									}
+									
+									tr.append("<td>"+obj.totalprice.toFixed(2)+"</td>");
+								$("#tbody2").append(tr);
 								
-								tr.append("<td>"+obj.totalprice.toFixed(2)+"</td>");
-							$("#tbody2").append(tr);
-							
-						})
-					}
-				}) 
+							})
+						}
+					}) 
+			}else{
+				 $.ajax({
+						url:"[[@{/member/selectDinDanXQ}]]",
+						data:{"client":client},
+						dataType:"json",
+						type:"get",
+						async: false,
+						success:function(result){
+							console.info(result);
+							$("#tbody2").html("");
+							$.each(result,function(i,obj){
+								$("#huiyuan8").text(obj.mname);
+								$("#dianpu8").text(obj.sname);
+								var tr=$("<tr></tr>");
+									tr.append("<td>"+(i+1)+"</td>");
+									tr.append("<td>"+obj.cname+"</td>");
+									tr.append("<td>"+obj.dage+"</td>");
+									tr.append("<td>"+obj.originalcost.toFixed(2)+"</td>");
+									if(obj.discount==null){
+										tr.append("<td>无折扣</td>");
+									}else{
+										tr.append("<td>"+obj.discount+"</td>");
+									}
+									
+									tr.append("<td>"+obj.totalprice.toFixed(2)+"</td>");
+								$("#tbody2").append(tr);
+								
+							})
+						}
+					}) 
+			}
+			
 		}
 		function tiao(){
-			
+			var sf=1;
 			var ye=$("[name=ye]").val();
 			if(ye==null){
 				
@@ -233,11 +277,20 @@
 				success:function(result){
 					$(".tbody").html("");
 					$.each(result.list,function(i,obj){
-						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\")'></tr>");
+						if(obj.mem==null){
+							sf=0;
+						}
+						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\","+sf+")'></tr>");
 						tr.append("<td>"+(i+1)+"</td>");
 						tr.append("<td>"+obj.rdorder+"</td>");
-						tr.append("<td>"+obj.mem.mname+"</td>");
-						tr.append("<td>"+obj.mem.mphone+"</td>");
+						if(obj.mem==null){
+							tr.append("<td>非会员</td>");
+							tr.append("<td>---</td>");
+							
+						}else{
+							tr.append("<td>"+obj.mem.mname+"</td>");
+							tr.append("<td>"+obj.mem.mphone+"</td>");
+						}
 						tr.append("<td>"+obj.total+"</td>");
 						tr.append("<td>"+obj.rdpay+"</td>");
 						tr.append("<td>"+obj.createtime+"</td>");

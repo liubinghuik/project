@@ -76,13 +76,13 @@ public class FileController {
 	@RequestMapping("/uploadAjax")
 	@ResponseBody
 	public String uploadAjax(MultipartFile [] files) {
-		File directory = new File("C:/Users/LiuBingHui/git/project/TeamProject/src/main/resources/static/images/");
+		File directory = new File("C:/Users/LiuBingHui/git/project/TeamProject/src/main/resources/static/imgs/");
 		if(!directory.exists()) {
 			directory.mkdirs();
 		}
 		try {
 			for(MultipartFile l : files) {
-				String url = "C:/Users/LiuBingHui/git/project/TeamProject/src/main/resources/static/images/";
+				String url = "C:/Users/LiuBingHui/git/project/TeamProject/src/main/resources/static/imgs/";
 				url = url+"/"+l.getOriginalFilename();
 				File f = new File(url);
 				l.transferTo(f);

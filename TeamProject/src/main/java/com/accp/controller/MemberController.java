@@ -295,6 +295,9 @@ public class MemberController {
 		
 		PageInfo<Record> pr= ms.selectRecord(pageNum,pageSize);
 		for(int i=0;i<pr.getList().size();i++) {
+			if(pr.getList().get(i).getClient()==0) {
+				continue;
+			}
 			pr.getList().get(i).setMem(ms.selectMemberById(pr.getList().get(i).getClient()));
 		}
 		return pr;
@@ -460,9 +463,13 @@ public class MemberController {
 	@RequestMapping(value = "selectDinDanXQ", method = RequestMethod.GET)
 	@ResponseBody
 	List<XiangQing> selectDinDanXQ(String client){
-		System.out.println(client);
 		return ms.selectDinDanXQ(client);
 	}
-	
+	//查询不是会员的订单详情
+	@RequestMapping(value = "selectDinDanXQ2", method = RequestMethod.GET)
+	@ResponseBody
+	public List<XiangQing> selectDinDanXQ2(String client){
+		return ms.selectDinDanXQ2(client);
+	}
 	
 }

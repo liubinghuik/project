@@ -31,7 +31,9 @@ public class MyInterceptor  implements HandlerInterceptor {
 		/* System.out.println("preHandler"); */
 		HttpSession session = request.getSession();
 		 List<ShopAll> list =(List<ShopAll>)session.getAttribute("zwdqx");
+		
 		  String path = request.getRequestURI();
+		  System.out.println(path);
 		  boolean flag = false; 
 		  for(ShopAll m :list) {
   			  if(path.equals(m.getPath())) {

@@ -65,6 +65,11 @@ public interface MemberMapper {
 	Integer selectByNameCount(String name);
 	//查询订单详情
 	List<XiangQing> selectDinDanXQ(String client);
+	//查询不是会员的订单详情
+	List<XiangQing> selectDinDanXQ2(String client);
+	
+	
+	
 	
     int countByExample(MemberExample example);
 

@@ -1,11 +1,22 @@
 function cnmd(){
 	nimabide();
 }
+
+function total(){
+	var arrs = $("[name='inventory']");	
+	console.info(arrs)
+	var sum = 0;
+	$.each(arrs,function(i,obj){
+		sum += parseFloat($(arrs[i]).val());
+	});
+	$("[name='goodkuchun']").val(sum);
+}
+
 function nimabide(){			
 	$("[name=goodskc] tbody").html("");
-	var kc=$("[name=goodkuchun]").val();
-	if(kc==""){
-		kc=0;
+	var kc = $("[name=goodkuchun]").val();
+	if(kc == ""){
+		kc = 0;
 	}
 	$("#tab_none tbody tr").each(function(){
 		var yanshe=$(this).find("input").eq(1).val();
@@ -20,12 +31,12 @@ function nimabide(){
 						}
 						shuijima+=j;
 					}				
-					$("[name=goodskc] tbody").append("<tr><td><span>"+yanshe+"</span><span>/</span><span>"+$(b).html()+"</span></td><td>"+kc+"</td><td>"+shuijima+"</td></tr>");
+					$("[name=goodskc] tbody").append("<tr><td><span>"+yanshe+"</span><span>/</span><span>"+$(b).html()+"</span></td><td><input type='text' name='inventory' class='form-control' value='"+kc+"' onblur='total()'></td><td>"+shuijima+"</td></tr>");
 				}
 			})
 		}
+		total();
 	})
-
 }
 $("#shopgoods").mouseover(function(){
 	$("[name=chimaya] a").unbind("click");
@@ -39,11 +50,13 @@ function niubi(){
 			$(this).attr("style","color:black");
 			$(this).parent().attr("style","border:1px solid #e2e1e3");
 			nimabide();	
+			
 		}else{
 			$(this).attr("style","color:red");
 			$(this).parent().attr("style","border:1px solid red");			
 			$(this).attr("name","noundefined");
 			nimabide();
+			
 		}
 	});
 }

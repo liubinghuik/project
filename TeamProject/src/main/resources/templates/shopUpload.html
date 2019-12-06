@@ -51,6 +51,9 @@
 		    cursor: pointer;
 		    opacity: 0.0;
 		}
+		.table > tbody > tr > td{
+			vertical-align: middle;
+		}
 	</style>
 	<script src="/js/jquery-1.8.2.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="/js/jquery.colorbox-min.js" type="text/javascript" charset="utf-8"></script>
@@ -82,7 +85,7 @@
 								</div>
 								<ul class="con-FangDa-ImgList">
 									<li><img :src="'/images/'+goods.picture"></li>
-								    <li class="addProductPicBtn">
+								    <li class="addProductPicBtn" onchange="fabuya()">
 								   	 <form action="" method="post" name="wjsc" enctype="multipart/form-data">
 								    	<input multiple name="files" type="file" class="file uploadImgFile"/>
 								    	<a style="display: block;">
@@ -90,7 +93,7 @@
 								    	</a>
 								    	</form>
 								    </li>
-								    <li style="border:1px solid #fff;margin-top: 5px;"><button type="button" id="fabuya" class="btn btn-default">上传图片</button></li>
+								   <!--  <li style="border:1px solid #fff;margin-top: 5px;"><button type="button" id="" class="btn btn-default">上传图片</button></li> -->
 								</ul>
 							</div>
 						</div>
@@ -411,7 +414,7 @@
 								<div class="form-group" style="line-height: 34px;">
 								    <label for="inputEmail3" class="col-sm-2"><i style="position: absolute;top:4px;left:4px;color: red;">*</i>库存总数</label>
 								    <div class="col-sm-3">
-								      <input name="goodkuchun" v-model="goods.inventory" onblur="cnmd()" type="text" class="form-control" id="inputEmail3">
+								      <input name="goodkuchun" disabled="disabled" v-model="goods.inventory" onblur="cnmd()" type="text" class="form-control" id="inputEmail3">
 								    </div>
 								    <div class="col-sm-7">
 								      <i style="color: red;">请勿随意修改库存，以免影响库存准确性。</i>
@@ -420,19 +423,19 @@
 								
 								<div class="form-group" style="line-height: 34px;margin-bottom: 0;">
 								    <div name="goodskc" class="col-sm-10 col-md-offset-2">
-								      <table class="table table-bordered">
+								      <table class="table table-bordered" style="text-align: center;">
 										 <thead align="center">
 										 	<tr class="active">
-											 	<td>规格</td>
-											 	<td>数量</td>										 	
-											 	<td>条形码</td>
+											 	<td width="15%">规格</td>
+											 	<td width="12%">数量</td>										 	
+											 	<td width="18%">条形码</td>
 											</tr>
 										 </thead>
 										 <tbody>
 										 	<template v-if="goods.colorname!=''">										 	
 										 		<tr>
 										 			<td><span>{{goods.colorname}}</span><span>/</span><span>{{goods.sizename}}</span></td>
-										 			<td>{{goods.inventory}}</td>
+										 			<td><input name="inventory" onblur="total()" type="text" class="form-control" value="{goods.inventory}"></td>
 										 			<td>{{goods.shapecode}}</td>
 										 		</tr>										 	
 										 	</template>	
@@ -549,7 +552,7 @@
 			}
 		})
 		
-		$("#fabuya").click(function(){
+		function fabuya(){
 			var formData = new FormData($("[name=wjsc]")[0]);	
 			$.ajax({
 				url:"[[@{/rest/file/uploadAjax}]]",
@@ -565,8 +568,7 @@
 					}
 				}
 			});
-				
-		})
+		}
 		
 		$("#fabu").click(function(){
 			shopgoodsvue.goods.message=$("#editor-trigger").find("p").html();
@@ -576,6 +578,7 @@
 				shopgoodsvue.goods.colorname=$(this).find("span").eq(0).html();
 				shopgoodsvue.goods.sizename=$(this).find("span").eq(2).html();
 				shopgoodsvue.goods.shapecode=$(this).find("td").eq(2).html();
+				shopgoodsvue.goods.inventory=$(this).find("[name='inventory']").val();
 				var str=JSON.stringify(shopgoodsvue.goods);
 				console.log(str);
 				$.ajax({
@@ -591,15 +594,7 @@
 				});
 			})
 			
-			if(shopgoodsvue.goods.cid != ""){
-				$.ajax({
-					url:"[[@{/rest/commodity/deleteCommodity}]]",
-					data:{id:shopgoodsvue.goods.cid},
-					success:function(res){
-						//console.info(res);
-					}
-				})
-			}	
+			
 		}) 
   
 	    var editor = new wangEditor('editor-trigger');
