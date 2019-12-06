@@ -573,8 +573,7 @@
 		$("#fabu").click(function(){
 			shopgoodsvue.goods.message=$("#editor-trigger").find("p").html();
 			shopgoodsvue.goods.csname=$("[name=leibie]").val();
-			$("[name=goodskc] tbody tr").each(function(){
-				
+			$("[name=goodskc] tbody tr").each(function(){				
 				shopgoodsvue.goods.colorname=$(this).find("span").eq(0).html();
 				shopgoodsvue.goods.sizename=$(this).find("span").eq(2).html();
 				shopgoodsvue.goods.shapecode=$(this).find("td").eq(2).html();
@@ -588,7 +587,6 @@
 					contentType:"application/json;charset=utf-8",
 					data:str,
 					success:function(res){
-						//console.info(res);
 						window.location.href="/page/shopManage";
 					}
 				});
