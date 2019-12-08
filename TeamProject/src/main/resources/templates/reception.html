@@ -379,13 +379,13 @@ $(function(){
     			  url:"[[@{/commodityAll/toseleectBycsid}]]",
     			  type:"get",
     			  data:{
-    				  pageNum:1,
     				  csname:tab.name,
     				  uaccount : $("#uaccount", parent.document).text()
     			  },
     			  dataType:"json",
     			  success:function(res){
-    				  this_.type0Goods=res.list;
+    				  this_.type0Goods=res;
+    				  console.log( this_.type0Goods);
     			  }
     		  }); 
     	  },
@@ -398,7 +398,6 @@ $(function(){
     			  dataType:"json",
     			  success:function(res){
     				  this_.syry=res;
-    				  console.log( this_.syry+"初始化收银");
     			  }
     		  });
     	  },
@@ -409,13 +408,13 @@ $(function(){
     			  url:"[[@{/commodityAll/toseleectBycsid}]]",
     			  type:"get",
     			  data:{
-    				  pageNum:1,
     				  csname:"全部",
     				  uaccount : $("#uaccount", parent.document).text()
     			  },
     			  dataType:"json",
     			  success:function(res){
-    				  this_.type0Goods=res.list;
+    				  this_.type0Goods=res;
+    				  console.log(this_.type0Goods+"加载商品");
     				  $("#tab-全部").click();
     			  }
     		  }); 
@@ -427,13 +426,13 @@ $(function(){
     			  url:"[[@{/commodityAll/toselectall}]]",
     			  type:"get",
     			  data:{
-    				  pageNum:dqy,
     				  uaccount : $("#uaccount", parent.document).text()
     			  },
     			  dataType:"json",
     			  success:function(res){
-    				  this_.zcdlb=res.list;
+    				  this_.zcdlb=res;
     				  this_.chushihuajz();
+    				  console.log(this_.zcdlb+"种类");
     			  }
     		  });
     	  },

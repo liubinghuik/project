@@ -76,7 +76,7 @@
 								</select>
 								
 								<input type="text"  class="form-control" id="inputEmail3" placeholder="查找" style="width: 20.50%; display: inline-block;">
-								<a @click="select" class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
+								<a @click="select(1)" class="glyphicon glyphicon-search" style="margin-left: -28px;cursor: pointer;"></a>
 								<button type="button" class="btn btn-default" style="margin-left: 15px; margin-top: -4px;" @click="daochu">导出商品</button>
 								<button type="button" class="btn btn-default" style="margin-left: 5; margin-top: -4px;" data-toggle="modal" data-target="#myModal">批量导入</button>
 								<button type="button" class="btn btn-success" style="margin-left: 5px; margin-top: -4px;" onclick="goToPage2('shopUpload.html')">商品上传</button>
@@ -100,7 +100,7 @@
 								</tr>
 							</thead>
 							<tbody align="center">
-								<tr v-for="stu,index in goodslist">
+								<tr v-for="stu,index in goodslist.list">
 									<td>{{stu.cid}}</td>
 									<td>{{stu.csname}}</td>
 									<td><img :src="'/images/'+stu.picture" width="40" height="40"><span style="margin-left: 5px;">{{stu.cname}}</span></td>
@@ -123,6 +123,25 @@
 								</tr>
 							</tbody>
 						</table>
+						<nav style="text-align: center;">
+							  <ul class="pagination">
+							    <li>
+							      <a href="javascript:;" aria-label="Previous" @click="prePage">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li>
+							    	<a href="javascript:;" id="pageNum">1</a>
+							    	<span>/</span>
+							    	<a href="javascript:;" id="pages">5</a>
+							    	</li>
+							    <li>
+							      <a href="javascript:;" aria-label="Next" @click="nextPage">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
 					</div>
 				</div>
 			</div>
@@ -189,7 +208,22 @@
 					}
 				},
 				methods:{
-					select:function(){				//查询所有商品
+					//上一页
+					prePage:function(){
+						console.info(this.goodslist)
+						if(this.goodslist.prePage == 1){
+							this.select(this.goodslist.prePage);
+						}	
+					},
+					//下一页
+					nextPage:function(){
+						if(this.goodslist.nextPage != this.goodslist.pages){
+							return;
+						}else{
+							this.select(this.goodslist.nextPage);
+						}
+					},
+					select:function(currentPage){				//查询所有商品
 						var that=this;
 						let sname=$("[name=goodsonline]").val();
 						let csname=$("[name=goodstype]").val();
@@ -198,9 +232,11 @@
 						$.ajax({
 							url:"[[@{/rest/commodity/getCommodityAll}]]",
 							type:"get",
-							data:{sname:sname,csname:csname,cname:cname},
+							data:{currentPage:currentPage,pageSize:10,sname:sname,csname:csname,cname:cname},
 							dataType:"json",
 							success:function(res){
+								$("#pageNum").html(res.pageNum)
+	 							$("#pages").html(res.pages);
 								that.goodslist=res;
 							}
 						})
@@ -209,7 +245,7 @@
 							url:"[[@{/rest/commodity/deleteCommodity}]]",
 							data:{id:id},
 							success:function(){
-							 goodsvue.goodslist.splice(index,1);
+							 goodsvue.goodslist.list.splice(index,1);
 							}
 						});
 					} ,
@@ -236,13 +272,13 @@
 							contentType:false,
 							success:function(result){
 								console.info(result);
-								that.select();
+								that.select(1);
 							}
 						});
 					}
 				},created:function(){
 					var that=this;
-					this.select();
+					this.select(1);
 					//查询所有类别
 					$.ajax({
 						url:"[[@{/rest/commodity/getCommoditysortAll}]]",

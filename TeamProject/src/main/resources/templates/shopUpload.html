@@ -435,7 +435,7 @@
 										 	<template v-if="goods.colorname!=''">										 	
 										 		<tr>
 										 			<td><span>{{goods.colorname}}</span><span>/</span><span>{{goods.sizename}}</span></td>
-										 			<td><input name="inventory" onblur="total()" type="text" class="form-control" value="{goods.inventory}"></td>
+										 			<td><input name="inventory" onblur="total()" type="text" class="form-control" v-model="goods.inventory"></td>
 										 			<td>{{goods.shapecode}}</td>
 										 		</tr>										 	
 										 	</template>	

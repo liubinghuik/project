@@ -19,6 +19,8 @@ import com.accp.mapper.CommoditysortMapper;
 import com.accp.mapper.ShopcommodityMapper;
 import com.accp.mapper.SizeMapper;
 import com.accp.vo.commodityVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 @Transactional
@@ -57,8 +59,12 @@ public class CommodityService {
      * @param cname
      * @return
      */
-	public List<commodityVO> getCommodityAll(String sname,String csname,String cname){
-		return this.commodityMapper.getCommodityAll("%"+sname+"%","%"+csname+"%","%"+cname+"%");
+	public PageInfo<commodityVO> getCommodityAll(Integer currentPage,Integer pageSize,
+									String sname,String csname,String cname){
+		PageHelper.startPage(currentPage, pageSize);
+		List<commodityVO> list = this.commodityMapper.getCommodityAll("%"+sname+"%","%"+csname+"%","%"+cname+"%");
+		PageInfo<commodityVO> page = new PageInfo<commodityVO>(list);
+		return page;
 	}
 	
 	/**

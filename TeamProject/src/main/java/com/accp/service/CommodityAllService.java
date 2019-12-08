@@ -17,18 +17,14 @@ public class CommodityAllService {
 	@Autowired
 	CommodityAllMapper commodityallmapper;
 	//查询所有商品
-	public PageInfo<CommodityAll> selectcommodityByAllqmn(int pageNum,String uaccount){
-		PageHelper.startPage(pageNum, 6);
+	public List<CommodityAll> selectcommodityByAllqmn(String uaccount){
 		List<CommodityAll> list=commodityallmapper.selectcommodityByAllqmn(uaccount);
-		PageInfo<CommodityAll> page=new PageInfo<CommodityAll>(list);
-		return page;
+		return list;
 	}
 	//根据csid查询商品
-	public PageInfo<CommodityAll> selectcommodityBycsnameqmn(int pageNum,CommodityAll commodityall){
-		PageHelper.startPage(pageNum, 6);
+	public List<CommodityAll> selectcommodityBycsnameqmn(CommodityAll commodityall){
 		List<CommodityAll> list=commodityallmapper.selectcommodityBycsnameqmn(commodityall);
-		PageInfo<CommodityAll> page=new PageInfo<CommodityAll>(list);
-		return page;
+		return list;
 	}
 	public int updatecommoditydetailskc(CommodityAll commodityall){
 		return commodityallmapper.updatecommoditydetailskc(commodityall);

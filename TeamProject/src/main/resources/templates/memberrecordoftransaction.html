@@ -81,7 +81,7 @@
 							</tbody>
 							
 						</table>
-						<table class="table  table-hover table-striped"style="margin-top:-20px;">
+						<!-- <table class="table  table-hover table-striped"style="margin-top:-20px;">
 							<tfoot align="center">
 								<tr>
 									<td colspan="2"></td>
@@ -97,7 +97,26 @@
 									
 								</tr>
 							</tfoot>
-						</table>
+						</table> -->
+						<nav style="text-align: center;">
+							  <ul class="pagination">
+							    <li>
+							      <a href="javascript:;"  onclick="prePage()">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li>
+							    	<a href="javascript:;" id="PageNum">1</a>
+							    	<span>/</span>
+							    	<a href="javascript:;" id="Pages">5</a>
+							    	</li>
+							    <li>
+							      <a href="javascript:;" onclick="nextPage()">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+							</nav>
 					</div>
 				</div>
 			</div>
@@ -145,11 +164,13 @@
 		</div>
 		<script type="text/javascript">
 		var pageNum=1;
+		var lastPage=0;
+		var sf=0;
 		$(function(){
 			cjjl();
-			$("[name=tiao]").click(function(){
+			/* $("[name=tiao]").click(function(){
 				tiao();
-			})
+			}) */
 		})
 		function cjjl(){
 			var sf=1;
@@ -160,9 +181,13 @@
 					type:"get",
 					async: false,
 					success:function(result){
+						pageNum=result.pageNum;
+						lastPage= result.lastPage;
 						console.info(result);
 						$(".tbody").html("");
+						console.info(result);
 						$.each(result.list,function(i,obj){
+							
 							if(obj.mem==null){
 								sf=0;
 							}
@@ -185,8 +210,11 @@
 							$(".tbody").append(tr);
 							
 						})
-						$(".shou").text(result.pageNum);
-						$(".wei").text(result.lastPage);
+						/* $(".shou").text(result.pageNum);
+						$(".wei").text(result.lastPage); */
+						$("#PageNum").text(result.pageNum);
+						$("#Pages").text(result.lastPage);
+						
 						
 					}
 				}) 
@@ -255,7 +283,7 @@
 			}
 			
 		}
-		function tiao(){
+		/* function tiao(){
 			var sf=1;
 			var ye=$("[name=ye]").val();
 			if(ye==null){
@@ -299,6 +327,8 @@
 					})
 					$(".shou").text(result.pageNum);
 					$(".wei").text(result.lastPage);
+					$("#pageNum").text(result.pageNum);
+					$("#pages").text(result.lastPage);
 					
 				}
 			}) 
@@ -306,7 +336,7 @@
 			
 			
 			
-		}
+		} */
 		function ById(){
 			var dindan=$("[name=dindan]").prop("checked");
 			var huiyuan=$("[name=huiyuan]").prop("checked");
@@ -345,6 +375,8 @@
 				dataType:"json",
 				type:"get",
 				success:function(result){
+					pageNum=result.pageNum;
+					lastPage= result.lastPage;
 					$(".tbody").html("");
 					$.each(result,function(i,obj){
 						var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\")'></tr>");
@@ -358,11 +390,113 @@
 						$(".tbody").append(tr);
 						
 					})
-					$(".shou").text("---");
-					$(".wei").text("---");
+					/* $(".shou").text("---");
+					$(".wei").text("---"); */
+					$("#PageNum").text("---");
+					$("#Pages").text("----");
 					
 				}
 			}) 
+		}
+		function prePage(){
+			if(pageNum-1<=0){
+				pageNum=1;
+			}else{
+				pageNum-=1;
+			}
+			$.ajax({
+			url:"[[@{/member/selectRecord}]]",
+			data:{"pageNum":pageNum,"pageSize":10},
+			dataType:"json",
+			type:"get",
+			success:function(result){
+				pageNum=result.pageNum;
+				lastPage= result.lastPage;
+				console.info(result);
+				$(".tbody").html("");
+				console.info(result);
+				$.each(result.list,function(i,obj){
+					
+					if(obj.mem==null){
+						sf=0;
+					}
+					var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\","+sf+")'></tr>");
+						tr.append("<td>"+(i+1)+"</td>");
+						tr.append("<td>"+obj.rdorder+"</td>");
+						if(obj.mem==null){
+							tr.append("<td>非会员</td>");
+							tr.append("<td>---</td>");
+							
+						}else{
+							tr.append("<td>"+obj.mem.mname+"</td>");
+							tr.append("<td>"+obj.mem.mphone+"</td>");
+						}
+						
+						
+						tr.append("<td>"+obj.total+"</td>");
+						tr.append("<td>"+obj.rdpay+"</td>");
+						tr.append("<td>"+obj.createtime+"</td>");
+					$(".tbody").append(tr);
+					
+				})
+				/* $(".shou").text(result.pageNum);
+				$(".wei").text(result.lastPage); */
+				$("#PageNum").text(result.pageNum);
+				$("#Pages").text(result.lastPage);
+				
+				
+			}
+			})
+		}
+		function nextPage(){
+			if(pageNum+1>=lastPage){
+				pageNum=lastPage;
+			}else{
+				pageNum+=1;
+			}
+			$.ajax({
+			url:"[[@{/member/selectRecord}]]",
+			data:{"pageNum":pageNum,"pageSize":10},
+			dataType:"json",
+			type:"get",
+			success:function(result){
+				pageNum=result.pageNum;
+				lastPage= result.lastPage;
+				console.info(result);
+				$(".tbody").html("");
+				console.info(result);
+				$.each(result.list,function(i,obj){
+					
+					if(obj.mem==null){
+						sf=0;
+					}
+					var tr=$("<tr data-toggle='modal' data-target='#myModal'onclick='MTKFuZhi(\""+obj.rdorder+"\","+sf+")'></tr>");
+						tr.append("<td>"+(i+1)+"</td>");
+						tr.append("<td>"+obj.rdorder+"</td>");
+						if(obj.mem==null){
+							tr.append("<td>非会员</td>");
+							tr.append("<td>---</td>");
+							
+						}else{
+							tr.append("<td>"+obj.mem.mname+"</td>");
+							tr.append("<td>"+obj.mem.mphone+"</td>");
+						}
+						
+						
+						tr.append("<td>"+obj.total+"</td>");
+						tr.append("<td>"+obj.rdpay+"</td>");
+						tr.append("<td>"+obj.createtime+"</td>");
+					$(".tbody").append(tr);
+					
+				})
+				/* $(".shou").text(result.pageNum);
+				$(".wei").text(result.lastPage); */
+				$("#PageNum").text(result.pageNum);
+				$("#Pages").text(result.lastPage);
+				
+				
+			}
+			})
 		}
 		</script>
 	</body>

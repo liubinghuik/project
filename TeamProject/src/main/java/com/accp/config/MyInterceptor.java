@@ -33,7 +33,7 @@ public class MyInterceptor  implements HandlerInterceptor {
 		 List<ShopAll> list =(List<ShopAll>)session.getAttribute("zwdqx");
 		
 		  String path = request.getRequestURI();
-		  //System.out.println(path);
+		  System.out.println(path);
 		  boolean flag = false; 
 		  for(ShopAll m :list) {
   			  if(path.equals(m.getPath())) {

@@ -11,7 +11,8 @@ import com.accp.domain.CommodityAll;
 import com.accp.domain.ShopAll;
 import com.accp.service.CommodityAllService;
 import com.accp.service.ShopAllService;
-import com.github.pagehelper.PageInfo;
+
+
 @Controller
 @RequestMapping("/commodityAll")
 public class CommodityAllController {
@@ -22,14 +23,14 @@ public class CommodityAllController {
 	
 	@RequestMapping("/toselectall")
 	@ResponseBody
-	public PageInfo<CommodityAll> selectcommodityByAllqmn(int pageNum,String uaccount){
-		return commodityallservice.selectcommodityByAllqmn(pageNum, uaccount);
+	public List<CommodityAll> selectcommodityByAllqmn(String uaccount){
+		return commodityallservice.selectcommodityByAllqmn(uaccount);
 	}
 	@RequestMapping("/toseleectBycsid")
 	@ResponseBody
-	public PageInfo<CommodityAll> selectcommodityBycsnameqmn(int pageNum,String csname,String uaccount){
+	public List<CommodityAll> selectcommodityBycsnameqmn(String csname,String uaccount){
 		CommodityAll cc=new CommodityAll(uaccount,csname);
-		return commodityallservice.selectcommodityBycsnameqmn(pageNum, cc);
+		return commodityallservice.selectcommodityBycsnameqmn(cc);
 	}
 	@RequestMapping("/toselectyyy")
 	@ResponseBody

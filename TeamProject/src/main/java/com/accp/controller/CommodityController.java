@@ -19,6 +19,7 @@ import com.accp.domain.Size;
 import com.accp.service.CommodityService;
 import com.accp.vo.commodityVO;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/rest/commodity")
@@ -46,7 +47,8 @@ public class CommodityController {
      */
 	@GetMapping("/getCommodityAll")
 	@ResponseBody
-	public List<commodityVO> getCommodityAll(String sname,String csname,String cname){	
+	public PageInfo<commodityVO> getCommodityAll(Integer currentPage,Integer pageSize,
+								String sname,String csname,String cname){	
 		if(sname.equals("全部店铺")) {
 			sname = "";
 		}
@@ -54,7 +56,7 @@ public class CommodityController {
 			csname = "";
 		}
 		
-		return this.commodityService.getCommodityAll(sname, csname, cname);
+		return this.commodityService.getCommodityAll(currentPage,pageSize,sname, csname, cname);
 	}
 	
 	/**
