@@ -25,9 +25,15 @@
     <!-- 商品详情表 -->
     <result column="cdid" property="cdid" jdbcType="INTEGER" />
     <result column="shapecode" property="shapecode" jdbcType="VARCHAR" />
-    <result column="sizeid" property="sizeid" jdbcType="INTEGER" />
-    <result column="colorid" property="colorid" jdbcType="INTEGER" />
     <result column="inventory" property="inventory" jdbcType="INTEGER" />
+   <!--  颜色表 -->
+    <result column="colorid" property="colorid" jdbcType="INTEGER" />
+    <result column="colorname" property="colorname" jdbcType="VARCHAR" />
+    <result column="colorpicture" property="colorpicture" jdbcType="VARCHAR" />
+    <result column="fatherid" property="fatherid" jdbcType="INTEGER" />
+    <!-- 尺码表 -->
+    <result column="sizeid" property="sizeid" jdbcType="INTEGER" />
+    <result column="sizename" property="sizename" jdbcType="VARCHAR" />
   </resultMap>
   <!-- 查询所有商品 -->
   <select id="selectcommodityByAllqmn" parameterType="String" resultMap="BaseResultMap">
@@ -37,14 +43,18 @@
 	GROUP BY  c.csid
   </select>
   <!-- 根据类别查询商品 -->
-  <select id="selectcommodityBycsnameqmn" parameterType="com.accp.domain.CommodityAll" resultMap="BaseResultMap">
-  	SELECT c.*,cd.cdid,cd.inventory  FROM USER u,staff s,shop sh,shopcommodity sc,commodity c,commoditysort cs, commoditydetails cd
-	WHERE u.uaccount=s.jobnumber AND s.sid=sh.sid AND s.sid=sc.sid AND sc.cid=c.cid AND cs.csid=c.csid
-	AND c.cid=cd.cid AND u.uaccount=#{uaccount} 
-	<if test="csname!=null and csname!='全部'">
-			and cs.csname=#{csname}
-	</if> 
-	GROUP BY c.cid
+  <select id="selectcommodityBycsnameqmn" parameterType="String" resultMap="BaseResultMap">
+  SELECT a.*,b.`cdid`,c.`colorname`,d.`sizename`,b.`inventory`
+    		FROM commodity a
+    		JOIN commoditydetails b ON a.`cid` = b.`cid`
+    		JOIN color c ON b.`colorid`=c.`colorid`
+    		JOIN size d ON b.`sizeid`=d.`sizeid` 
+    		JOIN commoditysort e ON a.`csid` = e.`csid`
+    		JOIN shopcommodity g ON g.`cid` = a.`cid`
+    		JOIN shop f ON  g.`sid` = f.`sid`
+    		<if test="csname!=null and csname!='全部'">
+			and e.csname=#{csname}
+			</if> 
   </select>
   <update id="updatecommoditydetailskc" parameterType="com.accp.domain.CommodityAll">
   	UPDATE commoditydetails SET inventory=inventory-#{inventory}

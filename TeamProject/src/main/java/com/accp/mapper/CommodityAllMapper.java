@@ -6,6 +6,6 @@ import com.accp.domain.CommodityAll;
 
 public interface CommodityAllMapper {
 	List<CommodityAll> selectcommodityByAllqmn(String uaccount);
-	List<CommodityAll> selectcommodityBycsnameqmn(CommodityAll commodityall);
+	List<CommodityAll> selectcommodityBycsnameqmn(String csname);
 	int updatecommoditydetailskc(CommodityAll commodityall);
 }

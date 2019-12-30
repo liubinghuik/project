@@ -58,7 +58,11 @@
 .el-tabs__content{
 	position: static;
 }
-
+.foodcolorname{
+	padding-left: 10px;
+	padding-top: 10px;
+	font-size: 14px;
+}
 </style>
 <script src="/js/jquery-1.12.4.js" type="text/javascript"
 	charset="utf-8"></script>
@@ -133,8 +137,9 @@
 							<input type="hidden" class="foodcdid" v-model="goods.cdid">
 							<input type="hidden" class="foodarticleno" v-model="goods.articleno">
 							<input type="hidden" class="foodinventory" v-model="goods.inventory">
-							<span class="foodName">{{goods.cname}}</span> <span
-								class="foodPrice">￥{{goods.sell |keepdiscount}}元</span>
+							<span class="foodName">{{goods.cname}}</span>
+							<span class="foodcolorname">{{goods.colorname}}/{{goods.sizename}}</span>
+							 <span class="foodPrice">￥{{goods.sell |keepdiscount}}元</span>
 						</div>
 					</li>
 				</ul>
@@ -150,8 +155,9 @@
 							<input type="hidden" class="foodcdid" v-model="goods.cdid">
 							<input type="hidden" class="foodarticleno" v-model="goods.articleno">
 							<input type="hidden" class="foodinventory" v-model="goods.inventory">
-							<span class="foodName">{{goods.cname}}</span> <span
-								class="foodPrice">￥{{goods.sell | keepdiscount}}元</span>
+							<span class="foodName">{{goods.cname}}</span>
+							<span class="foodcolorname">{{goods.colorname}}/{{goods.sizename}}</span>
+							 <span class="foodPrice">￥{{goods.sell | keepdiscount}}元</span>
 						</div>
 					</li>
 				</ul>
@@ -374,6 +380,7 @@ $(function(){
     	  },
     	  //根据csid查询
     	  selectBycommodity(tab){
+    			
     		  var this_=this;
     		  $.ajax({
     			  url:"[[@{/commodityAll/toseleectBycsid}]]",
@@ -403,6 +410,7 @@ $(function(){
     	  },
     	//初始化加载商品
     	  chushihuajz(){
+    		
     		  var this_=this;
     		  $.ajax({
     			  url:"[[@{/commodityAll/toseleectBycsid}]]",

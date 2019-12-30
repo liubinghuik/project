@@ -64,7 +64,7 @@
 								<div style="float: left;width: 25%;">
 									<label>制表人</label>
 									<select name="uaccount" class="form-control" style="display: inline-block;width: 78%;">
-									  <option>18610249685</option>
+									  <option>18670802166</option>
 									</select>
 								</div>
 							</div>	
@@ -126,7 +126,7 @@
 		                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		                <h4 class="modal-title" id="myModalLabel">选择商品</h4>
 		            </div>
-		            <div class="modal-body" style="padding:35px;">
+		            <div class="modal-body" style="padding:20px;">
 		            	<table class="table table-bordered table-hover table-striped" style="font-size: 13px;">
 							<thead align="center">
 								<tr class="info">
@@ -152,6 +152,25 @@
 								</tr> -->
 							</tbody>
 						</table>
+						<nav style="text-align: center;">
+						  <ul class="pagination">
+						    <li>
+						      <a href="javascript:;" aria-label="Previous" id="prePage">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li>
+						    	<a href="javascript:;" id="pageNum">1</a>
+						    	<span>/</span>
+						    	<a href="javascript:;" id="pages">5</a>
+						    	</li>
+						    <li>
+						      <a href="javascript:;" aria-label="Next" id="nextPage">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</nav>
 		            </div>
 		            <div class="modal-footer" style="text-align: center;">
 		                <button type="button" class="btn btn-default" data-dismiss="modal" style="width: 16.66%;">取消</button>
@@ -167,6 +186,18 @@
 			
 			$(function(){
 				init() ;
+				goPgae(1);
+				
+				//上一页/下一页
+		  		$("#prePage,#nextPage").click(function() {
+					var currentPage = $(this).attr("currentPage");
+					var lastPage = $("#lastPaeg").attr("lastPage");
+					if(currentPage == 0){
+						getPage(1);
+						return;
+					}
+					goPgae(currentPage);
+				});
 				
 				$("#up").hide();
 				
@@ -206,7 +237,7 @@
 						contentType:"application/json;charset=utf-8",
 						success:function(data){
 							if(data.code == "200"){
-								alert(data.message);
+								//alert(data.message);
 								window.location.href="/page/purchase";
 							} else{
 								alert(data.message)
@@ -254,7 +285,7 @@
 						contentType:"application/json;charset=utf-8",
 						success:function(data){
 							if(data.code == "200"){
-								alert(data.message);
+								//alert(data.message);
 								window.location.href="/page/purchase";
 							} else{
 								alert(data.message)
@@ -305,7 +336,7 @@
 						setTotal();
 					});
 				}
-
+				
 				//查询所有供应商
 				$.ajax({
 					url:"[[@{/rest/purchase/getSupplierAll}]]",
@@ -319,39 +350,7 @@
 								"<option value="+item.suid+">" + item.suname+ "</option>");
 						});
 					}
-				});
-				
-				//查询所有商品
-				$.ajax({
-					url:"[[@{/rest/commodity/getCaseCommodity}]]",
-					type:"get",
-					data:{},
-					dataType:"json",
-					success:function(data){
-						//console.info(data);
-						$("#tbody").html("");
-						$.each(data,function(i,obj){
-							
-							var tr = $("<tr>"+
-											"<td><input type='checkbox' name='ck' /></td>"+
-											"<td>"+
-												"<span name='cdid' style='display: none;'>"+obj.cdid+"</span>"+
-												"<span name='articleno' style='display: block;'>"+obj.articleno+"</span>"+
-												"<span name='shapecode' style='display: block;'>"+obj.shapecode+"</span>"+
-											"</td>"+
-											"<td name='cname'>"+obj.cname+"</td>"+
-											"<td>"+
-												"<span name='colorname' style='display: block;'>"+obj.colorname+"</span>"+
-												"<span name='sizename' style='display: block;'>"+obj.sizename+"</span>"+
-											"</td>"+
-											"<td name='sell'>"+obj.sell+"</td>"+
-											"<td name='inventory'>"+obj.inventory+"</td>"+
-										"</tr>");
-									
-							$("#tbody").append(tr);
-						})
-					}
-				});
+				});	
 				
 				//全选/全不选
 		        $("[name=ckAll]").live("click",function(){
@@ -425,6 +424,45 @@
 		       	});
    	
 			});
+			
+			//查询所有商品
+			function goPgae(currentPage){	
+				$.ajax({
+					url:"[[@{/rest/commodity/getCaseCommodity}]]",
+					type:"get",
+					data:{currentPage:currentPage,pageSize:"5"},
+					dataType:"json",
+					success:function(data){
+						//console.info(data);
+						$("#tbody").html("");
+						$.each(data.list,function(i,obj){
+							//上一页
+							$("#prePage").attr("currentPage",data.prePage);
+							//下一页
+							$("#nextPage").attr("currentPage",data.nextPage);
+							$("#pageNum").html(data.pageNum)
+ 							$("#pages").html(data.pages);
+							var tr = $("<tr>"+
+											"<td><input type='checkbox' name='ck' /></td>"+
+											"<td>"+
+												"<span name='cdid' style='display: none;'>"+obj.cdid+"</span>"+
+												"<span name='articleno' style='display: block;'>"+obj.articleno+"</span>"+
+												"<span name='shapecode' style='display: block;'>"+obj.shapecode+"</span>"+
+											"</td>"+
+											"<td name='cname'>"+obj.cname+"</td>"+
+											"<td>"+
+												"<span name='colorname' style='display: block;'>"+obj.colorname+"</span>"+
+												"<span name='sizename' style='display: block;'>"+obj.sizename+"</span>"+
+											"</td>"+
+											"<td name='sell'>"+obj.sell+"</td>"+
+											"<td name='inventory'>"+obj.inventory+"</td>"+
+										"</tr>");
+									
+							$("#tbody").append(tr);
+						})
+					}
+				});
+			}
 			
 			//移除
 			function removeTr(dq){

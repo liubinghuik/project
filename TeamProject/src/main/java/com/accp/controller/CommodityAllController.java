@@ -28,9 +28,8 @@ public class CommodityAllController {
 	}
 	@RequestMapping("/toseleectBycsid")
 	@ResponseBody
-	public List<CommodityAll> selectcommodityBycsnameqmn(String csname,String uaccount){
-		CommodityAll cc=new CommodityAll(uaccount,csname);
-		return commodityallservice.selectcommodityBycsnameqmn(cc);
+	public List<CommodityAll> selectcommodityBycsnameqmn(String csname){
+		return commodityallservice.selectcommodityBycsnameqmn(csname);
 	}
 	@RequestMapping("/toselectyyy")
 	@ResponseBody

@@ -48,8 +48,11 @@ public class CommodityService {
      * 选择商品分类
      * @return
      */
-	public List<commodityVO> getCaseCommodity(){
-    	return this.commodityMapper.getCaseCommodity();
+	public PageInfo<commodityVO> getCaseCommodity(Integer currentPage,Integer pageSize){
+		PageHelper.startPage(currentPage, pageSize);
+		List<commodityVO> list = this.commodityMapper.getCaseCommodity();
+		PageInfo<commodityVO> page = new PageInfo<commodityVO>(list);
+		return page;
     }
 	
 	 /**
@@ -67,6 +70,11 @@ public class CommodityService {
 		return page;
 	}
 	
+	public List<commodityVO> getCommodityAll(String sname,String csname,String cname){
+		List<commodityVO> list = this.commodityMapper.getCommodityAll("%"+sname+"%","%"+csname+"%","%"+cname+"%");
+		return list;
+	}
+	
 	/**
 	 * 根据id查询商品
 	 * @param id
@@ -76,6 +84,14 @@ public class CommodityService {
 		return this.commodityMapper.queryCommodityById(id);
 	}
 	
+	public Commodity queryCommodityByName(String name) {
+		return this.commodityMapper.queryCommodityByName(name);
+	}
+	
+	public List<commodityVO> getDetailsAll(Integer cid){
+		 return this.commodityMapper.getDetailsAll(cid);
+	 }
+	 
 	/**
 	 * 查询所有类别
 	 * @return

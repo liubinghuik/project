@@ -2,6 +2,7 @@ package com.accp.mapper;
 
 import com.accp.domain.Commodity;
 import com.accp.domain.CommodityExample;
+import com.accp.domain.Commoditydetails;
 import com.accp.vo.commodityVO;
 
 import java.util.List;
@@ -47,7 +48,7 @@ public interface CommodityMapper {
      * @param cname
      * @return
      */
-    @Select("SELECT a.`cid`,a.`cname`,e.`csname`,a.`picture`,a.`articleno`,b.`shapecode`,c.`colorname`,d.`sizename`,b.`inventory`,a.`sell`,a.`cost`,a.`message`\r\n" + 
+    @Select("SELECT e.`csid`,a.`cid`,a.`cname`,e.`csname`,a.`picture`,a.`articleno`,b.`shapecode`,c.`colorname`,d.`sizename`,b.`inventory`,a.`sell`,a.`cost`,a.`message`\r\n" + 
     		"FROM commodity a \r\n" + 
     		"JOIN commoditydetails b ON a.`cid` = b.`cid` \r\n" + 
     		"JOIN color c ON b.`colorid`=c.`colorid`\r\n" + 
@@ -55,7 +56,7 @@ public interface CommodityMapper {
     		"JOIN commoditysort e ON a.`csid` = e.`csid`\r\n" + 
     		"JOIN shopcommodity g ON g.`cid` = a.`cid`\r\n" + 
     		"JOIN shop f ON  g.`sid` = f.`sid`\r\n" + 
-    		"WHERE f.`sname` LIKE #{sname} AND e.`csname` like #{csname} AND (a.`cname` LIKE #{cname} OR a.`articleno` LIKE #{cname})")
+    		"WHERE f.`sname` LIKE #{sname} AND e.`csname` like #{csname} AND (a.`cname` LIKE #{cname} OR a.`articleno` LIKE #{cname}) GROUP BY a.`cid`")
     List<commodityVO> getCommodityAll(@Param("sname")String sname, @Param("csname")String csname, @Param("cname")String cname);
     
     /**
@@ -65,7 +66,7 @@ public interface CommodityMapper {
      * @param cname
      * @return
      */
-    @Select("SELECT a.`cid`,a.`cname`,e.`csname`,a.`picture`,a.`articleno`,b.`shapecode`,c.`colorname`,d.`sizename`,b.`inventory`,a.`sell`,a.`cost`,a.`message`\r\n" + 
+    @Select("SELECT a.`cid`,a.`cname`,a.`brand`,e.`csname`,a.`picture`,a.`articleno`,b.`shapecode`,c.`colorname`,d.`sizename`,b.`inventory`,a.`sell`,a.`cost`,a.`message`\r\n" + 
     		"FROM commodity a \r\n" + 
     		"JOIN commoditydetails b ON a.`cid` = b.`cid` \r\n" + 
     		"JOIN color c ON b.`colorid`=c.`colorid`\r\n" + 
@@ -73,7 +74,7 @@ public interface CommodityMapper {
     		"JOIN commoditysort e ON a.`csid` = e.`csid`\r\n" + 
     		"JOIN shopcommodity g ON g.`cid` = a.`cid`\r\n" + 
     		"JOIN shop f ON  g.`sid` = f.`sid`\r\n" + 
-    		"WHERE a.`cid` = #{id}")
+    		"WHERE a.`cid` = #{id} GROUP BY a.`cid`")
     commodityVO queryCommodityById(@Param("id")Integer id);
     
     /**
@@ -89,4 +90,14 @@ public interface CommodityMapper {
      */
     @Select("SELECT * FROM shop where state=0")
     List<commodityVO> getShoptAll();
+    
+    @Select("SELECT * FROM commodity where cname=#{name}")
+    Commodity queryCommodityByName(@Param("name")String name);
+    
+   
+    @Select(" SELECT a.shapecode,b.colorname,c.sizename,a.inventory FROM commoditydetails a\r\n" + 
+    		"JOIN color b ON a.`colorid`=b.`colorid`\r\n" + 
+    		"JOIN size c ON a.`sizeid`=c.`sizeid`\r\n" + 
+    		"WHERE a.cid = #{cid}")
+    List<commodityVO> getDetailsAll(@Param("cid")Integer cid);
 }

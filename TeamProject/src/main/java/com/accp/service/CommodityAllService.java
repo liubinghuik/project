@@ -22,8 +22,8 @@ public class CommodityAllService {
 		return list;
 	}
 	//根据csid查询商品
-	public List<CommodityAll> selectcommodityBycsnameqmn(CommodityAll commodityall){
-		List<CommodityAll> list=commodityallmapper.selectcommodityBycsnameqmn(commodityall);
+	public List<CommodityAll> selectcommodityBycsnameqmn(String csname){
+		List<CommodityAll> list=commodityallmapper.selectcommodityBycsnameqmn(csname);
 		return list;
 	}
 	public int updatecommoditydetailskc(CommodityAll commodityall){

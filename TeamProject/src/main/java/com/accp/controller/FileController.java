@@ -103,14 +103,14 @@ public class FileController {
 	 * @return
 	 */
 	@RequestMapping("/exportExcel")
-	public ResponseEntity<byte []> exportExcel(Integer currentPage,Integer pageSize,String sname,String csname,String cname){
+	public ResponseEntity<byte []> exportExcel(String sname,String csname,String cname){
 		if(sname.equals("全部店铺")) {
 			sname = "";
 		}
 		if(csname.equals("全部类别")) {
 			csname = "";
 		}
-		List<commodityVO> list=(List<commodityVO>) commodityService.getCommodityAll(currentPage, pageSize, sname, csname, cname);
+		List<commodityVO> list = commodityService.getCommodityAll(sname, csname, cname);
 		Workbook wb = new XSSFWorkbook();
 		Sheet sheet = wb.createSheet();		
 		Row titleRow = sheet.createRow(0);

@@ -34,8 +34,8 @@ public class CommodityController {
      */
 	@GetMapping("getCaseCommodity")
 	@ResponseBody
-	public List<commodityVO> getCaseCommodity(){
-    	return this.commodityService.getCaseCommodity();
+	public PageInfo<commodityVO> getCaseCommodity(Integer currentPage,Integer pageSize){
+    	return this.commodityService.getCaseCommodity(currentPage,pageSize);
     }
 	
 	 /**
@@ -112,16 +112,31 @@ public class CommodityController {
 		
 		sizeid = stu3.getSizeid();
 		colorid = stu2.getColorid();
-		
-		Commodity stu1 = new Commodity(str.getCid(), typeid, str.getCname(), str.getBrand(), str.getArticleno(), str.getSell(), str.getCost(), str.getMessage(), str.getPicture());
-		int i = this.commodityService.insertCommodity(stu1);
-		Shopcommodity stu5 = new Shopcommodity(1, stu1.getCid());
-		Commoditydetails stu4 = new Commoditydetails(stu1.getCid(), str.getShapecode(), sizeid, colorid, str.getInventory());
-		if(i > 0) {
-			this.commodityService.insertCommodityDetails(stu4);
-			this.commodityService.insetShopCommodityMapper(stu5);
+		int i = 0;
+		if(commodityService.queryCommodityByName(str.getCname())==null) {
+			Commodity stu1 = new Commodity(str.getCid(), typeid, str.getCname(), str.getBrand(), str.getArticleno(), str.getSell(), str.getCost(), str.getMessage(), str.getPicture());
+			i = this.commodityService.insertCommodity(stu1);
+			Shopcommodity stu5 = new Shopcommodity(1, stu1.getCid());
+			Commoditydetails stu4 = new Commoditydetails(stu1.getCid(), str.getShapecode(), sizeid, colorid, str.getInventory());
+			if(i > 0) {
+				this.commodityService.insertCommodityDetails(stu4);
+				this.commodityService.insetShopCommodityMapper(stu5);
+			}
+		}else {
+			Commodity syy = commodityService.queryCommodityByName(str.getCname());
+
+			Commoditydetails stu4 = new Commoditydetails(syy.getCid(), str.getShapecode(), sizeid, colorid, str.getInventory());
+
+			this.commodityService.insertCommodityDetails(stu4);	
 		}
+		
 		return i;
+	}
+	
+	@RequestMapping("/getDetailsAll")
+	@ResponseBody
+	public List<commodityVO> getDetailsAll(Integer cid){
+		 return this.commodityService.getDetailsAll(cid);
 	}
 	
 	/**

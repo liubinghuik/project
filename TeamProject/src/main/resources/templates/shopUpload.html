@@ -393,7 +393,7 @@
 								    <div name="chimaya" class="col-sm-10">
 								     	<ul class="fpsize">
 									     	<template v-for="stu in goodssize">
-									     		<template v-if="stu.sizename==goods.sizename">
+									     		<template v-if="stu.wahaha==true">
 									     			<li style="border:1px solid red">
 									     				<a href="javascript:void(0);" name="noundefined" style="color:red;">{{stu.sizename}}</a>
 									     				<span style="float: right;position:relative;top:8px;right:10px;display: none" name="chima" @click="del(stu.cid)" class="glyphicon glyphicon-remove"  onclick="sc(this)"></span>
@@ -433,7 +433,7 @@
 										 </thead>
 										 <tbody>
 										 	<template v-if="goods.colorname!=''">										 	
-										 		<tr>
+										 		<tr v-for="goods in ssy">
 										 			<td><span>{{goods.colorname}}</span><span>/</span><span>{{goods.sizename}}</span></td>
 										 			<td><input name="inventory" onblur="total()" type="text" class="form-control" v-model="goods.inventory"></td>
 										 			<td>{{goods.shapecode}}</td>
@@ -485,7 +485,8 @@
 						
 					},
 					goodstype:[],
-					goodssize:[]
+					goodssize:[],
+					syy:[]
 				}
 			},methods:{
 				del:function(id){
@@ -502,8 +503,19 @@
 				}
 			},created:function(){
 				var that=this;		
-				var id="[[${id}]]";
+				var id = "[[${id}]]";
+				
 				if(id>0){
+					
+					$.ajax({
+						url:"[[@{/rest/commodity/getDetailsAll}]]",
+						data:{cid : id},
+						success:function(res){
+							/* alert(JSON.stringify(res)) */
+							that.ssy = res;
+						}
+					})
+					
 					$.ajax({
 						url:"[[@{/rest/commodity/queryCommodityById}]]",
 						data:{id:id},
@@ -512,25 +524,35 @@
 							$("[name=colorbao] input").each(function(a,b){
 								var color=$(this).next().find("span").eq(0).attr("style");
 								var colorname=$(this).next().find("span").eq(1).html();
-								if($(b).next().find("span").eq(1).html()==shopgoodsvue.goods.colorname){
-									$("#tab_none tbody").append(`
-											<tr>
-												<td>
-													<span style="margin-left: 4px;">1</span>
-													<span>.</span>
-													<span style="margin-left: 4px;"><input type="checkbox" /></span>
-													<span style="display: inline-block;margin-left: 4px;width: 50%;"><input type="text" onblur="cnmd()" class="form-control" placeholder="请输入颜色" value="${colorname}"  /></span>
-													<span style="margin-left: 9px;" class="glyphicon glyphicon-remove" onclick="yichu(this)"></span>
-												</td>
-												<td>
-													<span style="display: inline-block;width: 50%"><input style="${color}" type="text" class="form-control" disabled="disabled" /></span>
-													<span><button type="button" class="btn btn-primary active">上传图片</button></span>
-												</td>
-											</tr>
-										`);
-									$("#tab_none").show();
-									$(this).attr("checked","checked");
-								}
+								that.ssy.forEach(function(l,w){
+									
+									if($(b).next().find("span").eq(1).html()==l.colorname){
+										
+										$(b).attr("checked","checked");
+									}
+									})
+									if($(b).attr("checked")=="checked"){
+										$("#tab_none tbody").append(`
+												<tr>
+													<td>
+														<span style="margin-left: 4px;">1</span>
+														<span>.</span>
+														<span style="margin-left: 4px;"><input type="checkbox" /></span>
+														<span style="display: inline-block;margin-left: 4px;width: 50%;"><input type="text" onblur="cnmd()" class="form-control" placeholder="请输入颜色" value="${colorname}"  /></span>
+														<span style="margin-left: 9px;" class="glyphicon glyphicon-remove" onclick="yichu(this)"></span>
+													</td>
+													<td>
+														<span style="display: inline-block;width: 50%"><input style="${color}" type="text" class="form-control" disabled="disabled" /></span>
+														<span><button type="button" class="btn btn-primary active">上传图片</button></span>
+													</td>
+												</tr>
+											`);
+										$("#tab_none").show();
+
+									}
+
+								
+							
 							})
 						}
 					})
@@ -547,6 +569,15 @@
 					url:"[[@{/rest/commodity/getSizeAll}]]",
 					success:function(res){
 						that.goodssize=res;
+						that.goodssize.forEach(function(c,d){
+							that.ssy.forEach(function(a,b){
+								
+								if(c.sizename==a.sizename){
+									c.wahaha=true;
+								}
+							})
+						})
+
 					}
 				})					
 			}
@@ -571,6 +602,17 @@
 		}
 		
 		$("#fabu").click(function(){
+			
+			if(shopgoodsvue.goods.cid != ""){
+				$.ajax({
+					url:"[[@{/rest/commodity/deleteCommodity}]]",
+					data:{id:shopgoodsvue.goods.cid},
+					success:function(res){
+						//console.info(res);
+					}
+				})
+			}
+			
 			shopgoodsvue.goods.message=$("#editor-trigger").find("p").html();
 			shopgoodsvue.goods.csname=$("[name=leibie]").val();
 			$("[name=goodskc] tbody tr").each(function(){				
@@ -591,8 +633,6 @@
 					}
 				});
 			})
-			
-			
 		}) 
   
 	    var editor = new wangEditor('editor-trigger');

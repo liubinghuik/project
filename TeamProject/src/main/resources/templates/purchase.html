@@ -19,7 +19,7 @@
 		}
 		.examineTd {
 		    padding-left: 20px;
-		    background: url(http://www.poso2o.com/EntityStore/style/img/edit_16_16.gif) no-repeat 0 1.5px;
+		    background: url(/images/edit_hover_16_16.gif) no-repeat 0 1.5px;
 		    color:#000; 
 		}
 		.table > tbody > tr > td{
@@ -175,7 +175,7 @@
 			function purchaseDetail(odd){
 				$('#myModal2').modal('show');
 				$.getJSON(`/rest/purchase/getSupplierByOdd/${odd}`,function(data){
-					console.info(data)
+					//console.info(data)
 					if(data[0].remark == "-"){
 						data[0].remark = "";
 					}
@@ -245,7 +245,7 @@
 					dataType:"json",
 					success:function(data){
 						if(data.code == "200"){
-							alert(data.message);
+							//alert(data.message);
 							window.location.href="/page/purchase";
 						} else{
 							alert(data.message)

@@ -49,7 +49,7 @@
 									<td>-</td>
 									<td>
 										<a href="javascript:;" data-toggle="modal" data-target="#myModal2">修改</a>
-										<a href="#" style="padding-left: 10px;">删除</a>
+										<a href="javascript:;" style="padding-left: 10px;">删除</a>
 									</td>
 								</tr>
 							</tbody>
@@ -150,7 +150,7 @@
 						tr.append("<td>"+obj.mcname+"</td>");
 						tr.append("<td>"+obj.discount+"</td>");
 						tr.append("<td>"+obj.require+"</td>");
-						tr.append("<td><a href='#' style='padding-left: 10px;' onclick='huifu("+obj.mcid+")'>恢复</a><a href='#' style='padding-left: 10px;' onclick='shan2("+obj.mcid+")'>彻底移除</a></td>");
+						tr.append("<td><a href='javascript:;' style='padding-left: 10px;' onclick='huifu("+obj.mcid+")'>恢复</a><a href='javascript:;' style='padding-left: 10px;' onclick='shan2("+obj.mcid+")'>彻底移除</a></td>");
 						$("[name=levelset]").append(tr);
 					}else{
 						var tr=$("<tr></tr>");
@@ -158,7 +158,7 @@
 						tr.append("<td>"+obj.mcname+"</td>");
 						tr.append("<td>"+obj.discount+"</td>");
 						tr.append("<td>"+obj.require+"</td>");
-						tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal2'onclick='bz("+obj.mcid+",\""+obj.mcname+"\","+obj.discount+")'>修改</a><a href='#' style='padding-left: 10px;' onclick='shan("+obj.mcid+")'>删除</a></td>");
+						tr.append("<td><a href='javascript:;' data-toggle='modal' data-target='#myModal2'onclick='bz("+obj.mcid+",\""+obj.mcname+"\","+obj.discount+")'>修改</a><a href='javascript:;' style='padding-left: 10px;' onclick='Shan("+obj.mcid+")'>删除</a></td>");
 						$("[name=levelset]").append(tr);
 					}
 					
@@ -190,11 +190,12 @@
 				contentType : 'application/json;charset=UTF-8',
 				success:function(result){
 					if(result>=1){
-						alert("新增会员等级"+$("[name=levelname]").val()+"成功!");
+						/* alert("新增会员等级"+$("[name=levelname]").val()+"成功!"); */
 					}else{
 						alert("新增会员等级失败!")
 					}
 					function2();
+					$('#myModal').modal('hide');
 				}
 			}) 
 	 } 
@@ -215,30 +216,34 @@
 					type:"post",
 					contentType : 'application/json;charset=UTF-8',
 					success:function(result){
+						
 						if(result>=1){
-							alert("修改会员等级"+$("[name=levelname]").val()+"成功!");
+							/* alert("修改会员等级"+$("[name=levelname]").val()+"成功!"); */
 						}else{
 							alert("修改会员等级失败!")
 						}
 						function2();
+						$('#myModal2').modal('hide');
 					}
 				}) 
 		 } 
-	  function shan(id){
+	  function Shan(id){
 			
 			 $.ajax({
 					url:"[[@{/member/deleteClass1}]]",
 					data:{"id":id},
 					dataType:"json",
 					type:"post",
-					
 					success:function(result){
+						
 						if(result>=1){
-							alert("删除会员等级成功!");
+							//alert("删除会员等级成功!");
 						}else{
 							alert("删除会员等级失败!")
 						}
+						
 						function2();
+						
 					}
 				}) 
 		 } 
@@ -251,7 +256,7 @@
 					type:"post",
 					success:function(result){
 						if(result>=1){
-							alert("彻底移除会员等级成功!");
+							//alert("彻底移除会员等级成功!");
 						}else{
 							alert("彻底移除会员等级失败!")
 						}
@@ -268,7 +273,7 @@
 					type:"post",
 					success:function(result){
 						if(result>=1){
-							alert("恢复成功!");
+							//alert("恢复成功!");
 						}else{
 							alert("恢复失败!")
 						}

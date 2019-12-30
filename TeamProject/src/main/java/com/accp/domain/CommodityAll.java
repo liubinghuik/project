@@ -53,11 +53,20 @@ public class CommodityAll {
 
     private String shapecode;
 
-    private Integer sizeid;
-
+    private Integer inventory;
+    //颜色
     private Integer colorid;
 
-    private Integer inventory;
+    private String colorname;
+
+    private String colorpicture;
+
+    private Integer fatherid;
+    //尺寸
+    private Integer sizeid;
+
+    private String sizename;
+
 
 	public String getPicture() {
 		return picture;
@@ -137,6 +146,38 @@ public class CommodityAll {
 
 	public void setCname(String cname) {
 		this.cname = cname;
+	}
+
+	public String getColorname() {
+		return colorname;
+	}
+
+	public void setColorname(String colorname) {
+		this.colorname = colorname;
+	}
+
+	public String getColorpicture() {
+		return colorpicture;
+	}
+
+	public void setColorpicture(String colorpicture) {
+		this.colorpicture = colorpicture;
+	}
+
+	public Integer getFatherid() {
+		return fatherid;
+	}
+
+	public void setFatherid(Integer fatherid) {
+		this.fatherid = fatherid;
+	}
+
+	public String getSizename() {
+		return sizename;
+	}
+
+	public void setSizename(String sizename) {
+		this.sizename = sizename;
 	}
 
 	public String getBrand() {
